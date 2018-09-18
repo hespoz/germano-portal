@@ -1,5 +1,7 @@
 import React, {Component} from "react";
 
+import './ViewMore.scss'
+
 class ViewMore extends Component {
 
     state = {
@@ -16,10 +18,10 @@ class ViewMore extends Component {
         const { initialHeight, children } = this.props
 
         return <div>
-            <div id="viewer">
+            <div id="viewer" style={{height: `${height}`}}>
                 {children}
             </div>
-            <div id={"toggle"}>
+            <div id={"toggle"} >
                 {height !== 'auto' ?
                     <a href={"javascript:void(0)"} onClick={() => this.setState({height: 'auto'})}>view more</a>
                     :
@@ -28,21 +30,6 @@ class ViewMore extends Component {
 
             </div>
 
-
-            <style jsx>{`
-
-                  #toggle {
-                    display:flex;
-                    justify-content:center;
-                  }
-
-                  #viewer {
-                    overflow: hidden;
-                    height: ${height};
-                    padding:7px;
-                  }
-
-                `}</style>
 
 
         </div>

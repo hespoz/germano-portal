@@ -10,6 +10,7 @@ import {
     closeSearch
 } from '../../actions/dictionaryAction'
 import NewWordModal from "../add_word/NewWordModal";
+import {openAuthModal} from "../../actions/authAction";
 
 class Search extends Component {
 
@@ -38,8 +39,12 @@ class Search extends Component {
     closeDialog = () => this.setState({ openAddNewWordDialog: false })
 
     addNewWord = () => {
-        this.props.closeSearch()
-        this.setState({openAddNewWordDialog:true})
+        if(this.props.hasToken) {
+            this.props.closeSearch()
+            this.setState({openAddNewWordDialog:true})
+        } else {
+            this.props.openAuthModal()
+        }
     }
 
     render() {
@@ -147,13 +152,15 @@ class Search extends Component {
 
 const mapStateToProps = (state) => ({
     searchResult: state.dictionary.searchResult,
-    open: state.dictionary.open
+    open: state.dictionary.open,
+    hasToken: state.auth.hasToken
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     searchByKeyword: searchByKeyword,
     closeSearch: closeSearch,
-    openSearch: openSearch
+    openSearch: openSearch,
+    openAuthModal
 }, dispatch);
 
 

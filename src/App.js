@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.scss';
 import {Form, Dropdown, Header, Button} from 'semantic-ui-react'
 import Layout from "./components/Layout";
 import Search from "./components/search/Search";
-import categoriesOptions from "./components/CategoriesOptions";
-
-const wordType = [{key: 'Verbos', value: 'Verbos', text: 'Verbos'},{key: 'Sustantivos', value: 'Sustantivos', text: 'Sustantivos'}]
-
+import SetUp from "./components/SetUp/SetUp";
 
 class App extends Component {
 
@@ -35,21 +32,7 @@ class App extends Component {
                             </div>
 
 
-                            <Form>
-                                <Form.Field>
-                                    <label>Select word type</label>
-                                    <Dropdown placeholder='State' size='small' fluid multiple selection
-                                              options={wordType} value={['Verbos','Sustantivos']}/>
-                                </Form.Field>
-                                <Form.Field>
-                                    <label>Select category</label>
-                                    <Dropdown placeholder='State' size='small' fluid multiple selection
-                                              options={categoriesOptions} value={['Todas']}/>
-                                </Form.Field>
-                                <Button basic fluid color='blue'>
-                                    Start practice
-                                </Button>
-                            </Form>
+                            <SetUp/>
 
 
 

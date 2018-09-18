@@ -10,7 +10,7 @@ import {
 } from "../constants";
 
 const initialState = {
-    hasToken:null,
+    hasToken:localStorage.getItem("token") ? true : null,
     errorMessageLogin:null,
     errorMessageRegister:null,
     openModal:false,

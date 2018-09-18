@@ -1,9 +1,10 @@
 import React, {Component} from "react";
-import {Form, Message, Button, Table} from 'semantic-ui-react'
+import {Form, Message, Button, Table, Dropdown} from 'semantic-ui-react'
 import {searchByExactKeyword, addNewWord, addNewWordClear} from "../../actions/dictionaryAction"
 import {connect} from "react-redux"
 import {bindActionCreators} from 'redux'
 import WordDescription from '../WordDescription'
+import {CATEGORIES} from "../../constants";
 
 const options = [
     {key: 'noun', text: 'Noun', value: 'noun'},
@@ -41,7 +42,9 @@ const initialState = {
     wir:'',
     wir_error:false,
     Sie:'',
-    Sie_error:false
+    Sie_error:false,
+    categories:[],
+    categories_error:false
 }
 
 class NewWordForm extends Component {
@@ -74,10 +77,6 @@ class NewWordForm extends Component {
             {
                 lang: 'es',
                 translation: this.state.esTranslation.split(",")
-            },
-            {
-                lang: 'en',
-                translation: this.state.enTranslation.split(",")
             }
         ]
     }
@@ -89,7 +88,8 @@ class NewWordForm extends Component {
                 plural: this.state.plural,
                 article: this.state.article,
                 type: this.state.wordType,
-                translations: this.parseTranslations()
+                translations: this.parseTranslations(),
+                categories: this.state.categories
             }))
         } else {
             this.validateVerb(() => this.props.addNewWord({
@@ -97,6 +97,7 @@ class NewWordForm extends Component {
                 perfect: this.state.perfect,
                 type: this.state.wordType,
                 translations: this.parseTranslations(),
+                categories:this.state.categories,
                 conjugation_present: [{
                     pronoun:'ich',
                     conjugation:this.state.ich
@@ -127,15 +128,22 @@ class NewWordForm extends Component {
         })
     }
 
+    onCategoryChange = (event, {value}) => {
+        this.setState({
+            categories: value,
+            categories_error: value.length === 0 && this.state.submitTriggered
+        })
+    }
+
     validateNoun = (callback) => {
         this.setState({
             submitTriggered: true,
             article_error: this.state.article === '',
             plural_error: this.state.plural === '',
             esTranslation_error: this.state.esTranslation === '',
-            enTranslation_error: this.state.enTranslation === ''
+            categories_error: this.state.categories.length === 0
         }, () => {
-            if (!this.state.article_error || !this.state.plural_error || !this.state.esTranslation_error || !this.state.enTranslation_error) {
+            if (!this.state.article_error && !this.state.plural_error && !this.state.esTranslation_error && !this.state.categories_error) {
                 callback()
             }
         })
@@ -154,10 +162,10 @@ class NewWordForm extends Component {
             wir_error:this.state.wir === '',
             Sie_error:this.state.Sie === ''
         }, () => {
-            if (!this.state.perfect_error || !this.state.esTranslation_error ||
-                !this.state.enTranslation_error || !this.state.ich_error ||
-                !this.state.du_error || !this.state.erSieEs_error ||
-                !this.state.ihr_error || !this.state.wir_error || !this.state.Sie_error) {
+            if (!this.state.perfect_error && !this.state.esTranslation_error &&
+                !this.state.enTranslation_error && !this.state.ich_error &&
+                !this.state.du_error && !this.state.erSieEs_error &&
+                !this.state.ihr_error && !this.state.wir_error && !this.state.Sie_error && !this.state.categories_error) {
                 callback()
             }
         })
@@ -170,8 +178,11 @@ class NewWordForm extends Component {
 
     render() {
 
+
         const {wordType} = this.state
         const {exactResult, exactSearchTriggered, errorAddWord, successAddWord, loading} = this.props
+
+        console.log(exactResult)
 
         if (successAddWord) {
             return <div>
@@ -347,15 +358,9 @@ class NewWordForm extends Component {
                 {wordType ?
                     <div>
                         <Form.Field>
-                            <label>Spanish translation</label>
-                            <Form.Input name="esTranslation" size='small' placeholder='Spanish translation'
+                            <label>Traduccion</label>
+                            <Form.Input name="esTranslation" size='small' placeholder='Traduccion'
                                         value={this.state.esTranslation} error={this.state.esTranslation_error}
-                                        onChange={this.onFormInputChange}/>
-                        </Form.Field>
-                        <Form.Field>
-                            <label>English translation</label>
-                            <Form.Input name="enTranslation" size='small' placeholder='English translation'
-                                        value={this.state.enTranslation} error={this.state.enTranslation_error}
                                         onChange={this.onFormInputChange}/>
                         </Form.Field>
                     </div>
@@ -363,8 +368,16 @@ class NewWordForm extends Component {
                     null
                 }
 
+
+
                 {!exactResult && wordType !== null && exactSearchTriggered ?
                     <div>
+                        <Form.Field>
+                            <label>Categories</label>
+                            <Dropdown name="categories" placeholder='State' size='small' fluid multiple selection
+                                      error={this.state.categories_error}
+                                      options={CATEGORIES} value={this.state.categories} onChange={this.onCategoryChange}/>
+                        </Form.Field>
                         <Button type='submit'>Add</Button>
                     </div>
                     :

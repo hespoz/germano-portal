@@ -32,3 +32,15 @@ export const REGISTER_CLEAR = "REGISTER_CLEAR"
 export const OPEN_AUTH_MODAL = "OPEN_AUTH_MODAL"
 export const CLOSE_AUTH_MODAL = "CLOSE_AUTH_MODAL"
 export const TOGGLE_AUTH_FORMS = "TOGGLE_AUTH_FORMS"
+
+
+export const CATEGORIES =  [
+    {key: 'Todas', value: 'Todas', text: 'Todas'},
+    {key: 'Cuerpo humano', value: 'Cuerpo humano', text: 'Cuerpo humano'},
+    {key: 'Animales', value: 'Animales', text: 'Animales'},
+    {key: 'Citas', value: 'Citas', text: 'Citas'},
+    {key: 'Doctor', value: 'Doctor', text: 'Doctor'},
+    {key: 'Escuela', value: 'Escuela', text: 'Escuela'}
+];
+
+export const WORD_TYPES = [{key: 'Verbos', value: 'Verbos', text: 'Verbos'},{key: 'Sustantivos', value: 'Sustantivos', text: 'Sustantivos'}]
