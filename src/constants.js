@@ -43,4 +43,10 @@ export const CATEGORIES =  [
     {key: 'Escuela', value: 'Escuela', text: 'Escuela'}
 ];
 
-export const WORD_TYPES = [{key: 'Verbos', value: 'Verbos', text: 'Verbos'},{key: 'Sustantivos', value: 'Sustantivos', text: 'Sustantivos'}]
+export const WORD_TYPES = [{key: 'verb', value: 'verb', text: 'Verbos'},{key: 'noun', value: 'noun', text: 'Sustantivos'}]
+
+const ARTICLES = [
+    {key: 'der', text: 'der', value: 'der'},
+    {key: 'die', text: 'die', value: 'die'},
+    {key: 'das', text: 'das', value: 'das'},
+]

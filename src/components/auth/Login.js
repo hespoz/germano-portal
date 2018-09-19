@@ -1,6 +1,9 @@
-import React, {Component} from "react";
+import React, {Component} from 'react';
 import {Form, Button, Divider, Message} from 'semantic-ui-react'
+import { Field, reduxForm } from 'redux-form'
+import { renderInput } from '../FormElements'
 import validator from 'validator';
+
 
 class Login extends Component {
 
@@ -55,10 +58,10 @@ class Login extends Component {
 
     render() {
 
-        const { errorMessageLogin } = this.props
+        const { errorMessageLogin, handleSubmit, pristine, reset, submitting } = this.props
 
         return (
-            <Form onSubmit={this.onSubmit}>
+            <Form onSubmit={this.handleSubmit}>
 
                 {errorMessageLogin ?
                     <Message fluid negative>
@@ -69,18 +72,28 @@ class Login extends Component {
                 }
 
 
+
+                <Field
+                    name='email' label='Email' type='email'
+                    component={renderInput}
+                />
+
                 <Form.Input name='email' label='Email' type='email' error={this.state.email_error} onChange={this.onEmailChange}/>
                 {this.state.email_error  ?
                     <p className={"field_error"}>Invalid email</p>
                     :
                     null
                 }
-                <Form.Input name='password' label='Password' type='password' error={this.state.password_error} onChange={this.onPasswordChange}/>
+                <Field
+                    name='password' label='Password' type='password'
+                    component={renderInput}
+                />
                 {this.state.password_error  ?
                     <p className={"field_error"}>Invalid password</p>
                     :
                     null
                 }
+                
                 <Button type={"submit"} primary fluid>
                     Login
                 </Button>
@@ -105,4 +118,7 @@ class Login extends Component {
 
 }
 
-export default Login;
+export default reduxForm({
+    // a unique name for the form
+    form: 'login'
+})(Login);

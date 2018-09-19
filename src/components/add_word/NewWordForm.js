@@ -4,18 +4,10 @@ import {searchByExactKeyword, addNewWord, addNewWordClear} from "../../actions/d
 import {connect} from "react-redux"
 import {bindActionCreators} from 'redux'
 import WordDescription from '../WordDescription'
-import {CATEGORIES} from "../../constants";
+import {CATEGORIES, WORD_TYPES, ARTICLES} from "../../constants";
 
-const options = [
-    {key: 'noun', text: 'Noun', value: 'noun'},
-    {key: 'verb', text: 'Verb', value: 'verb'},
-]
 
-const optionsArticle = [
-    {key: 'der', text: 'der', value: 'der'},
-    {key: 'die', text: 'die', value: 'die'},
-    {key: 'das', text: 'das', value: 'das'},
-]
+
 
 const initialState = {
     keyword: '',
@@ -237,7 +229,7 @@ class NewWordForm extends Component {
 
                     <Form.Field>
                         <label>Type</label>
-                        <Form.Select options={options} placeholder='Type'
+                        <Form.Select options={WORD_TYPES} placeholder='Type'
                                      onChange={(event, data) => this.setState({wordType: data.value})}/>
                     </Form.Field>
 
@@ -265,7 +257,7 @@ class NewWordForm extends Component {
                             <label>Article</label>
                             <Form.Select name="article"
                                          size='small'
-                                         options={optionsArticle} placeholder='Articles'
+                                         options={ARTICLES} placeholder='Articles'
                                          value={this.state.article} error={this.state.article_error}
                                          onChange={this.onFormInputChange}/>
                         </Form.Field>
