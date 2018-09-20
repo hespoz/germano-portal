@@ -7,7 +7,11 @@ import {
     SEARCH_BY_EXACT_KEYWORD_LOADING,
     ADD_NEW_WORD_CLEAR,
     ADD_NEW_WORD_SUCCESS,
-    ADD_NEW_WORD_ERROR
+    ADD_NEW_WORD_ERROR,
+    OPEN_WORDFORM_MODAL,
+    CLOSE_WORDFORM_MODAL,
+    SEARCH_BY_ID_SUCCESS,
+    SEARCH_BY_ID_ERROR
 } from "../constants";
 
 export default function reducer(state = {
@@ -18,7 +22,11 @@ export default function reducer(state = {
     open:false,
     loading:false,
     successAddWord: false,
-    errorAddWord:false
+    errorAddWord:false,
+    wordFormModalOpen: false,
+    editIdWord:null,
+    wordReferenceData:null,
+    searchByIdError:null
 }, action) {
     switch (action.type) {
         case SEARCH_BY_KEYWORD_SUCCESS:
@@ -88,6 +96,34 @@ export default function reducer(state = {
             return {
                 ...state,
                 loadingExact:true
+            }
+            break;
+        case OPEN_WORDFORM_MODAL:
+            return {
+                ...state,
+                wordFormModalOpen:true,
+                editIdWord: action.payload ? action.payload : null
+            }
+            break;
+        case CLOSE_WORDFORM_MODAL:
+            return {
+                ...state,
+                wordFormModalOpen:false,
+                wordReferenceData:null,
+                editIdWord: null
+            }
+            break;
+        case SEARCH_BY_ID_SUCCESS:
+            return {
+                ...state,
+                wordReferenceData:action.payload,
+                searchByIdError: null
+            }
+            break;
+        case SEARCH_BY_ID_ERROR:
+            return {
+                ...state,
+                searchByIdError: action.payload
             }
             break;
         default:

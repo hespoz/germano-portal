@@ -1,5 +1,4 @@
 import { put, call, takeEvery, all } from 'redux-saga/effects';
-
 import { REGISTER, LOGIN, LOGOUT } from "../constants";
 
 import apiHelper from "../apiHelper";
@@ -11,7 +10,7 @@ function* register(action) {
         localStorage.setItem("token", res.data.token)
         yield put(registerSuccess(res.data))
     } catch (error) {
-        console.log(error.response)
+        console.log("error", error.response)
         yield put(registerError({message:error.response.data.message}))
     }
 }
@@ -20,6 +19,7 @@ function* login(action) {
     try {
         const res = yield call(apiHelper.login, action.payload)
         localStorage.setItem("token", res.data.token)
+        localStorage.setItem("userId", res.data.userId)
         yield put(loginSuccess(res.data))
     } catch (error) {
         console.log(error.response)

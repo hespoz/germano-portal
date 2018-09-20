@@ -1,57 +1,20 @@
 import React, {Component} from "react";
-import {Card, Flag, Table, Button, Input, Form} from 'semantic-ui-react'
+import {Card, Flag, Table } from 'semantic-ui-react'
 import {get} from 'lodash';
 
 import ViewMore from "./ViewMore";
 
-const options = [
-    {key: 'es', text: 'Spanish', value: 'es'},
-    {key: 'en', text: 'English', value: 'en'},
-    {key: 'it', text: 'Italian', value: 'it'},
-    {key: 'fr', text: 'French', value: 'fr'},
-    {key: 'ru', text: 'Russian', value: 'ru'}
-]
 
 class WordDescription extends Component {
 
-    state = {
-        newTransaltionFormOpen: false
-    }
-
-    getFlagCode = (lang) => {
-        switch (lang) {
-            case 'en':
-                return 'gb'
-            case 'es':
-                return 'es'
-            default:
-                return 'gb'
-        }
-    }
-
-    renderAddNewTranslation = () => {
-        return <Form onSubmit={() => console.log(1)}>
-            <Form.Group widths='equal'>
-                <Form.Select label='Language' options={options} placeholder='Select language'/>
-                <Form.Field
-                    control={Input}
-                    label='Translation'
-                    placeholder='Translation'
-                />
-            </Form.Group>
-            <Form.Group widths='equal'>
-                <Form.Button content='Submit' />
-            </Form.Group>
-        </Form>
-    }
 
     generateHeader = (item) => {
 
         switch (item.type) {
             case 'noun':
-                return `${item.article} ${item.word} - plural: die ${item.plural}`
+                return <div><Flag name={'de'}/> {item.article} {item.word} - plural: die {item.plural} {item.ownerId === localStorage.getItem("userId") ? <a href={"javascript:void(0);"} onClick={()=> this.props.openWordFormModal(item._id)}>Edit</a> : null}</div>
             case 'verb':
-                return `${item.word} - ${item.perfect}`
+                return <div><Flag name={'de'}/> {item.word} - {item.perfect} {item.ownerId === localStorage.getItem("userId") ? <a href={"javascript:void(0);"} onClick={()=> this.props.openWordFormModal(item._id)}>Edit</a> : null}</div>
             default:
                 return ''
         }
@@ -93,25 +56,16 @@ class WordDescription extends Component {
             return null
         }
 
-        return <Table celled>
+        return <div>
 
-            <Table.Header>
-                <Table.Row>
-                    <Table.HeaderCell>Translation</Table.HeaderCell>
-                </Table.Row>
-            </Table.Header>
+            {get(wordItem, 'translations').map((translation, index) => {
+                return <p key={index}><Flag
+                        name={'es'}/> {translation.translation.join(",")}</p>
+            })}
 
-            <Table.Body>
-                {get(wordItem, 'translations').map((translation, index) => {
-                    return <Table.Row key={index}>
-                        <Table.Cell><Flag
-                            name={`${this.getFlagCode(translation.lang)}`}/> {translation.translation.join(",")}
-                        </Table.Cell>
-                    </Table.Row>
-                })}
-            </Table.Body>
 
-        </Table>
+        </div>
+
 
     }
 
@@ -125,10 +79,18 @@ class WordDescription extends Component {
                 <Card.Content header={this.generateHeader(wordItem)}/>
                 <Card.Content>
 
-                    <ViewMore initialHeight={'145px'}>
-                        {this.renderTranslations(wordItem)}
-                        {this.renderConjugation(wordItem)}
-                    </ViewMore>
+                    {wordItem.type === "verb" ?
+                        <ViewMore initialHeight={'145px'}>
+                            {this.renderTranslations(wordItem)}
+                            {this.renderConjugation(wordItem)}
+                        </ViewMore>
+                        :
+                        <div>
+                            {this.renderTranslations(wordItem)}
+                        </div>
+                    }
+
+
 
                 </Card.Content>
             </Card>

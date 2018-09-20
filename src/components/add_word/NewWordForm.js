@@ -1,47 +1,39 @@
 import React, {Component} from "react";
 import {Form, Message, Button, Table, Dropdown} from 'semantic-ui-react'
-import {searchByExactKeyword, addNewWord, addNewWordClear} from "../../actions/dictionaryAction"
+import {searchByExactKeyword, addNewWord, addNewWordClear, searchById} from "../../actions/dictionaryAction"
 import {connect} from "react-redux"
 import {bindActionCreators} from 'redux'
 import WordDescription from '../WordDescription'
-import {CATEGORIES, WORD_TYPES, ARTICLES} from "../../constants";
+import {WORD_TYPES} from "../../constants";
 
-
-
+import AddNoun from './AddNoun'
+import AddVerb from './AddVerb'
 
 const initialState = {
     keyword: '',
-    wordType: null,
-    article: '',
-    article_error: false,
-    plural: '',
-    plural_error: false,
-    esTranslation: '',
-    esTranslation_error: false,
-    enTranslation: '',
-    enTranslation_error: false,
-    submitTriggered: false,
-    perfect: '',
-    conjugation_present: null,
-    ich:'',
-    ich_error:false,
-    du:'',
-    du_error:false,
-    erSieEs:'',
-    erSieEs_error:false,
-    ihr:'',
-    ihr_error:false,
-    wir:'',
-    wir_error:false,
-    Sie:'',
-    Sie_error:false,
-    categories:[],
-    categories_error:false
+    wordType: null
 }
 
 class NewWordForm extends Component {
 
     state = initialState
+
+    componentDidMount = () => {
+
+        if(this.props.editIdWord) {
+            this.props.searchById(this.props.editIdWord)
+        }
+
+    }
+
+    componentWillReceiveProps = (props) => {
+        if(props.wordReferenceData) {
+            this.setState({
+                wordType:props.wordReferenceData.type,
+                keyword:props.wordReferenceData.word
+            })
+        }
+    }
 
     onChange = (e, data) => {
         this.setState({keyword: data.value})
@@ -58,109 +50,18 @@ class NewWordForm extends Component {
     }
 
     searchWord = () => {
-
         if (this.state.keyword !== '') {
             this.props.searchByExactKeyword(this.state.keyword)
         }
     }
 
-    parseTranslations = () => {
+    parseTranslations = (translation) => {
         return [
             {
                 lang: 'es',
-                translation: this.state.esTranslation.split(",")
+                translation: translation.split(",")
             }
         ]
-    }
-
-    onSubmit = () => {
-        if (this.state.wordType === 'noun') {
-            this.validateNoun(() => this.props.addNewWord({
-                word: this.state.keyword,
-                plural: this.state.plural,
-                article: this.state.article,
-                type: this.state.wordType,
-                translations: this.parseTranslations(),
-                categories: this.state.categories
-            }))
-        } else {
-            this.validateVerb(() => this.props.addNewWord({
-                word: this.state.keyword,
-                perfect: this.state.perfect,
-                type: this.state.wordType,
-                translations: this.parseTranslations(),
-                categories:this.state.categories,
-                conjugation_present: [{
-                    pronoun:'ich',
-                    conjugation:this.state.ich
-                },{
-                    pronoun:'du',
-                    conjugation:this.state.du
-                },{
-                    pronoun:'er/sie/es',
-                    conjugation:this.state.erSieEs
-                },{
-                    pronoun:'ihr',
-                    conjugation:this.state.ihr
-                },{
-                    pronoun:'wir',
-                    conjugation:this.state.wir
-                },{
-                    pronoun:'Sie',
-                    conjugation:this.state.Sie
-                }]
-            }))
-        }
-    }
-
-    onFormInputChange = (e, data) => {
-        this.setState({
-            [data.name]: data.value,
-            [`${data.name}_error`]: data.value === '' && this.state.submitTriggered
-        })
-    }
-
-    onCategoryChange = (event, {value}) => {
-        this.setState({
-            categories: value,
-            categories_error: value.length === 0 && this.state.submitTriggered
-        })
-    }
-
-    validateNoun = (callback) => {
-        this.setState({
-            submitTriggered: true,
-            article_error: this.state.article === '',
-            plural_error: this.state.plural === '',
-            esTranslation_error: this.state.esTranslation === '',
-            categories_error: this.state.categories.length === 0
-        }, () => {
-            if (!this.state.article_error && !this.state.plural_error && !this.state.esTranslation_error && !this.state.categories_error) {
-                callback()
-            }
-        })
-    }
-
-    validateVerb = (callback) => {
-        this.setState({
-            submitTriggered: true,
-            perfect_error: this.state.perfect === '',
-            esTranslation_error: this.state.esTranslation === '',
-            enTranslation_error: this.state.enTranslation === '',
-            ich_error: this.state.ich === '',
-            du_error: this.state.du === '',
-            erSieEs_error:this.state.erSieEs === '',
-            ihr_error:this.state.ich === '',
-            wir_error:this.state.wir === '',
-            Sie_error:this.state.Sie === ''
-        }, () => {
-            if (!this.state.perfect_error && !this.state.esTranslation_error &&
-                !this.state.enTranslation_error && !this.state.ich_error &&
-                !this.state.du_error && !this.state.erSieEs_error &&
-                !this.state.ihr_error && !this.state.wir_error && !this.state.Sie_error && !this.state.categories_error) {
-                callback()
-            }
-        })
     }
 
     addOtherWord = () => {
@@ -168,13 +69,17 @@ class NewWordForm extends Component {
         this.setState(initialState)
     }
 
+    onSaveWord = (payload) => {
+        this.props.addNewWord(payload)
+    }
+
     render() {
 
 
-        const {wordType} = this.state
-        const {exactResult, exactSearchTriggered, errorAddWord, successAddWord, loading} = this.props
+        const {wordType, keyword} = this.state
+        const {exactResult, exactSearchTriggered, errorAddWord, successAddWord, loading, wordReferenceData} = this.props
 
-        console.log(exactResult)
+
 
         if (successAddWord) {
             return <div>
@@ -197,7 +102,8 @@ class NewWordForm extends Component {
                         <label>New word</label>
                         <Form.Input
                             loading={loading}
-                            placeholder='New word...' fluid
+                            placeholder='New word...'
+                            fluid
                             onChange={this.onChange}
                             onKeyPress={this.onKeyPress}
                             onBlur={this.onBlur}
@@ -206,7 +112,7 @@ class NewWordForm extends Component {
                 </Form>
             </div>
 
-            <Form onSubmit={this.onSubmit}>
+            <Form>
 
 
                 {errorAddWord ?
@@ -219,58 +125,26 @@ class NewWordForm extends Component {
 
 
                 {exactResult ?
-
                     <WordDescription wordItem={exactResult}/>
                     :
                     null
                 }
 
-                {!exactResult && exactSearchTriggered ?
+                {(!exactResult && exactSearchTriggered ) || wordReferenceData ?
 
                     <Form.Field>
                         <label>Type</label>
                         <Form.Select options={WORD_TYPES} placeholder='Type'
-                                     onChange={(event, data) => this.setState({wordType: data.value})}/>
+                                     onChange={(event, data) => this.setState({wordType: data.value})} value={this.state.wordType}/>
                     </Form.Field>
 
                     :
                     null
                 }
 
-                {this.state.article_error || this.state.plural_error || this.state.esTranslation_error || this.state.enTranslation_error ||
-                this.state.perfect_error || this.state.esTranslation_error ||
-                this.state.enTranslation_error || this.state.ich_error ||
-                this.state.du_error || this.state.erSieEs_error ||
-                this.state.ihr_error || this.state.wir_error || this.state.Sie_error ?
-                    <Message negative>
-                        <Message.Header>All fields are mandatory</Message.Header>
-                    </Message>
-                    :
-                    null
-                }
-
                 {wordType === 'noun' ?
 
-                    <div>
-
-                        <Form.Field>
-                            <label>Article</label>
-                            <Form.Select name="article"
-                                         size='small'
-                                         options={ARTICLES} placeholder='Articles'
-                                         value={this.state.article} error={this.state.article_error}
-                                         onChange={this.onFormInputChange}/>
-                        </Form.Field>
-                        <Form.Field>
-                            <label>Plural</label>
-                            <Form.Input name="plural"
-                                        size='small'
-                                        placeholder='Plural' value={this.state.plural}
-                                        error={this.state.plural_error} onChange={this.onFormInputChange}/>
-                        </Form.Field>
-
-
-                    </div>
+                    <AddNoun word={keyword} wordType={wordType} parseTranslations={this.parseTranslations} onSaveWord={this.onSaveWord}/>
 
                     :
                     null
@@ -278,100 +152,8 @@ class NewWordForm extends Component {
 
                 {wordType === 'verb' ?
 
-                    <div>
+                    <AddVerb word={keyword}  wordType={wordType} parseTranslations={this.parseTranslations} onSaveWord={this.onSaveWord}/>
 
-                        <Form.Field>
-                            <label>Article</label>
-                            <Form.Input name="perfect" placeholder='Perfect' size='small' value={this.state.perfect}
-                                        error={this.state.perfect_error} onChange={this.onFormInputChange}/>
-                        </Form.Field>
-
-
-                        <Table celled>
-                            <Table.Header>
-                                <Table.Row>
-                                    <Table.HeaderCell>Pronoum</Table.HeaderCell>
-                                    <Table.HeaderCell>Conjugation</Table.HeaderCell>
-                                </Table.Row>
-                            </Table.Header>
-                            <Table.Body>
-                                <Table.Row>
-                                    <Table.Cell>ich</Table.Cell>
-                                    <Table.Cell>
-                                        <Form.Input name="ich" size='small' value={this.state.ich}
-                                                    error={this.state.ich_error} onChange={this.onFormInputChange}/>
-                                    </Table.Cell>
-                                </Table.Row>
-                                <Table.Row>
-                                    <Table.Cell>du</Table.Cell>
-                                    <Table.Cell>
-                                        <Form.Input name="du" size='small' value={this.state.du}
-                                                    error={this.state.du_error} onChange={this.onFormInputChange}/>
-                                    </Table.Cell>
-                                </Table.Row>
-                                <Table.Row>
-                                    <Table.Cell>er/sie/es</Table.Cell>
-                                    <Table.Cell>
-                                        <Form.Input name="erSieEs" size='small' value={this.state.erSieEs}
-                                                    error={this.state.erSieEs_error} onChange={this.onFormInputChange}/>
-                                    </Table.Cell>
-                                </Table.Row>
-                                <Table.Row>
-                                    <Table.Cell>ihr</Table.Cell>
-                                    <Table.Cell>
-                                        <Form.Input name="ihr" size='small' value={this.state.ihr}
-                                                    error={this.state.ihr_error} onChange={this.onFormInputChange}/>
-                                    </Table.Cell>
-                                </Table.Row>
-                                <Table.Row>
-                                    <Table.Cell>wir</Table.Cell>
-                                    <Table.Cell>
-                                        <Form.Input name="wir" size='small' value={this.state.wir}
-                                                    error={this.state.wir_error} onChange={this.onFormInputChange}/>
-                                    </Table.Cell>
-                                </Table.Row>
-                                <Table.Row>
-                                    <Table.Cell>Sie</Table.Cell>
-                                    <Table.Cell>
-                                        <Form.Input name="Sie" size='small' value={this.state.Sie}
-                                                    error={this.state.Sie_error} onChange={this.onFormInputChange}/>
-                                    </Table.Cell>
-                                </Table.Row>
-                            </Table.Body>
-                        </Table>
-
-                    </div>
-
-                    :
-                    null
-                }
-
-
-                {wordType ?
-                    <div>
-                        <Form.Field>
-                            <label>Traduccion</label>
-                            <Form.Input name="esTranslation" size='small' placeholder='Traduccion'
-                                        value={this.state.esTranslation} error={this.state.esTranslation_error}
-                                        onChange={this.onFormInputChange}/>
-                        </Form.Field>
-                    </div>
-                    :
-                    null
-                }
-
-
-
-                {!exactResult && wordType !== null && exactSearchTriggered ?
-                    <div>
-                        <Form.Field>
-                            <label>Categories</label>
-                            <Dropdown name="categories" placeholder='State' size='small' fluid multiple selection
-                                      error={this.state.categories_error}
-                                      options={CATEGORIES} value={this.state.categories} onChange={this.onCategoryChange}/>
-                        </Form.Field>
-                        <Button type='submit'>Add</Button>
-                    </div>
                     :
                     null
                 }
@@ -397,13 +179,17 @@ const mapStateToProps = (state) => ({
     loadingExact: state.dictionary.loadingExact,
     exactSearchTriggered: state.dictionary.exactSearchTriggered,
     successAddWord: state.dictionary.successAddWord,
-    errorAddWord: state.dictionary.errorAddWord
+    errorAddWord: state.dictionary.errorAddWord,
+    editIdWord: state.dictionary.editIdWord,
+    wordReferenceData: state.dictionary.wordReferenceData,
+    searchByIdError:state.dictionary.searchByIdError
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     searchByExactKeyword: searchByExactKeyword,
     addNewWordClear: addNewWordClear,
-    addNewWord: addNewWord
+    addNewWord: addNewWord,
+    searchById
 }, dispatch);
 
 

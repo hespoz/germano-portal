@@ -11,12 +11,12 @@ import {
 } from '../../actions/dictionaryAction'
 import NewWordModal from "../add_word/NewWordModal";
 import {openAuthModal} from "../../actions/authAction";
+import {openWordFormModal, closeWordFormModal} from "../../actions/dictionaryAction";
 
 class Search extends Component {
 
     state = {
-        keyword: '',
-        openAddNewWordDialog:false
+        keyword: ''
     }
 
     onSearchInputChange = (e, data) => {
@@ -36,12 +36,12 @@ class Search extends Component {
         }
     }
 
-    closeDialog = () => this.setState({ openAddNewWordDialog: false })
+    closeDialog = () => this.props.closeWordFormModal()
 
     addNewWord = () => {
         if(this.props.hasToken) {
             this.props.closeSearch()
-            this.setState({openAddNewWordDialog:true})
+            this.props.openWordFormModal()
         } else {
             this.props.openAuthModal()
         }
@@ -49,12 +49,12 @@ class Search extends Component {
 
     render() {
 
-        const {searchResult, open} = this.props
+        const {searchResult, open, wordFormModalOpen} = this.props
 
         return (
             <div>
 
-                <NewWordModal open={this.state.openAddNewWordDialog} onClose={this.closeDialog}/>
+                <NewWordModal open={wordFormModalOpen} onClose={this.closeDialog}/>
 
                 {open ?
                     <div id={"overlay"} onClick={this.onClose}>
@@ -98,7 +98,7 @@ class Search extends Component {
                                     <List>
 
                                         {searchResult.map((item, index) => {
-                                            return <WordDescription wordItem={item}/>
+                                            return <WordDescription wordItem={item} openWordFormModal={this.props.openWordFormModal}/>
                                         })}
 
                                     </List>
@@ -153,14 +153,17 @@ class Search extends Component {
 const mapStateToProps = (state) => ({
     searchResult: state.dictionary.searchResult,
     open: state.dictionary.open,
-    hasToken: state.auth.hasToken
+    hasToken: state.auth.hasToken,
+    wordFormModalOpen: state.dictionary.wordFormModalOpen
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     searchByKeyword: searchByKeyword,
     closeSearch: closeSearch,
     openSearch: openSearch,
-    openAuthModal
+    openAuthModal,
+    openWordFormModal,
+    closeWordFormModal
 }, dispatch);
 
 

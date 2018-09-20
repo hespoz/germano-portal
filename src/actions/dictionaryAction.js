@@ -12,7 +12,13 @@ import {
     ADD_NEW_WORD_ERROR,
     CLOSE_SEARCH,
     OPEN_SEARCH,
-    ADD_NEW_WORD_CLEAR
+    ADD_NEW_WORD_CLEAR,
+    OPEN_WORDFORM_MODAL,
+    CLOSE_WORDFORM_MODAL,
+    SEARCH_BY_ID,
+    SEARCH_BY_ID_LOADING,
+    SEARCH_BY_ID_SUCCESS,
+    SEARCH_BY_ID_ERROR
 } from '../constants'
 
 export const searchByExactKeyword = (keyword) => ({
@@ -81,4 +87,30 @@ export const openSearch = () => ({
     type: OPEN_SEARCH
 })
 
+export const openWordFormModal = (data) => ({
+    type: OPEN_WORDFORM_MODAL,
+    payload:data
+})
 
+export const closeWordFormModal = () => ({
+    type: CLOSE_WORDFORM_MODAL
+})
+
+export const searchById = (data) => ({
+    type: SEARCH_BY_ID,
+    payload: data
+})
+
+export const searchByIdLoading = () => ({
+    type: SEARCH_BY_ID_LOADING
+})
+
+export const searchByIdSuccess = (data) => ({
+    type: SEARCH_BY_ID_SUCCESS,
+    payload: data
+})
+
+export const searchByIdError = (data) => ({
+    type: SEARCH_BY_ID_ERROR,
+    payload: data
+})

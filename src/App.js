@@ -3,7 +3,7 @@ import './App.scss';
 import {Form, Dropdown, Header, Button} from 'semantic-ui-react'
 import Layout from "./components/Layout";
 import Search from "./components/search/Search";
-import SetUp from "./components/SetUp/SetUp";
+import SetUp from "./components/setUp/SetUp";
 
 class App extends Component {
 

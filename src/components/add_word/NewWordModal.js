@@ -8,7 +8,7 @@ class NewWordModal extends Component {
     render() {
 
         return (
-            <Modal open={this.props.open} style={{zIndex: '9999999'}} onClose={this.props.onClose}>
+            <Modal size={'small'} open={this.props.open} style={{zIndex: '9999999'}} onClose={this.props.onClose}>
                 <Modal.Header>Add new word</Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>

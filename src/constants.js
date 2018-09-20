@@ -33,6 +33,15 @@ export const OPEN_AUTH_MODAL = "OPEN_AUTH_MODAL"
 export const CLOSE_AUTH_MODAL = "CLOSE_AUTH_MODAL"
 export const TOGGLE_AUTH_FORMS = "TOGGLE_AUTH_FORMS"
 
+export const OPEN_WORDFORM_MODAL = "OPEN_WORDFORM_MODAL"
+export const CLOSE_WORDFORM_MODAL = "CLOSE_WORDFORM_MODAL"
+
+export const SEARCH_BY_ID = "SEARCH_BY_ID"
+export const SEARCH_BY_ID_LOADING = "SEARCH_BY_ID_LOADING"
+export const SEARCH_BY_ID_SUCCESS = "SEARCH_BY_ID_SUCCESS"
+export const SEARCH_BY_ID_ERROR = "SEARCH_BY_ID_ERROR"
+
+
 
 export const CATEGORIES =  [
     {key: 'Todas', value: 'Todas', text: 'Todas'},
@@ -45,7 +54,7 @@ export const CATEGORIES =  [
 
 export const WORD_TYPES = [{key: 'verb', value: 'verb', text: 'Verbos'},{key: 'noun', value: 'noun', text: 'Sustantivos'}]
 
-const ARTICLES = [
+export const ARTICLES = [
     {key: 'der', text: 'der', value: 'der'},
     {key: 'die', text: 'die', value: 'die'},
     {key: 'das', text: 'das', value: 'das'},

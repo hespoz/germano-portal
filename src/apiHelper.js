@@ -16,6 +16,9 @@ const apiHelper = {
     searchByKeyword: (payload) => {
         return axios.get(`http://localhost:7000/api/v1/dictionary/${payload.keyword}/false`)
     },
+    searchById: (payload) => {
+        return axios.get(`http://localhost:7000/api/v1/dictionary/${payload}`)
+    },
     addNewWord: (word) => {
         return axios.post(`http://localhost:7000/api/v1/dictionary`, word, secureHeader())
     },
