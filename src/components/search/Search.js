@@ -9,7 +9,7 @@ import {
     openSearch,
     closeSearch
 } from '../../actions/dictionaryAction'
-import NewWordModal from "../add_word/NewWordModal";
+import NewWordModal from "../add_word/WordModal";
 import {openAuthModal} from "../../actions/authAction";
 import {openWordFormModal, closeWordFormModal} from "../../actions/dictionaryAction";
 

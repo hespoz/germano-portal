@@ -1,58 +1,47 @@
 import React, {Component} from "react";
 import {Form, Message, Button, Table, Dropdown} from 'semantic-ui-react'
-import {searchByExactKeyword, addNewWord, addNewWordClear, searchById} from "../../actions/dictionaryAction"
+import {searchByExactKeyword, addNewWord, addNewWordClear, searchById, goBackWordForm} from "../../actions/dictionaryAction"
 import {connect} from "react-redux"
 import {bindActionCreators} from 'redux'
 import WordDescription from '../WordDescription'
+import GermanWordField from './GermanWordField'
 import {WORD_TYPES} from "../../constants";
 
 import AddNoun from './AddNoun'
 import AddVerb from './AddVerb'
 
 const initialState = {
-    keyword: '',
-    wordType: null
+    previousWord: '',
+    word: '',
+    wordType: null,
+    receivedInitValues:false
 }
 
-class NewWordForm extends Component {
+class WordForm extends Component {
 
     state = initialState
 
     componentDidMount = () => {
 
-        if(this.props.editIdWord) {
+        if (this.props.editIdWord) {
             this.props.searchById(this.props.editIdWord)
         }
 
     }
 
     componentWillReceiveProps = (props) => {
-        if(props.wordReferenceData) {
+        if (!this.state.receivedInitValues && props.wordReferenceData) {
             this.setState({
-                wordType:props.wordReferenceData.type,
-                keyword:props.wordReferenceData.word
+                wordType: props.wordReferenceData.type,
+                word: props.wordReferenceData.word,
+                previousWord: props.wordReferenceData.word,
+                receivedInitValues: true
             })
         }
     }
 
     onChange = (e, data) => {
-        this.setState({keyword: data.value})
-    }
-
-    onBlur = () => {
-        this.searchWord(this.state.keyword)
-    }
-
-    onKeyPress = (event) => {
-        if (event.key == 'Enter') {
-            this.searchWord(this.state.keyword)
-        }
-    }
-
-    searchWord = () => {
-        if (this.state.keyword !== '') {
-            this.props.searchByExactKeyword(this.state.keyword)
-        }
+        this.setState({word: data.value})
     }
 
     parseTranslations = (translation) => {
@@ -76,66 +65,62 @@ class NewWordForm extends Component {
     render() {
 
 
-        const {wordType, keyword} = this.state
-        const {exactResult, exactSearchTriggered, errorAddWord, successAddWord, loading, wordReferenceData} = this.props
+        const {wordType, previousWord, word} = this.state
+        const {exactResult, exactSearchTriggered, errorAddWord, successAddWord, editIdWord, wordReferenceData} = this.props
 
 
 
         if (successAddWord) {
             return <div>
                 <Message positive>
-                    <Message.Header>Word {this.state.keyword} was added</Message.Header>
+                    <Message.Header>Word {this.state.word} was added</Message.Header>
                     <a href={"javascript:void(0)"} onClick={this.addOtherWord}>
                         Add new word
                     </a>
                 </Message>
 
-                <WordDescription wordItem={exactResult}/>
+                <WordDescription wordItem={exactResult} goBackWordForm={this.props.goBackWordForm}/>
 
             </div>
         }
 
         return <div>
-            <div>
-                <Form>
-                    <Form.Field>
-                        <label>New word</label>
-                        <Form.Input
-                            loading={loading}
-                            placeholder='New word...'
-                            fluid
-                            onChange={this.onChange}
-                            onKeyPress={this.onKeyPress}
-                            onBlur={this.onBlur}
-                            value={this.state.keyword}/>
-                    </Form.Field>
-                </Form>
-            </div>
+
+
+            {errorAddWord ?
+                <Message negative>
+                    <Message.Header>Error saving word</Message.Header>
+                </Message>
+                :
+                null
+            }
+
+            {editIdWord && exactResult && exactResult.word !== previousWord ?
+                <Message color='yellow'>
+                    <Message.Header>This word already exists</Message.Header>
+                </Message>
+                :
+                null
+            }
+
+
+            <GermanWordField word={word} onChange={this.onChange}/>
 
             <Form>
 
-
-                {errorAddWord ?
-                    <Message negative>
-                        <Message.Header>Error saving word</Message.Header>
-                    </Message>
-                    :
-                    null
-                }
-
-
-                {exactResult ?
+                {!editIdWord && exactResult ?
                     <WordDescription wordItem={exactResult}/>
                     :
                     null
                 }
 
-                {(!exactResult && exactSearchTriggered ) || wordReferenceData ?
+                {(!exactResult && exactSearchTriggered) || wordReferenceData ?
 
                     <Form.Field>
                         <label>Type</label>
-                        <Form.Select options={WORD_TYPES} placeholder='Type'
-                                     onChange={(event, data) => this.setState({wordType: data.value})} value={this.state.wordType}/>
+                        <Form.Select size='small' options={WORD_TYPES} placeholder='Type'
+                                     onChange={(event, data) => this.setState({wordType: data.value})}
+                                     value={this.state.wordType}/>
                     </Form.Field>
 
                     :
@@ -144,7 +129,8 @@ class NewWordForm extends Component {
 
                 {wordType === 'noun' ?
 
-                    <AddNoun word={keyword} wordType={wordType} parseTranslations={this.parseTranslations} onSaveWord={this.onSaveWord}/>
+                    <AddNoun word={word} wordType={wordType} parseTranslations={this.parseTranslations}
+                             onSaveWord={this.onSaveWord} disableSubmit={editIdWord && exactResult && exactResult.word !== previousWord}/>
 
                     :
                     null
@@ -152,7 +138,8 @@ class NewWordForm extends Component {
 
                 {wordType === 'verb' ?
 
-                    <AddVerb word={keyword}  wordType={wordType} parseTranslations={this.parseTranslations} onSaveWord={this.onSaveWord}/>
+                    <AddVerb word={word} wordType={wordType} parseTranslations={this.parseTranslations}
+                             onSaveWord={this.onSaveWord} disableSubmit={editIdWord && exactResult && exactResult.word !== previousWord}/>
 
                     :
                     null
@@ -182,15 +169,16 @@ const mapStateToProps = (state) => ({
     errorAddWord: state.dictionary.errorAddWord,
     editIdWord: state.dictionary.editIdWord,
     wordReferenceData: state.dictionary.wordReferenceData,
-    searchByIdError:state.dictionary.searchByIdError
+    searchByIdError: state.dictionary.searchByIdError
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
     searchByExactKeyword: searchByExactKeyword,
     addNewWordClear: addNewWordClear,
     addNewWord: addNewWord,
-    searchById
+    searchById,
+    goBackWordForm
 }, dispatch);
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewWordForm);
+export default connect(mapStateToProps, mapDispatchToProps)(WordForm);

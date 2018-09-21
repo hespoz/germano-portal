@@ -1,5 +1,8 @@
 import { put, call, takeEvery, all } from 'redux-saga/effects';
-import { SEARCH_BY_KEYWORD, SEARCH_BY_EXACT_KEYWORD, ADD_NEW_WORD, SEARCH_BY_ID, SEARCH_BY_ID_LOADING, SEARCH_BY_ID_ERROR, SEARCH_BY_ID_SUCCESS } from "../constants";
+import {
+    SEARCH_BY_KEYWORD, SEARCH_BY_EXACT_KEYWORD, ADD_NEW_WORD, SEARCH_BY_ID, SEARCH_BY_ID_LOADING,
+    SEARCH_BY_ID_ERROR, SEARCH_BY_ID_SUCCESS, CLOSE_WORDFORM_MODAL
+} from "../constants";
 import apiHelper from '../apiHelper'
 
 import {
@@ -53,6 +56,16 @@ function* addNewWord(action) {
     }
 }
 
+
+function* searchById(action) {
+    try {
+        yield put(searchByIdLoading())
+        const res = yield call(apiHelper.searchById, action.payload)
+        yield put(searchByIdSuccess(res.data))
+    } catch (error) {
+        yield put(searchByIdError(error))
+    }
+}
 
 function* searchById(action) {
     try {

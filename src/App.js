@@ -4,6 +4,8 @@ import {Form, Dropdown, Header, Button} from 'semantic-ui-react'
 import Layout from "./components/Layout";
 import Search from "./components/search/Search";
 import SetUp from "./components/setUp/SetUp";
+import Vocabulary from "./components/practice/Vocabulary";
+
 
 class App extends Component {
 
@@ -19,7 +21,7 @@ class App extends Component {
             </div>
 
 
-            <div id="practiceContainer" className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center'}>
+            <div className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center content-pos'}>
                 <div className={'col-md-6'}>
 
                     <div className={'row'}>
@@ -36,8 +38,17 @@ class App extends Component {
 
 
 
+
                         </div>
                     </div>
+
+
+                </div>
+            </div>
+
+            <div className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center content-pos'}>
+                <div className={'col-md-7'}>
+                    <Vocabulary/>
 
 
                 </div>
@@ -47,7 +58,7 @@ class App extends Component {
             <style jsx>{`
 
 
-                  #practiceContainer {
+                  .content-pos {
                     margin-top: 20px;
 
                   }

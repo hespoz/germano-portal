@@ -7,6 +7,7 @@ import {
     SEARCH_BY_EXACT_KEYWORD_LOADING,
     ADD_NEW_WORD_CLEAR,
     ADD_NEW_WORD_SUCCESS,
+    GO_BACK_WORD_FORM,
     ADD_NEW_WORD_ERROR,
     OPEN_WORDFORM_MODAL,
     CLOSE_WORDFORM_MODAL,
@@ -61,6 +62,15 @@ export default function reducer(state = {
                 exactResult:action.payload
             }
             break;
+        case GO_BACK_WORD_FORM:
+            return {
+                ...state,
+                successAddWord: false,
+                editIdWord: state.exactResult._id,
+                wordReferenceData:state.exactResult,
+                exactResult:null,
+            }
+            break;
         case ADD_NEW_WORD_ERROR:
             return {
                 ...state,
@@ -110,7 +120,8 @@ export default function reducer(state = {
                 ...state,
                 wordFormModalOpen:false,
                 wordReferenceData:null,
-                editIdWord: null
+                editIdWord: null,
+                successAddWord: false
             }
             break;
         case SEARCH_BY_ID_SUCCESS:

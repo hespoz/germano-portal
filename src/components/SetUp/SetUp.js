@@ -5,7 +5,7 @@ import {CATEGORIES, WORD_TYPES} from '../../constants'
 class SetUp extends Component {
 
     state = {
-        wordTypes: ['Verbos','Sustantivos'],
+        wordTypes: ['verb','noun', 'modal_verb'],
         categories: ['Todas']
     }
 

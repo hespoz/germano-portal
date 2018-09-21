@@ -21,33 +21,33 @@ class AddNoun extends Component {
 
     render() {
 
-        console.log(this.props.initialValues)
-
-        const { handleSubmit } = this.props
+        const { handleSubmit, disableSubmit } = this.props
 
         return <Form onSubmit={handleSubmit(this.onSubmit)}>
 
-            <Field name="article"
+            <Field
+                size='small'
+                name="article"
                    label={'Articles'}
                    options={ARTICLES}
                    placeholder='Articles'
                    selection component={SelectField}/>
 
-            <Field name='plural' component={InputField}
+            <Field size='small' name='plural' component={InputField}
                    label={'Plural'}
                    placeholder='Plural'/>
 
-            <Field name='translations' component={InputField}
+            <Field size='small' name='translations' component={InputField}
                    label={'Traduccion'}
                    placeholder='Traduccion'/>
 
-            <Field name="categories"
+            <Field size='small' name="categories"
                    label={'Categories'}
                    options={CATEGORIES}
                    placeholder='Categories' fluid
                    multiple selection component={SelectField}/>
 
-            <Button type='submit'>Add</Button>
+            <Button size='small' type='submit' disabled={disableSubmit}>Add</Button>
 
         </Form>
 

@@ -1,14 +1,14 @@
 import React, {Component} from "react";
 import { Modal } from 'semantic-ui-react'
 
-import NewWordForm from './NewWordForm';
+import NewWordForm from './WordForm';
 
-class NewWordModal extends Component {
+class WordModal extends Component {
 
     render() {
 
         return (
-            <Modal size={'small'} open={this.props.open} style={{zIndex: '9999999'}} onClose={this.props.onClose}>
+            <Modal size={'tiny'} open={this.props.open} style={{zIndex: '9999999'}} onClose={this.props.onClose}>
                 <Modal.Header>Add new word</Modal.Header>
                 <Modal.Content image>
                     <Modal.Description>
@@ -22,4 +22,4 @@ class NewWordModal extends Component {
 }
 
 
-export default NewWordModal;
+export default WordModal;

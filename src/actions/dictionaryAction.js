@@ -10,6 +10,7 @@ import {
     ADD_NEW_WORD,
     ADD_NEW_WORD_SUCCESS,
     ADD_NEW_WORD_ERROR,
+    GO_BACK_WORD_FORM,
     CLOSE_SEARCH,
     OPEN_SEARCH,
     ADD_NEW_WORD_CLEAR,
@@ -63,6 +64,10 @@ export const searchByKeywordError = (data) => ({
 export const addNewWord = (data) => ({
     type: ADD_NEW_WORD,
     payload: data
+})
+
+export const goBackWordForm = () => ({
+    type: GO_BACK_WORD_FORM
 })
 
 export const addNewWordClear = () => ({

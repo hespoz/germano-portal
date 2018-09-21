@@ -8,13 +8,23 @@ import ViewMore from "./ViewMore";
 class WordDescription extends Component {
 
 
+    renderEditBtn = (id) => {
+        if (this.props.openWordFormModal) {
+           return <a href={"javascript:void(0);"} onClick={()=> this.props.openWordFormModal(id)}>Edit</a>
+        } else if (this.props.goBackWordForm) {
+           return <a href={"javascript:void(0);"} onClick={()=> this.props.goBackWordForm()}>Edit</a>
+        }
+
+        return null
+    }
+
     generateHeader = (item) => {
 
         switch (item.type) {
             case 'noun':
-                return <div><Flag name={'de'}/> {item.article} {item.word} - plural: die {item.plural} {item.ownerId === localStorage.getItem("userId") ? <a href={"javascript:void(0);"} onClick={()=> this.props.openWordFormModal(item._id)}>Edit</a> : null}</div>
+                return <div><Flag name={'de'}/> {item.article} {item.word} - plural: die {item.plural} {item.ownerId === localStorage.getItem("userId") ? this.renderEditBtn(item._id) : null}</div>
             case 'verb':
-                return <div><Flag name={'de'}/> {item.word} - {item.perfect} {item.ownerId === localStorage.getItem("userId") ? <a href={"javascript:void(0);"} onClick={()=> this.props.openWordFormModal(item._id)}>Edit</a> : null}</div>
+                return <div><Flag name={'de'}/> {item.word} - {item.perfect} {item.ownerId === localStorage.getItem("userId") ? this.renderEditBtn(item._id) : null}</div>
             default:
                 return ''
         }

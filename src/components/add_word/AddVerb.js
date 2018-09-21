@@ -4,7 +4,7 @@ import {CATEGORIES} from "../../constants";
 
 import {Field, reduxForm} from 'redux-form'
 import {InputField, SelectField} from '../formElement/FormElements'
-import {validateNoun, validateVerb} from '../formElement/ValidationForms'
+import { validateVerb } from '../formElement/ValidationForms'
 
 import {connect} from "react-redux"
 import {bindActionCreators} from 'redux'
@@ -58,16 +58,16 @@ class AddVerb extends Component {
 
     render() {
 
-        const { handleSubmit } = this.props
+        const { handleSubmit, disableSubmit } = this.props
 
         return <Form onSubmit={handleSubmit(this.onSubmit)}>
 
 
-            <Field name='perfect' component={InputField}
+            <Field size='small' name='perfect' component={InputField}
                    label={'Perfect'}
                    placeholder='Perfect'/>
 
-            <Field name='translations' component={InputField}
+            <Field size='small' name='translations' component={InputField}
                    label={'Traduccion'}
                    placeholder='Traduccion'/>
 
@@ -120,14 +120,14 @@ class AddVerb extends Component {
 
 
 
-            <Field name="categories"
+            <Field size='small' name="categories"
                    label={'Categories'}
                    options={CATEGORIES}
                    placeholder='Categories' fluid
                    multiple selection component={SelectField}/>
 
 
-            <Button type='submit'>Add</Button>
+            <Button type='submit' disabled={disableSubmit}>Add</Button>
 
         </Form>
 

@@ -11,6 +11,7 @@ export const SEARCH_BY_EXACT_KEYWORD_ERROR = "SEARCH_BY_EXACT_KEYWORD_ERROR"
 export const ADD_NEW_WORD_CLEAR = "ADD_NEW_WORD_CLEAR"
 export const ADD_NEW_WORD = "ADD_NEW_WORD"
 export const ADD_NEW_WORD_SUCCESS = "ADD_NEW_WORD_SUCCESS"
+export const GO_BACK_WORD_FORM = "GO_BACK_WORD_FORM"
 export const ADD_NEW_WORD_ERROR = "ADD_NEW_WORD_ERROR"
 
 export const CLOSE_SEARCH = "CLOSE_SEARCH"
@@ -52,7 +53,11 @@ export const CATEGORIES =  [
     {key: 'Escuela', value: 'Escuela', text: 'Escuela'}
 ];
 
-export const WORD_TYPES = [{key: 'verb', value: 'verb', text: 'Verbos'},{key: 'noun', value: 'noun', text: 'Sustantivos'}]
+export const WORD_TYPES = [
+    {key: 'verb', value: 'verb', text: 'Verbos'},
+    {key: 'noun', value: 'noun', text: 'Sustantivos'},
+    {key: 'modal_verb', value: 'modal_verb', text: 'Verbo modal'}
+    ]
 
 export const ARTICLES = [
     {key: 'der', text: 'der', value: 'der'},
