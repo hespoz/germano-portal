@@ -1,9 +1,14 @@
 import { put, call, takeEvery, all } from 'redux-saga/effects';
 import {
-    SEARCH_BY_KEYWORD, SEARCH_BY_EXACT_KEYWORD, ADD_NEW_WORD, SEARCH_BY_ID, SEARCH_BY_ID_LOADING,
-    SEARCH_BY_ID_ERROR, SEARCH_BY_ID_SUCCESS, CLOSE_WORDFORM_MODAL
+    SEARCH_BY_KEYWORD,
+    SEARCH_BY_EXACT_KEYWORD,
+    ADD_NEW_WORD,
+    SEARCH_BY_ID,
+    FETCH_WORDS
 } from "../constants";
+import { shuffle } from 'lodash';
 import apiHelper from '../apiHelper'
+
 
 import {
     searchByExactKeywordLoading,
@@ -16,7 +21,10 @@ import {
     addNewWordError,
     searchByIdLoading,
     searchByIdSuccess,
-    searchByIdError
+    searchByIdError,
+    fetchWordsLoading,
+    fetchWordsSuccess,
+    fetchWordsError
 } from '../actions/dictionaryAction';
 
 function* searchByKeyword(action) {
@@ -56,7 +64,6 @@ function* addNewWord(action) {
     }
 }
 
-
 function* searchById(action) {
     try {
         yield put(searchByIdLoading())
@@ -67,23 +74,23 @@ function* searchById(action) {
     }
 }
 
-function* searchById(action) {
+function* fetchWords(action) {
     try {
-        yield put(searchByIdLoading())
-        const res = yield call(apiHelper.searchById, action.payload)
-        yield put(searchByIdSuccess(res.data))
+        yield put(fetchWordsLoading())
+        const res = yield call(apiHelper.fetchWords, action.payload)
+        yield put(fetchWordsSuccess(shuffle(res.data)))
     } catch (error) {
-        yield put(searchByIdError(error))
+        yield put(fetchWordsError(error))
     }
 }
-
 
 export default function* dictionarySaga() {
     yield all([
         takeEvery(SEARCH_BY_ID, searchById),
         takeEvery(SEARCH_BY_KEYWORD, searchByKeyword),
         takeEvery(SEARCH_BY_EXACT_KEYWORD, searchByExactKeyword),
-        takeEvery(ADD_NEW_WORD, addNewWord)
+        takeEvery(ADD_NEW_WORD, addNewWord),
+        takeEvery(FETCH_WORDS, fetchWords)
     ])
 }
 

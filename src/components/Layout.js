@@ -3,7 +3,9 @@ import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
 import { Header, Menu } from 'semantic-ui-react'
 import AuthModal from './auth/AuthModal'
+import NewWordModal from "./add_word/WordModal";
 import {openAuthModal, closeAuthModal, logOut} from "../actions/authAction";
+import {closeWordFormModal} from "../actions/dictionaryAction";
 
 class Layout extends Component {
 
@@ -11,15 +13,17 @@ class Layout extends Component {
         logged: null
     }
 
+    closeDialog = () => this.props.closeWordFormModal()
 
     render() {
 
-        const { openModal, hasToken } = this.props;
+        const { openModal, hasToken, wordFormModalOpen } = this.props;
 
         return (
             <div className={'container'}>
 
                 <AuthModal open={openModal} onClose={() => this.props.closeAuthModal()}/>
+                <NewWordModal open={wordFormModalOpen} onClose={this.closeDialog}/>
 
                 <div className={'row'}>
                     <div className={'col-md-12 col-lg-12'}>
@@ -77,11 +81,12 @@ class Layout extends Component {
 
 const mapStateToProps = (state) => ({
     openModal: state.auth.openModal,
-    hasToken: state.auth.hasToken
+    hasToken: state.auth.hasToken,
+    wordFormModalOpen: state.dictionary.wordFormModalOpen
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    openAuthModal, closeAuthModal, logOut
+    openAuthModal, closeAuthModal, logOut, closeWordFormModal
 }, dispatch);
 
 

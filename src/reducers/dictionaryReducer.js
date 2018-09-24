@@ -12,7 +12,11 @@ import {
     OPEN_WORDFORM_MODAL,
     CLOSE_WORDFORM_MODAL,
     SEARCH_BY_ID_SUCCESS,
-    SEARCH_BY_ID_ERROR
+    SEARCH_BY_ID_ERROR,
+    FETCH_WORDS_ERROR,
+    FETCH_WORDS_SUCCESS,
+    FETCH_WORDS_LOADING,
+    TOGGLE_VOCABULARY_PRACTICE
 } from "../constants";
 
 export default function reducer(state = {
@@ -27,7 +31,10 @@ export default function reducer(state = {
     wordFormModalOpen: false,
     editIdWord:null,
     wordReferenceData:null,
-    searchByIdError:null
+    searchByIdError:null,
+    wordsToPractice:null,
+    fetchWordsError:null,
+    vocabularyPractice: false
 }, action) {
     switch (action.type) {
         case SEARCH_BY_KEYWORD_SUCCESS:
@@ -135,6 +142,32 @@ export default function reducer(state = {
             return {
                 ...state,
                 searchByIdError: action.payload
+            }
+            break;
+        case FETCH_WORDS_LOADING:
+            return {
+                ...state,
+                loading:true
+            }
+            break;
+        case FETCH_WORDS_SUCCESS:
+            return {
+                ...state,
+                wordsToPractice:action.payload,
+                loading: false,
+                fetchWordsError: null
+            }
+            break;
+        case FETCH_WORDS_ERROR:
+            return {
+                ...state,
+                fetchWordsError: action.payload
+            }
+            break;
+        case TOGGLE_VOCABULARY_PRACTICE:
+            return {
+                ...state,
+                vocabularyPractice: !state.vocabularyPractice
             }
             break;
         default:

@@ -9,7 +9,6 @@ import {
     openSearch,
     closeSearch
 } from '../../actions/dictionaryAction'
-import NewWordModal from "../add_word/WordModal";
 import {openAuthModal} from "../../actions/authAction";
 import {openWordFormModal, closeWordFormModal} from "../../actions/dictionaryAction";
 
@@ -49,12 +48,10 @@ class Search extends Component {
 
     render() {
 
-        const {searchResult, open, wordFormModalOpen} = this.props
+        const {searchResult, open } = this.props
 
         return (
             <div>
-
-                <NewWordModal open={wordFormModalOpen} onClose={this.closeDialog}/>
 
                 {open ?
                     <div id={"overlay"} onClick={this.onClose}>
@@ -153,8 +150,7 @@ class Search extends Component {
 const mapStateToProps = (state) => ({
     searchResult: state.dictionary.searchResult,
     open: state.dictionary.open,
-    hasToken: state.auth.hasToken,
-    wordFormModalOpen: state.dictionary.wordFormModalOpen
+    hasToken: state.auth.hasToken
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

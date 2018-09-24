@@ -5,7 +5,7 @@ import {CATEGORIES, WORD_TYPES} from '../../constants'
 class SetUp extends Component {
 
     state = {
-        wordTypes: ['verb','noun', 'modal_verb'],
+        types: ['verb','noun', 'modal_verb'],
         categories: ['Todas']
     }
 
@@ -20,15 +20,15 @@ class SetUp extends Component {
             <Form>
                 <Form.Field>
                     <label>Select word type</label>
-                    <Dropdown name="wordTypes" placeholder='State' size='small' fluid multiple selection
-                              options={WORD_TYPES} value={this.state.wordTypes} onChange={this.onOptionChange}/>
+                    <Dropdown name="types" placeholder='State' size='small' fluid multiple selection
+                              options={WORD_TYPES} value={this.state.types} onChange={this.onOptionChange}/>
                 </Form.Field>
                 <Form.Field>
                     <label>Select category</label>
                     <Dropdown name="categories" placeholder='State' size='small' fluid multiple selection
                               options={CATEGORIES} value={this.state.categories} onChange={this.onOptionChange}/>
                 </Form.Field>
-                <Button basic fluid color='blue'>
+                <Button basic fluid color='blue' onClick={() => this.props.startPractice(this.state)}>
                     Start practice
                 </Button>
             </Form>

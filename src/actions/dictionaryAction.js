@@ -19,7 +19,7 @@ import {
     SEARCH_BY_ID,
     SEARCH_BY_ID_LOADING,
     SEARCH_BY_ID_SUCCESS,
-    SEARCH_BY_ID_ERROR
+    SEARCH_BY_ID_ERROR, FETCH_WORDS, FETCH_WORDS_LOADING, FETCH_WORDS_SUCCESS, FETCH_WORDS_ERROR, TOGGLE_VOCABULARY_PRACTICE
 } from '../constants'
 
 export const searchByExactKeyword = (keyword) => ({
@@ -119,3 +119,28 @@ export const searchByIdError = (data) => ({
     type: SEARCH_BY_ID_ERROR,
     payload: data
 })
+
+export const fetchWords = (data) => ({
+    type: FETCH_WORDS,
+    payload: data
+})
+
+export const fetchWordsLoading = () => ({
+    type: FETCH_WORDS_LOADING
+})
+
+export const fetchWordsSuccess = (data) => ({
+    type: FETCH_WORDS_SUCCESS,
+    payload: data
+})
+
+export const fetchWordsError = (data) => ({
+    type: FETCH_WORDS_ERROR,
+    payload: data
+})
+
+
+export const toggleVocabularyPractice = () => ({
+    type: TOGGLE_VOCABULARY_PRACTICE
+})
+
