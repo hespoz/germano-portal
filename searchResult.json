@@ -1,0 +1,80 @@
+[
+  {
+    "word": "baum",
+    "translations":[
+      {
+        "lang":"es",
+        "translation": "arbol"
+      },
+      {
+        "lang":"en",
+        "translation": "tree"
+      }
+    ],
+    "searchKey": "baum, bäume",
+    //Depending of the type we put different words here, for verbs the list of conjugations, for example.
+    "type": "noun",
+    //[noun, verb, adjetive, modal verb, local preposition]
+    "nounProps": {
+      "article": "der",
+      "plural": "bäume"
+    },
+    "verbProps": {},
+    "adjetiveProps": {}
+  },
+  {
+    "word": "kaufen",
+    "translation":"Comprar",
+    "searchKey": "kaufen, kaufst, kaufe, kauft, gekauft",
+    //Depending of the type we put different words here, for verbs the list of conjugations, for example.
+    "type": "verb",
+    //[noun, verb, adjetive, modal verb, local preposition]
+    "nounProps": {},
+    "verbProps": {
+      "conjugation_present": [
+        {
+          "pronoum": "Ich",
+          "conjugation": "Kaufe",
+          "translation": "Yo compro"
+        },
+        {
+          "pronoum": "Du",
+          "conjugation": "Kaufst",
+          "translation": "traduccion"
+        },
+        {
+          "pronoum": "es",
+          "conjugation": "Kauft",
+          "translation": "traduccion"
+        },
+        {
+          "pronoum": "sie",
+          "conjugation": "Kauft",
+          "translation": "traduccion"
+        },
+        {
+          "pronoum": "er",
+          "conjugation": "Kauft",
+          "translation": "traduccion"
+        },
+        {
+          "pronoum": "Ihr",
+          "conjugation": "Kaufst",
+          "translation": "traduccion"
+        },
+        {
+          "pronoum": "Wir",
+          "conjugation": "Kaufen",
+          "translation": "traduccion"
+        },
+        {
+          "pronoum": "Sie",
+          "conjugation": "Kaufen",
+          "translation": "traduccion"
+        }
+      ],
+      "perfect": "gekauft"
+    },
+    "adjetiveProps": {}
+  }
+]
