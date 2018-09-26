@@ -22,7 +22,7 @@ class Layout extends Component {
 
     render() {
 
-        const { openModal, hasToken, wordFormModalOpen } = this.props;
+        const { openModal, hasToken, userName, wordFormModalOpen } = this.props;
 
         return (
             <div className={'container'}>
@@ -47,6 +47,12 @@ class Layout extends Component {
                                 <Link as={'/'} href={`/`}>
                                     <Menu.Item>
                                         Inicio
+                                    </Menu.Item>
+                                </Link>
+
+                                <Link as={`/buckets/${userName}`} href={`/buckets/${userName}`}>
+                                    <Menu.Item>
+                                        My Buckets
                                     </Menu.Item>
                                 </Link>
 
@@ -97,6 +103,7 @@ class Layout extends Component {
 const mapStateToProps = (state) => ({
     openModal: state.auth.openModal,
     hasToken: state.auth.hasToken,
+    userName: state.auth.userName,
     wordFormModalOpen: state.dictionary.wordFormModalOpen
 });
 

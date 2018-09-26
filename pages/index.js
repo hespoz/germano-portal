@@ -8,8 +8,6 @@ import SetUp from "../components/setUp/SetUp";
 import Vocabulary from "../components/practice/Vocabulary";
 import {fetchWords, toggleVocabularyPractice} from "../actions/dictionaryAction";
 
-
-
 class Index extends Component {
 
     state = {activeItem: 'home'}

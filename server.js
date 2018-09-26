@@ -17,6 +17,11 @@ app.prepare()
             app.render(req, res, '/word', queryParams)
         })
 
+        server.get('/buckets/:userName', (req, res) => {
+            const queryParams = { username: req.params.userName }
+            app.render(req, res, '/buckets', queryParams)
+        })
+
         server.get('*', (req, res) => {
             return handle(req, res)
         })

@@ -14,6 +14,7 @@ import Cookies from 'js-cookie'
 const initialState = {
     hasToken:false,
     userId: null,
+    userName: null,
     errorMessageLogin:null,
     errorMessageRegister:null,
     openModal:false,
@@ -91,7 +92,8 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 hasToken: Cookies.get('token') !== undefined,
-                userId: Cookies.get('userId')
+                userId: Cookies.get('userId'),
+                userName: Cookies.get('userName')
             }
             break;
         default:

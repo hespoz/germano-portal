@@ -136,7 +136,6 @@ class Search extends Component {
                     width: 100%;
                     padding-top: 6px;
                     z-index: 111;
-                    background-color: white;
                   }
 
                 `}</style>

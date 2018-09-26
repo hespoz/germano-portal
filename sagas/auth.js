@@ -22,6 +22,7 @@ function* login(action) {
         const res = yield call(apiHelper.login, action.payload)
         Cookies.set("token", res.data.token)
         Cookies.set("userId", res.data.userId)
+        Cookies.set("userName", res.data.userName)
         yield put(loginSuccess(res.data))
     } catch (error) {
         console.log(error.response)
