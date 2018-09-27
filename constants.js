@@ -55,6 +55,11 @@ export const FETCH_BUCKETS_ERROR = "FETCH_BUCKETS_ERROR"
 export const TOGGLE_VOCABULARY_PRACTICE = "TOGGLE_VOCABULARY_PRACTICE"
 export const GET_TOKEN = "GET_TOKEN"
 
+export const SAVE_BUCKET = "SAVE_BUCKET"
+export const SAVE_BUCKET_SUCCESS = "SAVE_BUCKET_SUCCESS"
+export const SAVE_BUCKET_ERROR = "SAVE_BUCKET_ERROR"
+
+
 export const CATEGORIES =  [
     {key: 'Todas', value: 'Todas', text: 'Todas'},
     {key: 'Cuerpo humano', value: 'Cuerpo humano', text: 'Cuerpo humano'},

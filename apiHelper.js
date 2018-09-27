@@ -34,6 +34,9 @@ const apiHelper = {
     },
     fetchBuckets: (data) => {
         return axios.get(`http://localhost:7000/api/v1/bucket/${data}`)
+    },
+    saveBucket: (data) => {
+        return axios.post(`http://localhost:7000/api/v1/bucket`, data, secureHeader())
     }
 }
 

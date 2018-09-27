@@ -1,17 +1,36 @@
-import React, {Component} from "react";
+import React, {Component} from "react"
+import {connect} from "react-redux"
+import {bindActionCreators} from 'redux'
 import {Button} from 'semantic-ui-react'
+import {saveBucket} from "../actions/bucketAction"
+import {map, filter} from "lodash"
 
 class WordAdded extends Component {
+
+    renderWordByType = (word) => {
+        if(word.type === "verb") {
+            return `${word.word} - ${word.perfect}`
+        } else {
+            return `${word.article} ${word.word} - plural: die ${word.plural}`
+        }
+    }
+
+
+    onRemove = (id) => {
+        let wordsIds = filter(map(this.props.bucket.words, (value) => String(value._id)), (wordId) => wordId !== id)
+        console.log(wordsIds)
+        this.props.onDeleteWord(wordsIds, this.props.bucket)
+    }
 
     render() {
 
         return (
             <div id={'container'}>
                 <div id={"description"}>
-                    {`${this.props.article} ${this.props.word}`}
+                    {this.renderWordByType(this.props.word)}
                 </div>
                 <div id={"btn"}>
-                    <Button circular icon='remove' />
+                    <Button circular icon='remove' onClick={() => this.onRemove(this.props.word._id)}/>
                 </div>
 
                 <style jsx>{`
@@ -53,4 +72,14 @@ class WordAdded extends Component {
 
 }
 
-export default WordAdded;
+const mapStateToProps = (state) => ({
+    buckets: state.buckets.buckets,
+    fetchBucketsError: state.buckets.fetchBucketsError
+});
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({
+    saveBucket
+}, dispatch);
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(WordAdded);
