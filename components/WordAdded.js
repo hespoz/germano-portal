@@ -18,7 +18,6 @@ class WordAdded extends Component {
 
     onRemove = (id) => {
         let wordsIds = filter(map(this.props.bucket.words, (value) => String(value._id)), (wordId) => wordId !== id)
-        console.log(wordsIds)
         this.props.onDeleteWord(wordsIds, this.props.bucket)
     }
 

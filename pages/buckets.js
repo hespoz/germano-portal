@@ -3,13 +3,14 @@ import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
 import Layout from '../components/Layout';
 import Search from '../components/search/Search';
-import WordDescription from '../components/WordDescription'
 import WordAdded from '../components/WordAdded'
 import ScrollContainer from '../components/ScrollContainer'
 import Sentence from '../components/bucket/Sentence'
+import BucketName from '../components/bucket/BucketName'
 import { Accordion, Icon, List, Header } from 'semantic-ui-react'
 import { fetchBuckets, saveBucket } from "../actions/bucketAction"
 import {map} from "lodash"
+import Bucket from "../components/bucket/Bucket";
 
 
 class Buckets extends Component {
@@ -18,7 +19,6 @@ class Buckets extends Component {
         activeIndex: 0,
         newSentence: ""
     }
-
 
     static async getInitialProps({store, isServer, query}) {
 
@@ -41,57 +41,11 @@ class Buckets extends Component {
 
     onChangeNewSentence = (e, {value}) => this.setState({newSentence:value})
 
-    renderWordDescriptions = (words) => {
-        return words.map((word) => {
-            return <WordDescription wordItem={word} simple />
-        })
-    }
-
-    renderSentences = (bucket) => {
-        return <List>
-            {bucket.sentences.map((sentence, index) => {
-                return <List.Item>
-                    <Sentence index={index} bucket={bucket} sentence={sentence} editMode/>
-                </List.Item>
-            })}
-        </List>
-    }
-
-    renderWordsAdded = (words, bucket) => {
-        return <ScrollContainer size={'100%'}>
-            <List>
-                {words.map((word) => {
-                    return <List.Item>
-                            <WordAdded word={word} onDeleteWord={this.onDeleteWord} bucket={bucket}/>
-                        </List.Item>
-                })}
-            </List>
-        </ScrollContainer>
-    }
-
-    parseBucketForSend = (bucket) => {
-        const wordsIds = map(bucket.words, (value) => String(value._id))
-        return {
-            _id:bucket._id,
-            name: bucket.name,
-            sentences: bucket.sentences,
-            wordsIds
-        }
-    }
-
-
-    onDeleteWord = (wordsIds, bucket) => {
-        let sendBucket = this.parseBucketForSend(bucket)
-        sendBucket.wordsIds = wordsIds
-        this.props.saveBucket(sendBucket)
-    }
-
     render() {
 
         const {activeIndex} = this.state
         const {buckets} = this.props
-
-
+        
         return (
             <Layout>
 
@@ -135,22 +89,7 @@ class Buckets extends Component {
 
                                     </Accordion.Title>
                                     <Accordion.Content active={activeIndex === index}>
-
-                                        <div className={"row"}>
-                                            <div className={"col-md-8"}>
-
-                                                <Sentence bucket={value}/>
-
-                                                <Header as='h2'>Sentences</Header>
-
-                                                {this.renderSentences(value)}
-
-                                            </div>
-                                            <div className={"col-md-4"}>
-                                                {this.renderWordsAdded(value.words, value)}
-                                            </div>
-                                        </div>
-
+                                        <Bucket bucket={value}/>
                                     </Accordion.Content>
                                 </div>
                             })}

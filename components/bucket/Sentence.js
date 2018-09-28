@@ -1,13 +1,14 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
 import {bindActionCreators} from 'redux'
-import {Icon, Button, Form, Card} from 'semantic-ui-react'
+import { Header, Icon, Button, Form, Card } from 'semantic-ui-react'
 import {saveBucket} from '../../actions/bucketAction'
 
 class Sentence extends Component {
 
     state = {
         edit: false,
+        showAddSentence: false,
         germanSentenceValue: '',
         spanishSentenceValue: ''
     }
@@ -45,12 +46,11 @@ class Sentence extends Component {
 
     onRemoveSentence = () => {
         let sentences = this.props.bucket.sentences
-
-        console.log(sentences, this.props.index, sentences.splice(this.props.index, 1))
-        /*this.props.saveBucket({
+        sentences.splice(this.props.index, 1)
+        this.props.saveBucket({
             _id: this.props.bucket._id,
-            sentences: sentences.splice(this.props.index, 1)
-        })*/
+            sentences
+        })
     }
 
 
@@ -104,14 +104,41 @@ class Sentence extends Component {
     }
 
     renderAddMode = () => {
-        const {germanSentenceValue, spanishSentenceValue} = this.state
-        return <Form onSubmit={this.onSentenceAdd}>
-            <Form.TextArea placeholder='Sentence' name='germanSentenceValue' value={germanSentenceValue}
-                           onChange={this.handleChange}/>
-            <Form.TextArea placeholder='Sentence' name='spanishSentenceValue' value={spanishSentenceValue}
-                           onChange={this.handleChange}/>
-            <Form.Button>Add</Form.Button>
-        </Form>
+        const {showAddSentence, germanSentenceValue, spanishSentenceValue} = this.state
+
+        if(!showAddSentence) {
+            return <Header as='h3' onClick={() => this.setState({showAddSentence : true})}>
+                <Icon.Group size='large'>
+                    <Icon name='add' />
+                </Icon.Group>
+                Add new sentence
+            </Header>
+        } else {
+            return <Card fluid>
+                <Card.Content>
+                    <Card.Header>Add new sentence</Card.Header>
+                    <br/>
+                    <Form>
+                        <Form.TextArea placeholder='Sentence' name='germanSentenceValue' value={germanSentenceValue}
+                                       onChange={this.handleChange}/>
+                        <Form.TextArea placeholder='Sentence' name='spanishSentenceValue'
+                                       value={spanishSentenceValue}
+                                       onChange={this.handleChange}/>
+                    </Form>
+                </Card.Content>
+                <Card.Content extra>
+                    <div className='ui two buttons'>
+                        <Button basic color='green' onClick={this.onSentenceAdd}>
+                            Add
+                        </Button>
+                        <Button basic color='red' onClick={() => this.setState({showAddSentence: false})}>
+                            Cancel
+                        </Button>
+                    </div>
+                </Card.Content>
+            </Card>
+        }
+
     }
 
     render() {
