@@ -5,7 +5,15 @@ import {
     FETCH_BUCKETS_ERROR,
     SAVE_BUCKET,
     SAVE_BUCKET_SUCCESS,
-    SAVE_BUCKET_ERROR
+    SAVE_BUCKET_ERROR,
+    OPEN_BUCKET_MODAL,
+    CLOSE_BUCKET_MODAL,
+    OPEN_DELETE_BUCKET_MODAL,
+    CLOSE_DELETE_BUCKET_MODAL,
+    DELETE_BUCKET, DELETE_BUCKET_SUCCESS,
+    DELETE_BUCKET_ERROR, OPEN_SEND_TO_BUCKET_MODAL, CLOSE_SEND_TO_BUCKET_MODAL,
+    OPEN_DELETE_SENTENCE_MODAL,
+    CLOSE_DELETE_SENTENCE_MODAL
 } from '../constants'
 
 
@@ -41,6 +49,57 @@ export const saveBucketSuccess = (data) => ({
 export const saveBucketError = (data) => ({
     type: SAVE_BUCKET_ERROR,
     payload: data
+})
+
+export const openBucketModal = (data) => ({
+    type: OPEN_BUCKET_MODAL,
+    payload: data
+})
+
+export const closeBucketModal = () => ({
+    type: CLOSE_BUCKET_MODAL
+})
+
+export const openDeleteBucketModal = (data) => ({
+    type: OPEN_DELETE_BUCKET_MODAL,
+    payload: data
+})
+
+export const closeDeleteBucketModal = () => ({
+    type: CLOSE_DELETE_BUCKET_MODAL
+})
+
+export const deleteBucket = (data) => ({
+    type: DELETE_BUCKET,
+    payload: data
+})
+
+export const deleteBucketSuccess = (data) => ({
+    type: DELETE_BUCKET_SUCCESS,
+    payload: data
+})
+
+export const deleteBucketError = (data) => ({
+    type: DELETE_BUCKET_ERROR,
+    payload: data
+})
+
+export const openSendToBucketModal = (data) => ({
+    type: OPEN_SEND_TO_BUCKET_MODAL,
+    payload: data
+})
+
+export const closeSendToBucketModal = () => ({
+    type: CLOSE_SEND_TO_BUCKET_MODAL
+})
+
+export const openDeleteSentenceModal = (data) => ({
+    type: OPEN_DELETE_SENTENCE_MODAL,
+    payload: data
+})
+
+export const closeDeleteSentenceModal = () => ({
+    type: CLOSE_DELETE_SENTENCE_MODAL
 })
 
 

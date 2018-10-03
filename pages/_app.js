@@ -23,6 +23,10 @@ class MyApp extends App {
                     rel="stylesheet"
                     href="/static/css/bootstrap.css"
                 />
+                <link
+                    rel="stylesheet"
+                    href="/static/css/global.css"
+                />
                 <Provider store={store}>
                     <Component {...pageProps} />
                 </Provider>

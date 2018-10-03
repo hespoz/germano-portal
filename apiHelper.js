@@ -37,6 +37,9 @@ const apiHelper = {
     },
     saveBucket: (data) => {
         return axios.post(`http://localhost:7000/api/v1/bucket`, data, secureHeader())
+    },
+    deleteBucket: (data) => {
+        return axios.delete(`http://localhost:7000/api/v1/bucket/${data}`, secureHeader())
     }
 }
 

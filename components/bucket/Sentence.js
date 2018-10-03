@@ -1,8 +1,9 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
 import {bindActionCreators} from 'redux'
+import DeleteSentence from './DeleteSentence'
 import { Header, Icon, Button, Form, Card } from 'semantic-ui-react'
-import {saveBucket} from '../../actions/bucketAction'
+import {saveBucket, openDeleteSentenceModal} from '../../actions/bucketAction'
 
 class Sentence extends Component {
 
@@ -29,7 +30,7 @@ class Sentence extends Component {
     }
 
     onSentenceAdd = () => {
-        let sentences = this.props.bucket.sentences
+        let sentences = this.props.bucket.sentences || []
         sentences.push({
             germanSentence: this.state.germanSentenceValue,
             spanishSentence: this.state.spanishSentenceValue
@@ -44,13 +45,8 @@ class Sentence extends Component {
     }
 
 
-    onRemoveSentence = () => {
-        let sentences = this.props.bucket.sentences
-        sentences.splice(this.props.index, 1)
-        this.props.saveBucket({
-            _id: this.props.bucket._id,
-            sentences
-        })
+    onRemoveSentence = (sentenceId) => {
+        this.props.openDeleteSentenceModal(sentenceId)
     }
 
 
@@ -96,7 +92,7 @@ class Sentence extends Component {
                             germanSentenceValue: sentence.germanSentence,
                             spanishSentenceValue: sentence.spanishSentence
                         })}/>
-                        <Icon name='trash alternate' onClick={() => this.onRemoveSentence()}/>
+                        <Icon name='trash alternate' onClick={() => this.onRemoveSentence(sentence._id)}/>
                     </div>
                 </div>
             </Card.Content>
@@ -144,7 +140,7 @@ class Sentence extends Component {
     render() {
 
         const {edit, germanSentenceValue, spanishSentenceValue} = this.state
-        const {sentence, editMode} = this.props
+        const {sentence, editMode, bucket} = this.props
 
 
         if (!editMode) {
@@ -153,6 +149,7 @@ class Sentence extends Component {
 
         return <div>
 
+            <DeleteSentence bucket={bucket}/>
 
             {edit ? this.renderEdit(germanSentenceValue, spanishSentenceValue) : this.renderSentence(sentence)}
 
@@ -172,7 +169,7 @@ class Sentence extends Component {
 
 const mapStateToProps = (state) => ({buckets: state.buckets.buckets});
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({saveBucket}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({saveBucket, openDeleteSentenceModal}, dispatch);
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Sentence);

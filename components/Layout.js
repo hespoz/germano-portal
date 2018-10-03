@@ -5,6 +5,8 @@ import { Header, Menu } from 'semantic-ui-react'
 import Link from 'next/link';
 import AuthModal from './auth/AuthModal'
 import NewWordModal from "./add_word/WordModal";
+import AddBucket from './bucket/AddBucket'
+
 import {openAuthModal, closeAuthModal, logOut, getToken} from "../actions/authAction";
 import {closeWordFormModal} from "../actions/dictionaryAction";
 
@@ -27,6 +29,7 @@ class Layout extends Component {
         return (
             <div className={'container'}>
 
+                <AddBucket/>
                 <AuthModal open={openModal} onClose={() => this.props.closeAuthModal()}/>
                 <NewWordModal open={wordFormModalOpen} onClose={this.closeDialog}/>
 

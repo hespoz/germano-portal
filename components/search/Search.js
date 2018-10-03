@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
 import WordDescription from '../WordDescription';
+import SendToBucket from './SendToBucket'
 import {Form, List, Input, Message } from 'semantic-ui-react'
 
 import {
@@ -52,6 +53,8 @@ class Search extends Component {
 
         return (
             <div>
+
+                <SendToBucket/>
 
                 {open ?
                     <div id={"overlay"} onClick={this.onClose}>

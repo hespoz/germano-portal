@@ -5,6 +5,8 @@ import {bindActionCreators} from 'redux'
 import Link from 'next/link'
 import {get} from 'lodash';
 
+import {openSendToBucketModal} from '../actions/bucketAction'
+
 import ViewMore from "./ViewMore";
 
 class WordDescription extends Component {
@@ -56,13 +58,7 @@ class WordDescription extends Component {
 
 
             <div className={"col-md-1 text-right"}>
-                <a href={"javascript:void(0);"} style={{
-                    color: 'black',
-                    textDecoration: 'none',
-                    backgroundColor: 'none'
-                }}>
-                    <Icon name='favorite'/>
-                </a>
+                <Icon name='favorite' onClick={() => this.props.openSendToBucketModal(item._id)}/>
             </div>
 
 
@@ -180,7 +176,7 @@ const mapStateToProps = (state) => ({
     userId: state.auth.userId
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({openSendToBucketModal}, dispatch);
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(WordDescription);

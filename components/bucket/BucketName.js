@@ -42,7 +42,9 @@ class BucketName extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({buckets: state.buckets.buckets});
+const mapStateToProps = (state) => ({
+    buckets: state.buckets.buckets
+});
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({saveBucket}, dispatch);
 

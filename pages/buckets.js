@@ -3,12 +3,9 @@ import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
 import Layout from '../components/Layout';
 import Search from '../components/search/Search';
-import WordAdded from '../components/WordAdded'
-import ScrollContainer from '../components/ScrollContainer'
-import Sentence from '../components/bucket/Sentence'
-import BucketName from '../components/bucket/BucketName'
-import { Accordion, Icon, List, Header } from 'semantic-ui-react'
-import { fetchBuckets, saveBucket } from "../actions/bucketAction"
+import DeleteBucket from '../components/bucket/DeleteBucket'
+import { Accordion, Icon } from 'semantic-ui-react'
+import { fetchBuckets, saveBucket, openBucketModal, openDeleteBucketModal} from "../actions/bucketAction"
 import {map} from "lodash"
 import Bucket from "../components/bucket/Bucket";
 
@@ -49,6 +46,8 @@ class Buckets extends Component {
         return (
             <Layout>
 
+                <DeleteBucket/>
+
                 <div
                     className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center'}>
                     <div className={'col-md-6'}>
@@ -60,7 +59,20 @@ class Buckets extends Component {
                 <div
                     className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center content-pos'}>
                     <div className={'col-md-12'}>
-                        <h1>My buckets</h1>
+
+                        <div className={'row mb-16'}>
+
+                            <div className={'col-md-8'}>
+                                <h3>My buckets</h3>
+                            </div>
+
+                            <div className={'col-md-4 text-right'}>
+                                <Icon size='large' name='add' onClick={this.props.openBucketModal}/>
+                            </div>
+
+                        </div>
+
+
 
                         <Accordion styled fluid>
 
@@ -80,7 +92,7 @@ class Buckets extends Component {
                                                     backgroundColor: 'none'
                                                 }}>
                                                     <Icon size='large' name='play'/>
-                                                    <Icon size='large' name='trash alternate'/>
+                                                    <Icon size='large' name='trash alternate' onClick={() => this.props.openDeleteBucketModal(value._id)}/>
                                                     <Icon size='large' name='share alternate'/>
                                                 </a>
                                             </div>
@@ -112,7 +124,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    saveBucket
+    saveBucket, openBucketModal, openDeleteBucketModal
 }, dispatch);
 
 
