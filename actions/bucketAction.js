@@ -13,7 +13,13 @@ import {
     DELETE_BUCKET, DELETE_BUCKET_SUCCESS,
     DELETE_BUCKET_ERROR, OPEN_SEND_TO_BUCKET_MODAL, CLOSE_SEND_TO_BUCKET_MODAL,
     OPEN_DELETE_SENTENCE_MODAL,
-    CLOSE_DELETE_SENTENCE_MODAL
+    CLOSE_DELETE_SENTENCE_MODAL, ADD_COMMENT, ADD_COMMENT_SUCCESS, ADD_COMMENT_ERROR,
+    EDIT_COMMENT,
+    EDIT_COMMENT_SUCCESS,
+    EDIT_COMMENT_ERROR,
+    DELETE_COMMENT,
+    DELETE_COMMENT_SUCCESS,
+    DELETE_COMMENT_ERROR
 } from '../constants'
 
 
@@ -103,4 +109,48 @@ export const closeDeleteSentenceModal = () => ({
 })
 
 
+export const addComment = (data) => ({
+    type: ADD_COMMENT,
+    payload: data
+})
 
+export const addCommentSuccess = (data) => ({
+    type: ADD_COMMENT_SUCCESS,
+    payload: data
+})
+
+export const addCommentError = (data) => ({
+    type: ADD_COMMENT_ERROR,
+    payload: data
+})
+
+
+export const editComment = (data) => ({
+    type: EDIT_COMMENT,
+    payload: data
+})
+
+export const editCommentSuccess = (data) => ({
+    type: EDIT_COMMENT_SUCCESS,
+    payload: data
+})
+
+export const editCommentError = (data) => ({
+    type: EDIT_COMMENT_ERROR,
+    payload: data
+})
+
+export const deleteComment = (data) => ({
+    type: DELETE_COMMENT,
+    payload: data
+})
+
+export const deleteCommentSuccess = (data) => ({
+    type: DELETE_COMMENT_SUCCESS,
+    payload: data
+})
+
+export const deleteCommentError = (data) => ({
+    type: DELETE_COMMENT_ERROR,
+    payload: data
+})

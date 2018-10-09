@@ -11,7 +11,8 @@ class Sentence extends Component {
         edit: false,
         showAddSentence: false,
         germanSentenceValue: '',
-        spanishSentenceValue: ''
+        spanishSentenceValue: '',
+        comment:''
     }
 
     handleChange = (e, {name, value}) => this.setState({[name]: value})
@@ -99,7 +100,14 @@ class Sentence extends Component {
                         null
                     }
 
-
+                </div>
+                <div className={"row"}>
+                    <div className={"col-md-12"}>
+                        <Form>
+                            <Form.TextArea placeholder='Comment' name='comment' value={this.state.comment}
+                                           onChange={this.handleChange}/>
+                        </Form>
+                    </div>
                 </div>
             </Card.Content>
         </Card>

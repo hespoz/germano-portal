@@ -40,7 +40,16 @@ const apiHelper = {
     },
     deleteBucket: (data) => {
         return axios.delete(`http://localhost:7000/api/v1/bucket/${data}`, secureHeader())
-    }
+    },
+    addComment: (data) => {
+        return axios.post(`http://localhost:7000/api/v1/comment`, data, secureHeader())
+    },
+    editComment: (data) => {
+        return axios.put(`http://localhost:7000/api/v1/comment`, data, secureHeader())
+    },
+    deleteComment: (data) => {
+        return axios.delete(`http://localhost:7000/api/v1/comment/${data.sentenceId}/${data.commentId}`, secureHeader())
+    },
 }
 
 export default apiHelper

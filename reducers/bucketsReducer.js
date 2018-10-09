@@ -11,9 +11,16 @@ import {
     DELETE_BUCKET_SUCCESS,
     DELETE_BUCKET_ERROR,
     OPEN_SEND_TO_BUCKET_MODAL,
-    CLOSE_SEND_TO_BUCKET_MODAL, OPEN_DELETE_SENTENCE_MODAL, CLOSE_DELETE_SENTENCE_MODAL
+    CLOSE_SEND_TO_BUCKET_MODAL,
+    OPEN_DELETE_SENTENCE_MODAL,
+    CLOSE_DELETE_SENTENCE_MODAL,
+    ADD_COMMENT_SUCCESS,
+    ADD_COMMENT_ERROR,
+    EDIT_COMMENT_SUCCESS,
+    EDIT_COMMENT_ERROR
 } from "../constants";
 import {map, cloneDeep, find, findIndex} from "lodash"
+
 
 export default function reducer(state = {
     buckets: [],
@@ -28,6 +35,8 @@ export default function reducer(state = {
     wordIdForSendToBucket: null,
     openDeleteSentenceModal: false,
     sentenceIdForDelete: null,
+    addCommentError: null,
+    editCommentError: null
 }, action) {
     switch (action.type) {
 
@@ -187,6 +196,53 @@ export default function reducer(state = {
                 sentenceIdForDelete: null
             }
             break;
+
+        case ADD_COMMENT_SUCCESS:
+
+            let bucketsCopy3 = cloneDeep(state.buckets)
+
+            const index3 = findIndex(bucketsCopy3, (b) => b._id === action.payload._id)
+
+            bucketsCopy3[index3] = action.payload
+
+            return {
+                ...state,
+                buckets: bucketsCopy3,
+            }
+            break;
+
+        case ADD_COMMENT_ERROR:
+            return {
+                ...state,
+                addCommentError: action.payload
+            }
+            break;
+
+
+        case EDIT_COMMENT_SUCCESS:
+
+            let bucketsCopy4 = cloneDeep(state.buckets)
+
+            const index4 = findIndex(bucketsCopy4, (b) => b._id === action.payload._id)
+
+            bucketsCopy4[index4] = action.payload
+
+            return {
+                ...state,
+                buckets: bucketsCopy4,
+                editCommentError: null
+            }
+
+            break;
+
+        case EDIT_COMMENT_ERROR:
+            return {
+                ...state,
+                editCommentError: action.payload
+            }
+            break;
+
+
 
 
     }

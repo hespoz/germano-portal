@@ -2,10 +2,13 @@ import { put, call, takeEvery, all } from 'redux-saga/effects';
 import {
     FETCH_BUCKETS,
     SAVE_BUCKET,
-    DELETE_BUCKET
+    DELETE_BUCKET,
+    ADD_COMMENT,
+    EDIT_COMMENT,
+    DELETE_COMMENT
 } from "../constants";
 import apiHelper from '../apiHelper'
-import {fetchBucketsError, fetchBucketsLoading, fetchBucketsSuccess, saveBucketError, saveBucketSuccess, deleteBucketSuccess, deleteBucketError} from "../actions/bucketAction";
+import {fetchBucketsError, fetchBucketsLoading, fetchBucketsSuccess, saveBucketError, saveBucketSuccess, deleteBucketSuccess, deleteBucketError, addCommentSuccess, addCommentError, editCommentSuccess, editCommentError, deleteCommentSuccess, deleteCommentError} from "../actions/bucketAction";
 
 
 function* fetchBuckets(action) {
@@ -36,10 +39,40 @@ function* deleteBucket(action) {
     }
 }
 
+function* addComment(action) {
+    try {
+        const res = yield call(apiHelper.addComment, action.payload)
+        yield put(addCommentSuccess(res.data))
+    } catch (error) {
+        yield put(addCommentError(error))
+    }
+}
+
+function* editComment(action) {
+    try {
+        const res = yield call(apiHelper.addComment, action.payload)
+        yield put(editCommentSuccess(res.data))
+    } catch (error) {
+        yield put(editCommentError(error))
+    }
+}
+
+function* deleteComment(action) {
+    try {
+        const res = yield call(apiHelper.deleteComment, action.payload)
+        yield put(deleteCommentSuccess(res.data))
+    } catch (error) {
+        yield put(deleteCommentError(error))
+    }
+}
+
 export default function* bucketsSaga() {
     yield all([
         takeEvery(FETCH_BUCKETS, fetchBuckets),
         takeEvery(SAVE_BUCKET, saveBucket),
-        takeEvery(DELETE_BUCKET, deleteBucket)
+        takeEvery(DELETE_BUCKET, deleteBucket),
+        takeEvery(ADD_COMMENT, addComment),
+        takeEvery(EDIT_COMMENT, editComment),
+        takeEvery(DELETE_COMMENT, deleteComment)
     ])
 }
