@@ -53,11 +53,15 @@ class Layout extends Component {
                                     </Menu.Item>
                                 </Link>
 
-                                <Link as={`/buckets/${userName}`} href={`/buckets/${userName}`}>
-                                    <Menu.Item>
-                                        My Buckets
-                                    </Menu.Item>
-                                </Link>
+                                {hasToken ?
+                                    <Link as={`/buckets/${userName}`} href={`/buckets/${userName}`}>
+                                        <Menu.Item>
+                                            My Buckets
+                                        </Menu.Item>
+                                    </Link>
+                                    :
+                                    null
+                                }
 
                                 <Menu.Item>
                                     My Stats

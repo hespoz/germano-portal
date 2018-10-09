@@ -6,8 +6,8 @@ import Search from '../components/search/Search';
 import DeleteBucket from '../components/bucket/DeleteBucket'
 import { Accordion, Icon } from 'semantic-ui-react'
 import { fetchBuckets, saveBucket, openBucketModal, openDeleteBucketModal} from "../actions/bucketAction"
-import {map} from "lodash"
 import Bucket from "../components/bucket/Bucket";
+import {map} from "lodash"
 
 
 class Buckets extends Component {
@@ -24,7 +24,8 @@ class Buckets extends Component {
         })
 
         return {
-            buckets: store.getState().buckets.buckets
+            buckets: store.getState().buckets.buckets,
+            urlUserName: query.username
         }
 
     }
@@ -42,7 +43,7 @@ class Buckets extends Component {
 
         const {activeIndex} = this.state
         const {buckets} = this.props
-        
+
         return (
             <Layout>
 
@@ -66,9 +67,13 @@ class Buckets extends Component {
                                 <h3>My buckets</h3>
                             </div>
 
-                            <div className={'col-md-4 text-right'}>
-                                <Icon size='large' name='add' onClick={this.props.openBucketModal}/>
-                            </div>
+                            {this.props.userName === this.props.urlUserName ?
+                                <div className={'col-md-4 text-right'}>
+                                    <Icon size='large' name='add' onClick={this.props.openBucketModal}/>
+                                </div>
+                                :
+                                null
+                            }
 
                         </div>
 
@@ -92,7 +97,7 @@ class Buckets extends Component {
                                                     backgroundColor: 'none'
                                                 }}>
                                                     <Icon size='large' name='play'/>
-                                                    <Icon size='large' name='trash alternate' onClick={() => this.props.openDeleteBucketModal(value._id)}/>
+                                                    {value.ownerId === this.props.userId ?  <Icon size='large' name='trash alternate' onClick={() => this.props.openDeleteBucketModal(value._id)}/> : null}
                                                     <Icon size='large' name='share alternate'/>
                                                 </a>
                                             </div>
@@ -120,7 +125,10 @@ class Buckets extends Component {
 
 const mapStateToProps = (state) => ({
     buckets: state.buckets.buckets,
-    fetchBucketsError: state.buckets.fetchBucketsError
+    fetchBucketsError: state.buckets.fetchBucketsError,
+    hasToken: state.auth.hasToken,
+    userId: state.auth.userId,
+    userName: state.auth.userName
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({

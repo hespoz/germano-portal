@@ -26,14 +26,22 @@ class WordAdded extends Component {
 
     render() {
 
+        const { writePermission } = this.props
+
         return (
             <div id={'container'}>
+
                 <div id={"description"}>
                     {this.renderWordByType(this.props.word)}
                 </div>
-                <div id={"btn"}>
-                    <Button circular icon='remove' onClick={() => this.onRemove(this.props.word._id)}/>
-                </div>
+
+                {writePermission ?
+                    <div id={"btn"}>
+                        <Button circular icon='remove' onClick={() => this.onRemove(this.props.word._id)}/>
+                    </div>
+                    :
+                    null
+                }
 
                 <style jsx>{`
 
@@ -44,6 +52,7 @@ class WordAdded extends Component {
                     cursor:pointer;
                     align-items: center;
                     justify-content: center;
+                    min-height:44px;
                   }
 
                   #description {

@@ -4,6 +4,8 @@ import WordAdded from '../WordAdded'
 import ScrollContainer from '../ScrollContainer'
 import Sentence from '../bucket/Sentence'
 import BucketName from '../bucket/BucketName'
+import {bindActionCreators} from "redux";
+import {connect} from "react-redux";
 
 class Bucket extends Component {
 
@@ -26,7 +28,7 @@ class Bucket extends Component {
             <List>
                 {words.map((word) => {
                     return <List.Item>
-                        <WordAdded word={word} bucket={bucket}/>
+                        <WordAdded word={word} bucket={bucket} writePermission={bucket.ownerId === this.props.userId}/>
                     </List.Item>
                 })}
             </List>
@@ -35,14 +37,19 @@ class Bucket extends Component {
 
     render() {
 
-        const {bucket} = this.props
+        const {bucket, userId} = this.props
 
         return <div className={"row"}>
             <div className={"col-md-8"}>
 
-                <BucketName bucket={bucket}/>
+                {bucket.ownerId === userId ?
+                    <BucketName bucket={bucket}/>
+                    :
+                    null
+                }
 
-                <Sentence bucket={bucket}/>
+
+                <Sentence bucket={bucket} writePermission={bucket.ownerId === userId}/>
 
                 {this.renderSentences(bucket)}
 
@@ -57,4 +64,12 @@ class Bucket extends Component {
 
 }
 
-export default Bucket
+const mapStateToProps = (state) => ({
+    hasToken: state.auth.hasToken,
+    userId: state.auth.userId
+});
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Bucket);

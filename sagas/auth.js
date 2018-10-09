@@ -23,6 +23,9 @@ function* login(action) {
         Cookies.set("token", res.data.token)
         Cookies.set("userId", res.data.userId)
         Cookies.set("userName", res.data.userName)
+        localStorage.setItem("token", res.data.token)
+        localStorage.setItem("userId", res.data.userId)
+        localStorage.setItem("userName", res.data.userName)
         yield put(loginSuccess(res.data))
     } catch (error) {
         console.log(error.response)
@@ -32,6 +35,9 @@ function* login(action) {
 
 function* logOut() {
     Cookies.remove("token")
+    Cookies.remove("userId")
+    Cookies.remove("userName")
+    localStorage.clear()
     yield put(logOutSuccess())
 }
 

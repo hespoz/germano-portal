@@ -80,26 +80,37 @@ class Sentence extends Component {
     }
 
     renderSentence = (sentence) => {
+        const { writePermission } = this.props
         return <Card fluid>
             <Card.Content>
                 <div className={"row"}>
                     <div style={{wordWrap: 'break-word', padding: '8px'}} className={"col-md-10"}>
                         {sentence.germanSentence} - {sentence.spanishSentence}
                     </div>
-                    <div className={"col-md-2 text-right"}>
-                        <Icon name='edit' onClick={() => this.setState({
-                            edit: true,
-                            germanSentenceValue: sentence.germanSentence,
-                            spanishSentenceValue: sentence.spanishSentence
-                        })}/>
-                        <Icon name='trash alternate' onClick={() => this.onRemoveSentence(sentence._id)}/>
-                    </div>
+
+                    {writePermission ?
+                        <div className={"col-md-2 text-right"}>
+                            <Icon name='edit' onClick={() => this.setState({
+                                edit: true,
+                                germanSentenceValue: sentence.germanSentence,
+                                spanishSentenceValue: sentence.spanishSentence
+                            })}/>
+                            <Icon name='trash alternate' onClick={() => this.onRemoveSentence(sentence._id)}/>
+                        </div>
+                        :
+                        null
+                    }
+
+
                 </div>
             </Card.Content>
         </Card>
     }
 
     renderAddMode = () => {
+
+        if(!this.props.writePermission) return null
+
         const {showAddSentence, germanSentenceValue, spanishSentenceValue} = this.state
 
         if(!showAddSentence) {
@@ -141,7 +152,6 @@ class Sentence extends Component {
 
         const {edit, germanSentenceValue, spanishSentenceValue} = this.state
         const {sentence, editMode, bucket} = this.props
-
 
         if (!editMode) {
             return this.renderAddMode()

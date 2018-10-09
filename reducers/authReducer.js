@@ -25,14 +25,18 @@ export default function reducer(state = initialState, action) {
         case LOGOUT_SUCCESS:
             return {
                 ...state,
-                hasToken:null
+                hasToken: null,
+                userId: null,
+                userName: null
             }
             break;
         case LOGIN_SUCCESS:
             return {
                 ...state,
                 errorMessageLogin:null,
-                hasToken:true
+                hasToken:true,
+                userId: Cookies.get('userId'),
+                userName: Cookies.get('userName')
             }
             break;
         case LOGIN_ERROR:
@@ -91,10 +95,18 @@ export default function reducer(state = initialState, action) {
         case GET_TOKEN:
             return {
                 ...state,
-                hasToken: Cookies.get('token') !== undefined,
+                hasToken: Cookies.get('token') !== undefined && Cookies.get('token') !== null,
                 userId: Cookies.get('userId'),
                 userName: Cookies.get('userName')
             }
+
+            /*return {
+                ...state,
+                hasToken: localStorage.getItem('token') !== null,
+                userId: localStorage.getItem('userId'),
+                userName: localStorage.getItem('userName')
+            }*/
+
             break;
         default:
             break;
