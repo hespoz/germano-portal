@@ -49,8 +49,6 @@ class Sentence extends Component {
         this.props.openDeleteSentenceModal(sentenceId)
     }
 
-
-
     renderEdit = (germanSentenceValue, spanishSentenceValue) => {
         return <div className={"row"}>
             <div className={"col-md-12"}>

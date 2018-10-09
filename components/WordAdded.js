@@ -43,6 +43,8 @@ class WordAdded extends Component {
                     null
                 }
 
+                <a href={"javascript:void(0);"} onClick={() => this.props.showSelected(this.props.word)}>Details</a>
+
                 <style jsx>{`
 
                   #container {
