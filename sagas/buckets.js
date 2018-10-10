@@ -50,7 +50,7 @@ function* addComment(action) {
 
 function* editComment(action) {
     try {
-        const res = yield call(apiHelper.addComment, action.payload)
+        const res = yield call(apiHelper.editComment, action.payload)
         yield put(editCommentSuccess(res.data))
     } catch (error) {
         yield put(editCommentError(error))

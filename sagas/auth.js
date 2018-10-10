@@ -10,6 +10,8 @@ function* register(action) {
     try {
         const res = yield call(apiHelper.register, action.payload)
         Cookies.set("token", res.data.token)
+        Cookies.set("userId", res.data.userId)
+        Cookies.set("userName", res.data.userName)
         yield put(registerSuccess(res.data))
     } catch (error) {
         console.log("error", error.response)

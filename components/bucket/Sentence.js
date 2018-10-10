@@ -2,6 +2,7 @@ import React, {Component} from "react"
 import {connect} from "react-redux"
 import {bindActionCreators} from 'redux'
 import DeleteSentence from './DeleteSentence'
+import MakeComment from './MakeComment'
 import { Header, Icon, Button, Form, Card } from 'semantic-ui-react'
 import {saveBucket, openDeleteSentenceModal} from '../../actions/bucketAction'
 
@@ -103,10 +104,13 @@ class Sentence extends Component {
                 </div>
                 <div className={"row"}>
                     <div className={"col-md-12"}>
-                        <Form>
-                            <Form.TextArea placeholder='Comment' name='comment' value={this.state.comment}
-                                           onChange={this.handleChange}/>
-                        </Form>
+                        <MakeComment sentenceId={sentence._id}/>
+
+                        {sentence.comments.map((comment, index) => {
+                            console.log(comment)
+                            return <MakeComment comment={comment} sentenceId={sentence._id}/>
+                        })}
+
                     </div>
                 </div>
             </Card.Content>

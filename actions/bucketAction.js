@@ -124,7 +124,6 @@ export const addCommentError = (data) => ({
     payload: data
 })
 
-
 export const editComment = (data) => ({
     type: EDIT_COMMENT,
     payload: data

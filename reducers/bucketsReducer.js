@@ -17,7 +17,9 @@ import {
     ADD_COMMENT_SUCCESS,
     ADD_COMMENT_ERROR,
     EDIT_COMMENT_SUCCESS,
-    EDIT_COMMENT_ERROR
+    EDIT_COMMENT_ERROR,
+    DELETE_COMMENT_ERROR,
+    DELETE_COMMENT_SUCCESS
 } from "../constants";
 import {map, cloneDeep, find, findIndex} from "lodash"
 
@@ -36,7 +38,8 @@ export default function reducer(state = {
     openDeleteSentenceModal: false,
     sentenceIdForDelete: null,
     addCommentError: null,
-    editCommentError: null
+    editCommentError: null,
+    deleteCommentError: null
 }, action) {
     switch (action.type) {
 
@@ -242,6 +245,33 @@ export default function reducer(state = {
             }
             break;
 
+        case DELETE_COMMENT_SUCCESS:
+
+
+            console.log(action.payload._id)
+            let bucketsCopy5 = cloneDeep(state.buckets)
+            const index5 = findIndex(bucketsCopy5, (b) => b._id === action.payload._id)
+
+            console.log(index5)
+
+            if(index5 !== -1) {
+                bucketsCopy5[index5] = action.payload
+            }
+
+            console.log(state.buckets, bucketsCopy5)
+            return {
+                ...state,
+                buckets: bucketsCopy5,
+                deleteCommentError: null
+            }
+            break;
+
+        case DELETE_COMMENT_ERROR:
+            return {
+                ...state,
+                deleteCommentError: action.payload
+            }
+            break;
 
 
 
