@@ -5,10 +5,29 @@ import {
     DELETE_BUCKET,
     ADD_COMMENT,
     EDIT_COMMENT,
-    DELETE_COMMENT
+    DELETE_COMMENT,
+    OPEN_SEND_TO_BUCKET_MODAL,
+    FETCH_BUCKETS_DETAILS
 } from "../constants";
 import apiHelper from '../apiHelper'
-import {fetchBucketsError, fetchBucketsLoading, fetchBucketsSuccess, saveBucketError, saveBucketSuccess, deleteBucketSuccess, deleteBucketError, addCommentSuccess, addCommentError, editCommentSuccess, editCommentError, deleteCommentSuccess, deleteCommentError} from "../actions/bucketAction";
+import {fetchBucketsError,
+    fetchBucketsLoading,
+    fetchBucketsSuccess,
+    saveBucketError,
+    saveBucketSuccess,
+    deleteBucketSuccess,
+    deleteBucketError,
+    addCommentSuccess,
+    addCommentError,
+    editCommentSuccess,
+    editCommentError,
+    deleteCommentSuccess,
+    deleteCommentError,
+    openSendToBucketModalSuccess,
+    openSendToBucketModalError,
+    fetchBucketDetailsSuccess,
+    fetchBucketDetailsError} from "../actions/bucketAction";
+import Cookies from "js-cookie";
 
 
 function* fetchBuckets(action) {
@@ -66,6 +85,24 @@ function* deleteComment(action) {
     }
 }
 
+function* openSendBucketModal(action) {
+    try {
+        const res = yield call(apiHelper.fetchBuckets, Cookies.get("userName"))
+        yield put(openSendToBucketModalSuccess({buckets:res.data, wordId: action.payload}))
+    } catch (error) {
+        yield put(openSendToBucketModalError(error))
+    }
+}
+
+function* fetchBucketDetails(action) {
+    try {
+        const res = yield call(apiHelper.fetchBucketDetails, action.payload)
+        yield put(fetchBucketDetailsSuccess(res.data))
+    } catch (error) {
+        yield put(fetchBucketDetailsError(error))
+    }
+}
+
 export default function* bucketsSaga() {
     yield all([
         takeEvery(FETCH_BUCKETS, fetchBuckets),
@@ -73,6 +110,8 @@ export default function* bucketsSaga() {
         takeEvery(DELETE_BUCKET, deleteBucket),
         takeEvery(ADD_COMMENT, addComment),
         takeEvery(EDIT_COMMENT, editComment),
-        takeEvery(DELETE_COMMENT, deleteComment)
+        takeEvery(DELETE_COMMENT, deleteComment),
+        takeEvery(OPEN_SEND_TO_BUCKET_MODAL, openSendBucketModal),
+        takeEvery(FETCH_BUCKETS_DETAILS, fetchBucketDetails)
     ])
 }

@@ -19,9 +19,13 @@ import {
     EDIT_COMMENT_SUCCESS,
     EDIT_COMMENT_ERROR,
     DELETE_COMMENT_ERROR,
-    DELETE_COMMENT_SUCCESS
+    DELETE_COMMENT_SUCCESS,
+    OPEN_SEND_TO_BUCKET_MODAL_SUCCESS,
+    FETCH_BUCKETS_DETAILS_SUCCESS,
+    FETCH_BUCKETS_DETAILS_ERROR
 } from "../constants";
 import {map, cloneDeep, find, findIndex} from "lodash"
+import bucketDetail from "../pages/bucketDetail";
 
 
 export default function reducer(state = {
@@ -39,7 +43,9 @@ export default function reducer(state = {
     sentenceIdForDelete: null,
     addCommentError: null,
     editCommentError: null,
-    deleteCommentError: null
+    deleteCommentError: null,
+    bucketDetail: null,
+    fetchBucketDetailsError:null,
 }, action) {
     switch (action.type) {
 
@@ -95,6 +101,7 @@ export default function reducer(state = {
             return {
                 ...state,
                 buckets: bucketsCopy,
+                bucketDetail: action.payload,
                 loading: false,
                 saveBucketsError: null,
                 openBucketModal: false,
@@ -167,11 +174,12 @@ export default function reducer(state = {
             break;
 
 
-        case OPEN_SEND_TO_BUCKET_MODAL:
+        case OPEN_SEND_TO_BUCKET_MODAL_SUCCESS:
             return {
                 ...state,
                 openSendToBucketModal: true,
-                wordIdForSendToBucket: action.payload
+                wordIdForSendToBucket: action.payload.wordId,
+                buckets: action.payload.buckets
             }
             break;
 
@@ -211,6 +219,7 @@ export default function reducer(state = {
             return {
                 ...state,
                 buckets: bucketsCopy3,
+                bucketDetail: action.payload
             }
             break;
 
@@ -233,6 +242,7 @@ export default function reducer(state = {
             return {
                 ...state,
                 buckets: bucketsCopy4,
+                bucketDetail: action.payload,
                 editCommentError: null
             }
 
@@ -262,6 +272,7 @@ export default function reducer(state = {
             return {
                 ...state,
                 buckets: bucketsCopy5,
+                bucketDetail: action.payload,
                 deleteCommentError: null
             }
             break;
@@ -274,6 +285,20 @@ export default function reducer(state = {
             break;
 
 
+        case FETCH_BUCKETS_DETAILS_ERROR:
+            return {
+                ...state,
+                fetchBucketDetailsError: action.payload
+            }
+            break;
+
+        case FETCH_BUCKETS_DETAILS_SUCCESS:
+            return {
+                ...state,
+                bucketDetail: action.payload,
+                fetchBucketDetailsError: null
+            }
+            break;
 
     }
 

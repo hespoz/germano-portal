@@ -19,7 +19,12 @@ import {
     EDIT_COMMENT_ERROR,
     DELETE_COMMENT,
     DELETE_COMMENT_SUCCESS,
-    DELETE_COMMENT_ERROR
+    DELETE_COMMENT_ERROR,
+    OPEN_SEND_TO_BUCKET_MODAL_SUCCESS,
+    OPEN_SEND_TO_BUCKET_MODAL_ERROR,
+    FETCH_BUCKETS_DETAILS,
+    FETCH_BUCKETS_DETAILS_SUCCESS,
+    FETCH_BUCKETS_DETAILS_ERROR
 } from '../constants'
 
 
@@ -95,6 +100,16 @@ export const openSendToBucketModal = (data) => ({
     payload: data
 })
 
+export const openSendToBucketModalSuccess = (data) => ({
+    type: OPEN_SEND_TO_BUCKET_MODAL_SUCCESS,
+    payload: data
+})
+
+export const openSendToBucketModalError = (data) => ({
+    type: OPEN_SEND_TO_BUCKET_MODAL_ERROR,
+    payload: data
+})
+
 export const closeSendToBucketModal = () => ({
     type: CLOSE_SEND_TO_BUCKET_MODAL
 })
@@ -153,3 +168,20 @@ export const deleteCommentError = (data) => ({
     type: DELETE_COMMENT_ERROR,
     payload: data
 })
+
+export const fetchBucketDetails = (data) => ({
+    type: FETCH_BUCKETS_DETAILS,
+    payload: data
+})
+
+export const fetchBucketDetailsSuccess = (data) => ({
+    type: FETCH_BUCKETS_DETAILS_SUCCESS,
+    payload: data
+})
+
+export const fetchBucketDetailsError = () => ({
+    type: FETCH_BUCKETS_DETAILS_ERROR,
+    payload:data
+})
+
+

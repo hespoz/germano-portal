@@ -32,6 +32,9 @@ export const validateRegister = values => {
 
 export const validateNoun = values => {
     const errors = {}
+
+    console.log("validateNoun", values)
+
     if (!values.article || values.article.length === 0) {
         errors.article = 'Select article'
     }
@@ -58,29 +61,55 @@ export const validateVerb = values => {
         errors.perfect = 'Required translation'
     }
 
-    if (!values.ich) {
-        errors.ich = 'Required'
+    if (!values.present_ich) {
+        errors.present_ich = 'Required'
     }
 
-    if (!values.du) {
-        errors.du = 'Required'
+    if (!values.present_du) {
+        errors.present_du = 'Required'
     }
 
-    if (!values.erSieEs) {
-        errors.erSieEs = 'Required'
+    if (!values.present_erSieEs) {
+        errors.present_erSieEs = 'Required'
     }
 
-    if (!values.ihr) {
-        errors.ihr = 'Required'
+    if (!values.present_ihr) {
+        errors.present_ihr = 'Required'
     }
 
-    if (!values.wir) {
-        errors.wir = 'Required'
+    if (!values.present_wir) {
+        errors.present_wir = 'Required'
     }
 
-    if (!values.Sie) {
-        errors.Sie = 'Required'
+
+    if (!values.present_Sie) {
+        errors.present_Sie = 'Required'
     }
+
+    if (!values.past_ich) {
+        errors.past_ich = 'Required'
+    }
+
+    if (!values.past_du) {
+        errors.past_du = 'Required'
+    }
+
+    if (!values.past_erSieEs) {
+        errors.past_erSieEs = 'Required'
+    }
+
+    if (!values.past_ihr) {
+        errors.past_ihr = 'Required'
+    }
+
+    if (!values.past_wir) {
+        errors.past_wir = 'Required'
+    }
+
+    if (!values.past_Sie) {
+        errors.past_Sie = 'Required'
+    }
+
 
     if (!values.translations) {
         errors.translations = 'Required translation'

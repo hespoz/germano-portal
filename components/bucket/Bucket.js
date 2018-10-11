@@ -37,7 +37,7 @@ class Bucket extends Component {
             <List>
                 {bucket.sentences.map((sentence, index) => {
                     return <List.Item>
-                        <Sentence index={index} bucket={bucket} sentence={sentence} editMode/>
+                        <Sentence index={index} bucket={bucket} sentence={sentence} editMode writePermission={bucket.ownerId === this.props.userId}/>
                     </List.Item>
                 })}
             </List>
@@ -88,6 +88,7 @@ class Bucket extends Component {
 
         const {bucket, userId} = this.props
 
+        console.log("bucket.ownerId === userId", bucket.ownerId, userId)
         return <div className={"row"}>
             <div className={"col-md-8"}>
 

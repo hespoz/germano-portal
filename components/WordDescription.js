@@ -76,11 +76,10 @@ class WordDescription extends Component {
     }
 
 
-    renderConjugation = (wordItem) => {
+    renderConjugation = (conjugations) => {
 
-        const conjugations = get(wordItem, 'conjugation_present')
-
-        if (conjugations === undefined || conjugations.length === 0) {
+        console.log("conjugations", conjugations)
+        if (conjugations === undefined || conjugations === null || conjugations.length === 0) {
             return null
         }
 
@@ -112,29 +111,46 @@ class WordDescription extends Component {
             return null
         }
 
-        return <div>
+        return <Table celled>
+
+            <Table.Header>
+                <Table.Row>
+                    <Table.HeaderCell textAlign={'center'}>Language</Table.HeaderCell>
+                    <Table.HeaderCell textAlign={'center'}>Translation</Table.HeaderCell>
+                </Table.Row>
+            </Table.Header>
 
             {get(wordItem, 'translations').map((translation, index) => {
-                return <p key={index}><Flag
-                    name={'es'}/> {translation.translation.join(",")}</p>
+                return <Table.Row key={index}>
+                    <Table.Cell textAlign={'center'}><Flag
+                        name={'es'}/></Table.Cell>
+                    <Table.Cell textAlign={'center'}>{translation.translation.join(",")}</Table.Cell>
+                </Table.Row>
             })}
 
 
-        </div>
+        </Table>
 
 
     }
 
     renderVerb = (fullHeight, wordItem) => {
+
+        const conjugation_present = get(wordItem, 'conjugation_present')
+        const conjugation_past = get(wordItem, 'conjugation_past')
+
         if (fullHeight) {
+
             return <div>
                 {this.renderTranslations(wordItem)}
-                {this.renderConjugation(wordItem)}
+                {this.renderConjugation(conjugation_present)}
+                {this.renderConjugation(conjugation_past)}
             </div>
         } else {
             return <ViewMore initialHeight={'145px'}>
                 {this.renderTranslations(wordItem)}
-                {this.renderConjugation(wordItem)}
+                {this.renderConjugation(conjugation_present)}
+                {this.renderConjugation(conjugation_past)}
             </ViewMore>
         }
     }

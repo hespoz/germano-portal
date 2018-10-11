@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
+import Link from 'next/link';
 import Layout from '../components/Layout';
 import Search from '../components/search/Search';
 import DeleteBucket from '../components/bucket/DeleteBucket'
@@ -98,7 +99,11 @@ class Buckets extends Component {
                                                 }}>
                                                     <Icon size='large' name='play'/>
                                                     {value.ownerId === this.props.userId ?  <Icon size='large' name='trash alternate' onClick={() => this.props.openDeleteBucketModal(value._id)}/> : null}
-                                                    <Icon size='large' name='share alternate'/>
+
+                                                    <Link as={`/bucket/${value._id}`} href={`/bucket/${value._id}`}>
+                                                        <Icon size='large' name='share alternate'/>
+                                                    </Link>
+
                                                 </a>
                                             </div>
                                         </div>

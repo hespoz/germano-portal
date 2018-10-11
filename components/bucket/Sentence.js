@@ -22,7 +22,8 @@ class Sentence extends Component {
         let sentences = this.props.bucket.sentences
         sentences[this.props.index] = {
             germanSentence: this.state.germanSentenceValue,
-            spanishSentence: this.state.spanishSentenceValue
+            spanishSentence: this.state.spanishSentenceValue,
+            comments: sentences[this.props.index].comments
         }
         this.props.saveBucket({
             _id: this.props.bucket._id,
