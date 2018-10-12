@@ -65,7 +65,7 @@ export const SAVE_BUCKET_ERROR = "SAVE_BUCKET_ERROR"
 
 
 export const CATEGORIES =  [
-    {key: 'Todas', value: 'Todas', text: 'Todas'},
+    {key: 'all', value: 'all', text: 'Todas'},
     {key: 'Cuerpo humano', value: 'Cuerpo humano', text: 'Cuerpo humano'},
     {key: 'Animales', value: 'Animales', text: 'Animales'},
     {key: 'Citas', value: 'Citas', text: 'Citas'},
@@ -74,9 +74,9 @@ export const CATEGORIES =  [
 ];
 
 export const WORD_TYPES = [
+    {key: 'all', value: 'all', text: 'Todas'},
     {key: 'verb', value: 'verb', text: 'Verbos'},
-    {key: 'noun', value: 'noun', text: 'Sustantivos'},
-    {key: 'modal_verb', value: 'modal_verb', text: 'Verbo modal'}
+    {key: 'noun', value: 'noun', text: 'Sustantivos'}
 ]
 
 export const ARTICLES = [

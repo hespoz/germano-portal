@@ -1,12 +1,13 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
-import { Header } from 'semantic-ui-react'
+import { Header, Tab } from 'semantic-ui-react'
 import Layout from '../components/Layout';
 import Search from '../components/search/Search';
 import SetUp from "../components/setUp/SetUp";
 import Vocabulary from "../components/practice/Vocabulary";
 import {fetchWords, toggleVocabularyPractice} from "../actions/dictionaryAction";
+
 
 class Index extends Component {
 
@@ -41,6 +42,13 @@ class Index extends Component {
 
     closePractice = () => {
         this.props.toggleVocabularyPractice()
+    }
+
+    renderPanes = () => {
+       return [
+            { menuItem: 'Practice Vocabulary', render: () => <Tab.Pane attached={false}><SetUp startPractice={this.startPractice}/></Tab.Pane> },
+            { menuItem: 'Last buckets created', render: () => <Tab.Pane attached={false}>Tab 2 Content</Tab.Pane> }
+        ]
     }
 
     render() {
@@ -79,7 +87,12 @@ class Index extends Component {
                                         </div>
 
 
-                                        <SetUp startPractice={this.startPractice}/>
+                                        <Tab menu={{ secondary: true }} panes={this.renderPanes()}/>
+
+
+
+
+
 
 
                                     </div>
