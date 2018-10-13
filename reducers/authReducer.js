@@ -50,7 +50,9 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 errorMessageRegister:null,
-                hasToken:true
+                hasToken:true,
+                userId: Cookies.get('userId'),
+                userName: Cookies.get('userName')
             }
             break;
         case REGISTER_ERROR:
@@ -72,7 +74,7 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 openModal: true,
-                showLogin:true,
+                showLogin:action.payload,
                 errorMessageRegister:null,
                 errorMessageLogin:null
             }

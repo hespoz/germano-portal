@@ -38,27 +38,14 @@ class WordDescription extends Component {
 
     generateHeaderContent = (item) => {
         return <div className={"row"}>
-            <div className={"col-md-8"}>
+            <div className={"col-md-10"}>
                 <Flag name={'de'}/> {this.generateHeaderText(item)}
             </div>
 
-            <div className={"col-md-1 text-right"}>
-                {item.ownerId === this.props.userId ? this.renderEditBtn(item._id) : null}
-            </div>
-
-            <div className={"col-md-1 text-right"}>
-                <a href={"javascript:void(0);"} style={{
-                    color: 'black',
-                    textDecoration: 'none',
-                    backgroundColor: 'none'
-                }}>
-                    <Icon name='share alternate'/>
-                </a>
-            </div>
 
 
             <div className={"col-md-1 text-right"}>
-                <Icon name='favorite' onClick={() => this.props.openSendToBucketModal(item._id)}/>
+                <Icon name='add' onClick={() => this.props.openSendToBucketModal(item._id)}/>
             </div>
 
 
@@ -78,7 +65,6 @@ class WordDescription extends Component {
 
     renderConjugation = (conjugations) => {
 
-        console.log("conjugations", conjugations)
         if (conjugations === undefined || conjugations === null || conjugations.length === 0) {
             return null
         }

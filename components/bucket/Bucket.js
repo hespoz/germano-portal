@@ -88,7 +88,6 @@ class Bucket extends Component {
 
         const {bucket, userId} = this.props
 
-        console.log("bucket.ownerId === userId", bucket.ownerId, userId)
         return <div className={"row"}>
             <div className={"col-md-8"}>
 

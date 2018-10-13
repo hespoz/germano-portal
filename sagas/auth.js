@@ -5,6 +5,7 @@ import apiHelper from "../apiHelper";
 import {registerError, registerSuccess, loginSuccess, loginError, logOutSuccess} from "../actions/authAction";
 
 import Cookies from 'js-cookie'
+import {fetchBucketsSuccess} from "../actions/bucketAction";
 
 function* register(action) {
     try {
@@ -13,6 +14,8 @@ function* register(action) {
         Cookies.set("userId", res.data.userId)
         Cookies.set("userName", res.data.userName)
         yield put(registerSuccess(res.data))
+        const resBuckets = yield call(apiHelper.fetchBuckets, res.data.userName)
+        yield put(fetchBucketsSuccess(resBuckets.data))
     } catch (error) {
         console.log("error", error.response)
         yield put(registerError({message:error.response.data.message}))
@@ -29,6 +32,8 @@ function* login(action) {
         localStorage.setItem("userId", res.data.userId)
         localStorage.setItem("userName", res.data.userName)
         yield put(loginSuccess(res.data))
+        const resBuckets = yield call(apiHelper.fetchBuckets, res.data.userName)
+        yield put(fetchBucketsSuccess(resBuckets.data))
     } catch (error) {
         console.log(error.response)
         yield put(loginError({message:error.response.data.message}))

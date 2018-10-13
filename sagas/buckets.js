@@ -88,7 +88,7 @@ function* deleteComment(action) {
 function* openSendBucketModal(action) {
     try {
         const res = yield call(apiHelper.fetchBuckets, Cookies.get("userName"))
-        yield put(openSendToBucketModalSuccess({buckets:res.data, wordId: action.payload}))
+        yield put(openSendToBucketModalSuccess({buckets:res.data.buckets, username: res.data.username, wordId: action.payload}))
     } catch (error) {
         yield put(openSendToBucketModalError(error))
     }

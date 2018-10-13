@@ -1,8 +1,8 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
 import {bindActionCreators} from 'redux'
-import { Modal, Form, Button } from 'semantic-ui-react'
-import { fetchBuckets, closeSendToBucketModal, saveBucket } from '../../actions/bucketAction'
+import { Modal, Form, Button, Message } from 'semantic-ui-react'
+import { fetchBuckets, closeSendToBucketModal, saveBucket, openBucketModal } from '../../actions/bucketAction'
 import { map, find } from 'lodash'
 
 class SendToBucket extends Component {
@@ -52,13 +52,35 @@ class SendToBucket extends Component {
 
     render() {
 
+        const {buckets} = this.props
+
+        console.log("Aver", this.props)
+
         return <Modal size={'tiny'} open={this.props.openSendToBucketModal} style={{zIndex: '9999999'}} onClose={this.props.closeSendToBucketModal} onOpen={this.onOpen}>
             <Modal.Header>Add to bucket</Modal.Header>
             <Modal.Content>
-                <Form onSubmit={this.onSubmit}>
-                    <Form.Select name="bucket" options={this.getOptions()} onChange={this.onSelectChange} value={this.state.bucketId}/>
-                    <Button type='submit'>Create</Button>
-                </Form>
+
+                {buckets.length === 0 ?
+
+                    <Message>
+                        <Message.Header>Oh no tienes buckets, por favor crea uno</Message.Header>
+                        <p>
+                            <a href={"javascript:void(0)"} onClick={() => this.props.openBucketModal(this.props.wordIdForSendToBucket)}>Create bucket</a>
+                        </p>
+                    </Message>
+
+                    :
+
+                    <Form onSubmit={this.onSubmit}>
+                        <Form.Select name="bucket" options={this.getOptions()} onChange={this.onSelectChange} value={this.state.bucketId}/>
+                        <Button type='submit'>Create</Button>
+                    </Form>
+
+                }
+
+
+
+
             </Modal.Content>
         </Modal>
     }
@@ -71,6 +93,6 @@ const mapStateToProps = (state) => ({
     wordIdForSendToBucket: state.buckets.wordIdForSendToBucket
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({fetchBuckets, closeSendToBucketModal, saveBucket}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({fetchBuckets, closeSendToBucketModal, saveBucket, openBucketModal}, dispatch);
 
 export default connect(mapStateToProps, mapDispatchToProps)(SendToBucket);

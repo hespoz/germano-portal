@@ -22,9 +22,9 @@ app.prepare()
             app.render(req, res, '/bucketDetail', queryParams)
         })
 
-        server.get('/buckets/:userName', (req, res) => {
+        server.get('/:userName', (req, res) => {
             const queryParams = { username: req.params.userName }
-            app.render(req, res, '/buckets', queryParams)
+            app.render(req, res, '/index', queryParams)
         })
 
         server.get('*', (req, res) => {

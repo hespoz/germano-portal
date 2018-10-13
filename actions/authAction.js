@@ -55,8 +55,9 @@ export const registerClear = () => ({
     type: REGISTER_CLEAR
 })
 
-export const openAuthModal = () => ({
-    type: OPEN_AUTH_MODAL
+export const openAuthModal = (data) => ({
+    type: OPEN_AUTH_MODAL,
+    payload: data
 })
 
 export const closeAuthModal = () => ({

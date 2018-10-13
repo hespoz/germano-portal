@@ -15,8 +15,10 @@ class AddBucket extends Component {
     }
 
     onSubmit = () => {
+        console.log(this.props.wordIdForNewBucket)
         this.props.saveBucket({
-            name: this.state.name
+            name: this.state.name,
+            wordsIds: [this.props.wordIdForNewBucket]
         })
     }
 

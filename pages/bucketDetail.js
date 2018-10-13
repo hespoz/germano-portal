@@ -23,6 +23,7 @@ class BucketsDetails extends Component {
     render() {
         const {bucketDetail} = this.props
         return <Layout>
+
             <DeleteBucket/>
 
             <div
@@ -32,7 +33,9 @@ class BucketsDetails extends Component {
                 </div>
             </div>
 
-            <Bucket bucket={bucketDetail}/>
+            <div className={"mt-24"}>
+              <Bucket bucket={bucketDetail}/>
+            </div>
         </Layout>
     }
 

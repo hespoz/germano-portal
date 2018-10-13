@@ -47,25 +47,15 @@ class Layout extends Component {
 
                             <Menu.Menu position='right'>
 
-                                <Link as={'/'} href={`/`}>
+                                <Menu.Item onClick={() => window.location=`/${userName || ''}`}>
+                                    Inicio
+                                </Menu.Item>
+
+                                {/*<Link as={`/${userName || ''}`} href={`/${userName || ''}`}>
                                     <Menu.Item>
                                         Inicio
                                     </Menu.Item>
-                                </Link>
-
-                                {hasToken ?
-                                    <Link as={`/buckets/${userName}`} href={`/buckets/${userName}`}>
-                                        <Menu.Item>
-                                            My Buckets
-                                        </Menu.Item>
-                                    </Link>
-                                    :
-                                    null
-                                }
-
-                                <Menu.Item>
-                                    My Stats
-                                </Menu.Item>
+                                </Link>*/}
 
                                 {hasToken ?
                                     <Menu.Item onClick={()=>{
@@ -75,7 +65,7 @@ class Layout extends Component {
                                     </Menu.Item>
                                     :
                                     <Menu.Item onClick={()=>{
-                                        this.props.openAuthModal()
+                                        this.props.openAuthModal(true)
                                     }}>
                                         Sign In
                                     </Menu.Item>

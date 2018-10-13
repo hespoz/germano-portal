@@ -1,150 +1,115 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
-import { Header, Tab } from 'semantic-ui-react'
 import Layout from '../components/Layout';
 import Search from '../components/search/Search';
-import SetUp from "../components/setUp/SetUp";
-import Vocabulary from "../components/practice/Vocabulary";
-import {fetchWords, toggleVocabularyPractice} from "../actions/dictionaryAction";
+import DeleteBucket from '../components/bucket/DeleteBucket'
+import {fetchBuckets, saveBucket, openBucketModal, openDeleteBucketModal} from "../actions/bucketAction"
+import MyCards from "../components/bucket/MyCards";
+import Welcome from "../components/bucket/Welcome";
+import {map} from "lodash"
+import Cookies from 'js-cookie'
 
 
 class Index extends Component {
 
-    state = {activeItem: 'home'}
-
-    /*
-    * Here invoke the server middleware (Our server that calls other endpoints) directly and dispatch the store
-     */
-    static async getInitialProps({store, isServer}) {
-
-        /*await store.execSagaTasks(isServer, dispatch => {
-            dispatch(fetchProjects());
-        });
-
-        console.log('');
-        console.log('###############################');
-        console.log('### Fetched today NASA APOD ###');
-        console.log('###############################');
-        console.log(store.getState().project.projectList);
-        console.log('');
-
-        return {
-            projectList: store.getState().project.projectList,
-            projectDetails: store.getState().project.projectDetails
-        };*/
+    state = {
+        activeIndex: 0,
+        newSentence: ""
     }
 
-    startPractice = (params) => {
-        this.props.toggleVocabularyPractice()
-        this.props.fetchWords(params)
+    static async getInitialProps({store, isServer, query}) {
+
+        if (query.username) {
+            await store.execSagaTasks(isServer, dispatch => {
+                dispatch(fetchBuckets(query.username));
+            })
+
+            return {
+                buckets: store.getState().buckets.buckets || [],
+                urlUserName: query.username
+            }
+
+        } else {
+            return {
+                buckets: [],
+                urlUserName: null
+            }
+        }
+
+
     }
 
-    closePractice = () => {
-        this.props.toggleVocabularyPractice()
+    componentDidMount = () => {
+        if (!this.props.urlUserName && Cookies.get("userName")) {
+            this.props.fetchBuckets(Cookies.get("userName"))
+        }
     }
 
-    renderPanes = () => {
-       return [
-            { menuItem: 'Practice Vocabulary', render: () => <Tab.Pane attached={false}><SetUp startPractice={this.startPractice}/></Tab.Pane> },
-            { menuItem: 'Last buckets created', render: () => <Tab.Pane attached={false}>Tab 2 Content</Tab.Pane> }
-        ]
+    handleClick = (index) => {
+        const {activeIndex} = this.state
+        const newIndex = activeIndex === index ? -1 : index
+
+        this.setState({activeIndex: newIndex})
     }
+
+    onChangeNewSentence = (e, {value}) => this.setState({newSentence: value})
 
     render() {
 
 
-        const { vocabularyPractice, wordsToPractice } = this.props
+        const {buckets, userId, userName, bucketOwnerName} = this.props
 
         return (
-
             <Layout>
 
+                <DeleteBucket/>
 
-                {!vocabularyPractice ?
-
-                    <div>
-
-                        <div
-                            className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center'}>
-                            <div className={'col-md-6'}>
-                                <Search/>
-                            </div>
-                        </div>
-
-
-                        <div
-                            className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center content-pos'}>
-                            <div className={'col-md-6'}>
-
-                                <div className={'row'}>
-                                    <div className={'col-12 col-sm-12 col-md-5 col-lg-6 col-xl-10'}>
-
-                                        <div className={'row'}>
-                                            <div className={'col-xl-12 text-center'}>
-                                                <Header>Or practice vocabulary</Header>
-                                            </div>
-                                        </div>
-
-
-                                        <Tab menu={{ secondary: true }} panes={this.renderPanes()}/>
-
-
-
-
-
-
-
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </div>
+                <div
+                    className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center'}>
+                    <div className={'col-md-6'}>
+                        <Search/>
                     </div>
-                    :
-                    null
-                }
+                </div>
 
 
-                {vocabularyPractice ?
-                    <div
-                        className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center content-pos'}>
-                        <div className={'col-md-7'}>
-                            <Vocabulary closePractice={this.closePractice} wordsToPractice={wordsToPractice}/>
-                        </div>
-                    </div>
-                    :
-                    null
-                }
+                <div className={"mt-16"}>
+                    {this.props.urlUserName || userName || buckets.length > 0 ?
 
+                        <MyCards
+                            bucketOwnerName={bucketOwnerName}
+                            buckets={buckets}
+                            userId={userId}
+                            userName={userName}
+                            openBucketModal={this.props.openBucketModal}
+                            openDeleteBucketModal={this.props.openDeleteBucketModal}
+                        />
 
-                <style jsx>{`
+                        :
 
+                        <Welcome/>
 
-                  .content-pos {
-                    margin-top: 20px;
-
-                  }
-
-                `}</style>
-
+                    }
+                </div>
 
             </Layout>
-        );
+        )
     }
 
 }
 
+
 const mapStateToProps = (state) => ({
-    vocabularyPractice: state.dictionary.vocabularyPractice,
-    fetchWordsError: state.dictionary.fetchWordsError,
-    wordsToPractice: state.dictionary.wordsToPractice
+    buckets: state.buckets.buckets,
+    bucketOwnerName:state.buckets.bucketOwnerName,
+    fetchBucketsError: state.buckets.fetchBucketsError,
+    hasToken: state.auth.hasToken,
+    userId: state.auth.userId,
+    userName: state.auth.userName
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    fetchWords,
-    toggleVocabularyPractice
+    saveBucket, openBucketModal, openDeleteBucketModal, fetchBuckets
 }, dispatch);
 
 

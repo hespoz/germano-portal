@@ -30,6 +30,7 @@ import bucketDetail from "../pages/bucketDetail";
 
 export default function reducer(state = {
     buckets: [],
+    bucketOwnerName:null,
     fetchBucketsError: null,
     saveBucketsError: null,
     openBucketModal: false,
@@ -66,7 +67,8 @@ export default function reducer(state = {
         case FETCH_BUCKETS_SUCCESS:
             return {
                 ...state,
-                buckets: action.payload,
+                buckets: action.payload.buckets,
+                bucketOwnerName: action.payload.username,
                 loading: false,
                 fetchBucketsError: null
             }
@@ -179,7 +181,8 @@ export default function reducer(state = {
                 ...state,
                 openSendToBucketModal: true,
                 wordIdForSendToBucket: action.payload.wordId,
-                buckets: action.payload.buckets
+                buckets: action.payload.buckets,
+                bucketOwnerName: action.payload.username
             }
             break;
 
