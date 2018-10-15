@@ -13,3 +13,9 @@
 .mb-16 {
     margin-bottom: 16px;
 }
+
+.link {
+    cursor:pointer;
+    color: black;
+    text-decoration: none;
+}

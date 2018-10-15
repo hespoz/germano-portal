@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
 import {bindActionCreators} from 'redux'
-import {Button, Form, Icon, Card} from 'semantic-ui-react'
+import {Button, Form, Icon, Card, Header, Segment} from 'semantic-ui-react'
 import {addComment, editComment, deleteComment} from '../../actions/bucketAction'
 import {openAuthModal} from '../../actions/authAction'
 
@@ -37,87 +37,87 @@ class MakeComment extends Component {
         }
     }
 
-    renderRemoveComment = (sentenceId, commentId) => {
-        return <div className={"row"}>
-            <div className={"col-md-12 text-right"}>
-                <Icon size='large' name='trash alternate'
-                      onClick={() => this.props.deleteComment({sentenceId, commentId})}/>
-            </div>
-        </div>
-    }
-
-    render() {
+    renderComment = () => {
 
         const {hasToken, userId, sentenceId} = this.props
-        const {comment, commentId, showForm} = this.state
+        const {comment, commentId} = this.state
 
-        if (!showForm) {
-            console.log(userId, this.props.comment.authorId)
-            return <div>
+        return <Segment>
 
-                {hasToken && userId === this.props.comment.authorId ? this.renderRemoveComment(sentenceId, commentId) : null}
-
-                <div className={"row"}>
-                    <div className={"col-md-12"}>
-                        <Card fluid>
-
-                            <Card.Header>{this.props.comment.authorName}</Card.Header>
-                            <Card.Description>
-                                {comment}
-                            </Card.Description>
-
-                            {hasToken && userId === this.props.comment.authorId ?
-
-                                <Card.Content extra>
-                                    <Button basic color='green' onClick={() => this.setState({showForm:true})}>
-                                        Edit
-                                    </Button>
-                                </Card.Content>
-                                :
-                                null
-
-                            }
-
-
-
-                        </Card>
-                    </div>
+            {hasToken && userId === this.props.comment.authorId ?
+                <div id="comment-actions">
+                    <Icon name='edit' onClick={() => this.setState({showForm: true})}/>
+                    <Icon name='trash alternate' onClick={() => this.props.deleteComment({sentenceId, commentId})}/>
                 </div>
-
-            </div>
-        }
-
-        return <div>
-
-            {commentId ?
-                this.renderRemoveComment(sentenceId, commentId)
                 :
                 null
             }
 
-
             <div className={"row"}>
+                <div className={"col-md-12"}>
+                        <Header as='h5'>{this.props.comment.authorName}</Header>
+                        {comment}
+                </div>
+            </div>
+
+            <style jsx>{`
+
+                  #comment-actions {
+                    position: absolute;
+                    top: 8%;
+                    left: 94%;
+                    z-index:99999;
+                  }
+
+            `}</style>
+
+
+        </Segment>
+    }
+
+    render() {
+
+        const {hasToken, index} = this.props
+        const {comment, commentId, showForm} = this.state
+
+        if (!showForm) {
+
+            return this.renderComment()
+
+        }
+
+        return <div>
+
+
+            <div key={index} className={"row"}>
                 <div className={"col-md-12"}>
                     <Form onSubmit={this.onSubmit}>
 
-                        <Form.TextArea
-                            placeholder='Comment'
-                            name='comment'
-                            value={comment}
-                            onChange={this.handleChange}
-                            disabled={!hasToken}
-                        />
+                        <div className={"row"}>
+                            <div className={"col-md-12"}>
+                                <Form.TextArea
+                                    placeholder='Comment'
+                                    name='comment'
+                                    value={comment}
+                                    onChange={this.handleChange}
+                                    disabled={!hasToken}
+                                />
+                            </div>
+                        </div>
 
-                        {hasToken ? <Button type='submit'>Comment</Button> :
-                            <a href={"javascript:void(0)"} onClick={this.props.openAuthModal}>Login or register</a>}
+                        <div className={"row mt-8"}>
+                            <div className={"col-md-12 text-right"}>
 
+                                {hasToken ? <Button basic color='blue' type='submit'>Comment</Button> :
+                                    <a href={"javascript:void(0)"} onClick={this.props.openAuthModal}>Login or register</a>}
 
-                        {commentId ?
-                            <Button type='button' onClick={() => this.setState({showForm:false})}>Cancel</Button>
-                            :
-                            null
-                        }
-
+                                {commentId ?
+                                    <Button basic color='red' type='button' onClick={() => this.setState({showForm: false})}>Cancel</Button>
+                                    :
+                                    null
+                                }
+                            </div>
+                        </div>
 
                     </Form>
                 </div>

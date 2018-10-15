@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import {Header, List, Message, Icon} from 'semantic-ui-react'
+import {Header, List, Message, Icon, Divider} from 'semantic-ui-react'
 import WordAdded from '../WordAdded'
 import ScrollContainer from '../ScrollContainer'
-import Sentence from '../bucket/Sentence'
+import Sentence from './sentence/Sentence'
 import BucketName from '../bucket/BucketName'
 import WordDescription from '../WordDescription'
 import {bindActionCreators} from "redux";
@@ -33,7 +33,7 @@ class Bucket extends Component {
         if (!bucket.sentences || bucket.sentences.length === 0) return <Message color='yellow'>There are not
             sentences</Message>
         return <div>
-            <Header as='h2'>Sentences</Header>
+            <Header as='h3'>Sentences</Header>
             <List>
                 {bucket.sentences.map((sentence, index) => {
                     return <List.Item>
@@ -97,6 +97,7 @@ class Bucket extends Component {
                     null
                 }
 
+                <Divider/>
 
                 <Sentence bucket={bucket} writePermission={bucket.ownerId === userId}/>
 
@@ -104,7 +105,7 @@ class Bucket extends Component {
 
             </div>
             <div className={"col-md-4"}>
-                {bucket.words && bucket.words.length > 0 ? this.renderWordsAdded(bucket.words, bucket) :
+                {bucket.words && bucket.words.length > 0 ? <div><Header as='h4'>Palabras de referencia</Header> {this.renderWordsAdded(bucket.words, bucket)} </div> :
                     <Message color='yellow'>Search words in the search area and add to this bucket</Message>}
             </div>
 

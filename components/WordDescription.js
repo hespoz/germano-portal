@@ -12,52 +12,49 @@ import ViewMore from "./ViewMore";
 class WordDescription extends Component {
 
 
-    renderEditBtn = (id) => {
-        if (this.props.openWordFormModal) {
-            return <a href={"javascript:void(0);"} style={{
-                color: 'black',
-                textDecoration: 'none',
-                backgroundColor: 'none'
-            }} onClick={() => this.props.openWordFormModal(id)}><Icon name='edit'/></a>
-        } else if (this.props.goBackWordForm) {
-            return <a href={"javascript:void(0);"} onClick={() => this.props.goBackWordForm()}><Icon name='edit'/></a>
-        }
-
-        return null
-    }
-
-
     generateHeaderText = (item) => {
-        if (item.type === 'noun') {
-            return `${item.article} ${item.word} - plural: die ${item.plural}`
-        } else {
-            return `${item.word} - ${item.perfect}`
-        }
+        return item.type === 'noun' ? `${item.article} ${item.word} - plural: die ${item.plural}` : `${item.word} - ${item.perfect}`
     }
 
 
     generateHeaderContent = (item) => {
-        return <div className={"row"}>
-            <div className={"col-md-10"}>
+        return <div id="header">
+            <div id="header-text">
                 <Flag name={'de'}/> {this.generateHeaderText(item)}
             </div>
 
+            <div id="header-actions">
 
+                {this.props.hasToken ?
+                    <Icon name='add' className="link" onClick={() => this.props.openSendToBucketModal(item._id)}/>
+                    :
+                    null
+                }
 
-            <div className={"col-md-1 text-right"}>
-                <Icon name='add' onClick={() => this.props.openSendToBucketModal(item._id)}/>
-            </div>
-
-
-            <div className={"col-md-1 text-right"}>
-                <Link as={`/word/${item._id}`} href={`/word/${item._id}`} style={{
-                    color: 'black',
-                    textDecoration: 'none',
-                    backgroundColor: 'none'
-                }}>
+                <Link as={`/word/${item._id}`} href={`/word/${item._id}`} className="link" target="_blank">
                     <Icon name='window maximize outline'/>
                 </Link>
+
             </div>
+
+            <style jsx>{`
+
+                        #header {
+                            display:flex;
+                            flex-direction:row;
+                        }
+
+                        #header-text {
+                            width:93%;
+                        }
+
+                        #header-actions {
+                            display:flex;
+                            align-items: center;
+                            justify-content: center;
+                        }
+
+                   `}</style>
 
         </div>
     }
@@ -162,6 +159,8 @@ class WordDescription extends Component {
                             {this.renderTranslations(wordItem)}
                         </div>
                     }
+
+
 
 
                 </Card.Content>
