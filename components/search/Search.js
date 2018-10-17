@@ -68,10 +68,10 @@ class Search extends Component {
                         <div className={'col-12 col-sm-12 col-md-5 col-lg-6 col-xl-12'}>
                             <Form>
                                 <Form.Field>
-                                    <label>Search words added by users in german or spanish</label>
+                                    <label>Busca palabras en aleman y español y añadelos a tus posts</label>
                                     <Input icon='search'
                                            size='small'
-                                           placeholder='Search...' fluid
+                                           placeholder='Buscar...' fluid
                                            onChange={this.onSearchInputChange}
                                            onFocus={this.onSearchInputFocus}
                                            value={this.state.keyword}/>
@@ -89,7 +89,7 @@ class Search extends Component {
 
                                     <Message fluid>
                                         <Message.Header>Opss!</Message.Header>
-                                        <p>That word does not exist in our database we are adding words constantly!</p>
+                                        <p>Esta palabra no existe, la tomaremos en cuenta, estamos añadiendo nuevas palabras constantemente!</p>
                                     </Message>
 
                                     :
@@ -97,7 +97,7 @@ class Search extends Component {
                                     <List>
 
                                         {searchResult.map((item, index) => {
-                                            return <WordDescription wordItem={item} openWordFormModal={this.props.openWordFormModal}/>
+                                            return <WordDescription index={index} wordItem={item} openWordFormModal={this.props.openWordFormModal}/>
                                         })}
 
                                     </List>

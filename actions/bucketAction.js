@@ -1,4 +1,5 @@
 import {
+    FETCH_LAST_BUCKETS,
     FETCH_BUCKETS,
     FETCH_BUCKETS_LOADING,
     FETCH_BUCKETS_SUCCESS,
@@ -182,6 +183,11 @@ export const fetchBucketDetailsSuccess = (data) => ({
 export const fetchBucketDetailsError = () => ({
     type: FETCH_BUCKETS_DETAILS_ERROR,
     payload:data
+})
+
+export const fetchLastBuckets = (data) => ({
+    type: FETCH_LAST_BUCKETS,
+    payload: data
 })
 
 

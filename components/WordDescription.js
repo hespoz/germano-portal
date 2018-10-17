@@ -17,8 +17,8 @@ class WordDescription extends Component {
     }
 
 
-    generateHeaderContent = (item) => {
-        return <div id="header">
+    generateHeaderContent = (index, item) => {
+        return <div key={index} id="header">
             <div id="header-text">
                 <Flag name={'de'}/> {this.generateHeaderText(item)}
             </div>
@@ -70,8 +70,8 @@ class WordDescription extends Component {
 
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell textAlign={'center'}>Pronou</Table.HeaderCell>
-                    <Table.HeaderCell textAlign={'center'}>Conjugation</Table.HeaderCell>
+                    <Table.HeaderCell textAlign={'center'}>Pronombre</Table.HeaderCell>
+                    <Table.HeaderCell textAlign={'center'}>Conjugación</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
 
@@ -98,8 +98,8 @@ class WordDescription extends Component {
 
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell textAlign={'center'}>Language</Table.HeaderCell>
-                    <Table.HeaderCell textAlign={'center'}>Translation</Table.HeaderCell>
+                    <Table.HeaderCell textAlign={'center'}>Lenguaje</Table.HeaderCell>
+                    <Table.HeaderCell textAlign={'center'}>Traducción</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
 
@@ -140,14 +140,14 @@ class WordDescription extends Component {
 
     render() {
 
-        const {wordItem, fullHeight} = this.props
+        const {wordItem, fullHeight, index} = this.props
 
         if (!wordItem) return null
 
         return (
 
             <Card fluid>
-                <Card.Content header={this.generateHeaderContent(wordItem)}/>
+                <Card.Content header={this.generateHeaderContent(index, wordItem)}/>
                 <Card.Content>
 
                     {wordItem.type === "verb" ?

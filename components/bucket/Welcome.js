@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
 import {openAuthModal} from "../../actions/authAction"
-import {Header, Segment} from "semantic-ui-react";
+import {Header, Segment, Divider} from "semantic-ui-react";
 
 class Welcome extends Component {
 
@@ -21,12 +21,14 @@ class Welcome extends Component {
                     <div className={"row mt-16"}>
                         <div className={"col-md-12 "}>
                             <p id="welcome">
-                                Practica aleman creando oraciones y compartiendolas con tus amigos para recibir correcciones. &nbsp;
-                                <a href={"javascript:void(0)"} onClick={() => this.props.openAuthModal(false)}>Crea una cuenta</a> es gratis!
+                                Practica aleman creando oraciones y compartiendolas con tus amigos para recibir correcciones.
+                                <a href={"javascript:void(0)"} onClick={() => this.props.openAuthModal(true)}> Logueate</a> o
+                                <a href={"javascript:void(0)"} onClick={() => this.props.openAuthModal(false)}> crea una cuenta</a>, es gratis!
                             </p>
                         </div>
                     </div>
 
+                    <Divider horizontal>O</Divider>
 
 
                 </Segment>

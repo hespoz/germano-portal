@@ -30,10 +30,12 @@ class Bucket extends Component {
     }
 
     renderSentences = (bucket) => {
-        if (!bucket.sentences || bucket.sentences.length === 0) return <Message color='yellow'>There are not
-            sentences</Message>
+        if (!bucket.sentences || bucket.sentences.length === 0){
+            return <Message color='yellow'>Aun no tienes oraciones añadidas</Message>
+        }
+
         return <div>
-            <Header as='h3'>Sentences</Header>
+            <Header as='h3'>Oraciones</Header>
             <List>
                 {bucket.sentences.map((sentence, index) => {
                     return <List.Item>
@@ -58,13 +60,6 @@ class Bucket extends Component {
                         <WordDescription wordItem={this.state.selectedWord}/>
                     </div>
                 </div>
-                <style jsx>{`
-
-                  .mb {
-                    margin-bottom:6px;
-                  }
-
-                `}</style>
             </div>
 
         } else {
@@ -106,7 +101,7 @@ class Bucket extends Component {
             </div>
             <div className={"col-md-4"}>
                 {bucket.words && bucket.words.length > 0 ? <div><Header as='h4'>Palabras de referencia</Header> {this.renderWordsAdded(bucket.words, bucket)} </div> :
-                    <Message color='yellow'>Search words in the search area and add to this bucket</Message>}
+                    <Message color='yellow'>Busca palabras en el buscador y añadelos a esta tarjeta</Message>}
             </div>
 
 

@@ -10,7 +10,6 @@ import {
     CLOSE_DELETE_BUCKET_MODAL,
     DELETE_BUCKET_SUCCESS,
     DELETE_BUCKET_ERROR,
-    OPEN_SEND_TO_BUCKET_MODAL,
     CLOSE_SEND_TO_BUCKET_MODAL,
     OPEN_DELETE_SENTENCE_MODAL,
     CLOSE_DELETE_SENTENCE_MODAL,
@@ -25,8 +24,6 @@ import {
     FETCH_BUCKETS_DETAILS_ERROR
 } from "../constants";
 import {map, cloneDeep, find, findIndex} from "lodash"
-import bucketDetail from "../pages/bucketDetail";
-
 
 export default function reducer(state = {
     buckets: [],
@@ -84,25 +81,10 @@ export default function reducer(state = {
             break;
 
         case SAVE_BUCKET_SUCCESS:
-            let bucketsCopy = cloneDeep(state.buckets)
-
-            const updated = find(bucketsCopy, (b) => b._id === action.payload._id)
-
-            if(updated){
-                bucketsCopy = map(state.buckets, (bucket, index) => {
-                    if(bucket._id === action.payload._id){
-                        bucket = action.payload
-                    }
-                    return bucket
-                })
-            } else {
-                bucketsCopy.push(action.payload)
-            }
-
 
             return {
                 ...state,
-                buckets: bucketsCopy,
+                buckets: saveBucket(state, action.payload),
                 bucketDetail: action.payload,
                 loading: false,
                 saveBucketsError: null,
@@ -150,18 +132,9 @@ export default function reducer(state = {
 
         case DELETE_BUCKET_SUCCESS:
 
-            let bucketsCopy1 = cloneDeep(state.buckets)
-            const index = findIndex(bucketsCopy1, (b) => b._id === action.payload._id)
-
-            if(index !== -1) {
-                if(bucketsCopy1[index]) {
-                    bucketsCopy1.splice(index, 1)
-                }
-            }
-
             return {
                 ...state,
-                buckets: bucketsCopy1,
+                buckets: deleteBucket(state, action.payload),
                 openDeleteBucketModal: false,
                 bucketIdForDelete: null,
                 deleteBucketsError: null
@@ -213,15 +186,9 @@ export default function reducer(state = {
 
         case ADD_COMMENT_SUCCESS:
 
-            let bucketsCopy3 = cloneDeep(state.buckets)
-
-            const index3 = findIndex(bucketsCopy3, (b) => b._id === action.payload._id)
-
-            bucketsCopy3[index3] = action.payload
-
             return {
                 ...state,
-                buckets: bucketsCopy3,
+                buckets: addEditComment(state, action.payload),
                 bucketDetail: action.payload
             }
             break;
@@ -236,15 +203,9 @@ export default function reducer(state = {
 
         case EDIT_COMMENT_SUCCESS:
 
-            let bucketsCopy4 = cloneDeep(state.buckets)
-
-            const index4 = findIndex(bucketsCopy4, (b) => b._id === action.payload._id)
-
-            bucketsCopy4[index4] = action.payload
-
             return {
                 ...state,
-                buckets: bucketsCopy4,
+                buckets: addEditComment(state, action.payload),
                 bucketDetail: action.payload,
                 editCommentError: null
             }
@@ -259,22 +220,9 @@ export default function reducer(state = {
             break;
 
         case DELETE_COMMENT_SUCCESS:
-
-
-            console.log(action.payload._id)
-            let bucketsCopy5 = cloneDeep(state.buckets)
-            const index5 = findIndex(bucketsCopy5, (b) => b._id === action.payload._id)
-
-            console.log(index5)
-
-            if(index5 !== -1) {
-                bucketsCopy5[index5] = action.payload
-            }
-
-            console.log(state.buckets, bucketsCopy5)
             return {
                 ...state,
-                buckets: bucketsCopy5,
+                buckets: deleteComment(state, action.payload),
                 bucketDetail: action.payload,
                 deleteCommentError: null
             }
@@ -307,4 +255,58 @@ export default function reducer(state = {
 
     return state
 
+}
+
+const saveBucket = (state, payload) => {
+    let bucketsCopy = cloneDeep(state.buckets)
+
+    const updated = find(bucketsCopy, (b) => b._id === payload._id)
+
+    if(updated){
+        bucketsCopy = map(state.buckets, (bucket, index) => {
+            if(bucket._id === payload._id){
+                bucket = payload
+            }
+            return bucket
+        })
+    } else {
+        bucketsCopy.push(payload)
+    }
+
+    return bucketsCopy
+}
+
+const deleteBucket = (state, payload) => {
+    let bucketsCopy = cloneDeep(state.buckets)
+    const index = findIndex(bucketsCopy, (b) => b._id === payload._id)
+
+    if(index !== -1) {
+        if(bucketsCopy[index]) {
+            bucketsCopy.splice(index, 1)
+        }
+    }
+
+    return bucketsCopy
+}
+
+const addEditComment = (state, payload) => {
+    let bucketsCopy = cloneDeep(state.buckets)
+
+    const index = findIndex(bucketsCopy, (b) => b._id === payload._id)
+
+    bucketsCopy[index] = payload
+
+    return bucketsCopy
+
+}
+
+const deleteComment = (state, payload) => {
+    let bucketsCopy = cloneDeep(state.buckets)
+    const index = findIndex(bucketsCopy, (b) => b._id === payload._id)
+
+    if(index !== -1) {
+        bucketsCopy[index] = payload
+    }
+
+    return bucketsCopy
 }

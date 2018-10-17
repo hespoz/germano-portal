@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux'
 import DeleteSentence from '../DeleteSentence'
 import MakeComment from '../MakeComment'
 import SentenceForm from './SentenceForm'
-import {Header, Icon, Button, Form, Card, Segment, Divider} from 'semantic-ui-react'
+import {Header, Icon, Segment, Divider} from 'semantic-ui-react'
 import {saveBucket, openDeleteSentenceModal} from '../../../actions/bucketAction'
 
 class Sentence extends Component {
@@ -44,7 +44,7 @@ class Sentence extends Component {
 
 
             <div className={"row"}>
-                <div style={{wordWrap: 'break-word', padding: '8px'}} className={"col-md-12"}>
+                <div id='sentence-markup' className={"col-md-12"}>
 
 
                     <div id={"sentence-container"}>
@@ -55,7 +55,7 @@ class Sentence extends Component {
                         </div>
 
                         <div className={"sentence"}>
-                            <Header as='h5'>En tu idioma</Header>
+                            <Header as='h5'>En español</Header>
                             {sentence.spanishSentence}
                         </div>
 
@@ -93,6 +93,11 @@ class Sentence extends Component {
 
             <style jsx>{`
 
+                  #sentence-markup {
+                    word-wrap: break-word;
+                    padding: 8px;
+                  }
+
                   #sentence-container {
                     display: flex;
                     flex-direction:column;
@@ -106,7 +111,7 @@ class Sentence extends Component {
                     position: absolute;
                     top: 4%;
                     left: 93%;
-                    z-index:99999;
+                    z-index:100;
                   }
 
             `}</style>
@@ -123,10 +128,15 @@ class Sentence extends Component {
 
         if (!showAddSentence) {
             return <Header as='h3' onClick={() => this.setState({showAddSentence: true})}>
-                <Icon.Group size='large'>
-                    <Icon name='add'/>
-                </Icon.Group>
-                Add new sentence
+
+                <div className="row">
+                    <div className="col-md-12 text-right">
+                        <Icon.Group size='large'>
+                            <Icon name='add'/>
+                        </Icon.Group>
+                        Nueva oración
+                    </div>
+                </div>
             </Header>
         } else {
             return <SentenceForm bucket={this.props.bucket} toggleForm={() => this.setState({showAddSentence: false})}/>

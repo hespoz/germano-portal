@@ -5,6 +5,9 @@ import {connect} from "react-redux"
 import {bindActionCreators} from 'redux'
 import {saveBucket} from "../../../actions/bucketAction";
 
+const TitleAdd = "Añadir nueva oración"
+const TitleUpdate = "Actualizar oración"
+
 class SentenceForm extends Component {
 
     state = {
@@ -60,12 +63,12 @@ class SentenceForm extends Component {
 
         return <Card key={index} fluid>
             <Card.Content>
-                <Card.Header>Add new sentence</Card.Header>
+                <Card.Header>{edit ? TitleUpdate : TitleAdd}</Card.Header>
                 <br/>
                 <Form>
-                    <Form.TextArea placeholder='Sentence' name='germanSentenceValue' value={germanSentenceValue}
+                    <Form.TextArea label="Oración en aleman" placeholder='Oración en aleman' name='germanSentenceValue' value={germanSentenceValue}
                                    onChange={this.handleChange}/>
-                    <Form.TextArea placeholder='Sentence' name='spanishSentenceValue'
+                    <Form.TextArea label="Oración en español" placeholder='Oración en español' name='spanishSentenceValue'
                                    value={spanishSentenceValue}
                                    onChange={this.handleChange}/>
                 </Form>
@@ -76,7 +79,7 @@ class SentenceForm extends Component {
                         {edit ? "Actualizar" : "Añadir"}
                     </Button>
                     <Button basic color='red' onClick={this.props.toggleForm}>
-                        Cancel
+                        Cancelar
                     </Button>
                 </div>
             </Card.Content>

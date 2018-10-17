@@ -34,6 +34,9 @@ class MakeComment extends Component {
         } else {
             //call add
             this.props.addComment({id: this.props.sentenceId, comment: this.state.comment})
+            this.setState({
+                comment: ''
+            })
         }
     }
 
@@ -42,6 +45,7 @@ class MakeComment extends Component {
         const {hasToken, userId, sentenceId} = this.props
         const {comment, commentId} = this.state
 
+        console.log(this.props.comment)
         return <Segment>
 
             {hasToken && userId === this.props.comment.authorId ?
@@ -66,7 +70,7 @@ class MakeComment extends Component {
                     position: absolute;
                     top: 8%;
                     left: 94%;
-                    z-index:99999;
+                    z-index:100;
                   }
 
             `}</style>
@@ -81,9 +85,7 @@ class MakeComment extends Component {
         const {comment, commentId, showForm} = this.state
 
         if (!showForm) {
-
             return this.renderComment()
-
         }
 
         return <div>
@@ -108,11 +110,11 @@ class MakeComment extends Component {
                         <div className={"row mt-8"}>
                             <div className={"col-md-12 text-right"}>
 
-                                {hasToken ? <Button basic color='blue' type='submit'>Comment</Button> :
-                                    <a href={"javascript:void(0)"} onClick={this.props.openAuthModal}>Login or register</a>}
+                                {hasToken ? <Button basic color='blue' type='submit'>Comentar</Button> :
+                                    <a href={"javascript:void(0)"} onClick={this.props.openAuthModal}>Login or registrarse</a>}
 
                                 {commentId ?
-                                    <Button basic color='red' type='button' onClick={() => this.setState({showForm: false})}>Cancel</Button>
+                                    <Button basic color='red' type='button' onClick={() => this.setState({showForm: false})}>Cancelar</Button>
                                     :
                                     null
                                 }

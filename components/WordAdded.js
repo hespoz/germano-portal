@@ -87,7 +87,7 @@ class WordAdded extends Component {
                 <div className={"row"}>
                     <div className={"col-md-12 text-center"}>
                         <a href={"javascript:void(0);"}
-                           onClick={() => this.props.showSelected(this.props.word)}>View details</a>
+                           onClick={() => this.props.showSelected(this.props.word)}>Ver detalles de esta palabra</a>
                     </div>
                 </div>
 

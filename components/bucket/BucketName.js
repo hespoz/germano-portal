@@ -31,8 +31,8 @@ class BucketName extends Component {
 
         return <Form>
             <Form.Input
-                label={"Bucket name"}
-                placeholder='Bucket name'
+                label={"Nombre nota"}
+                placeholder='Nombre nota'
                 name='bucketName' value={bucketName}
                 onChange={this.handleChange}
                 onKeyPress={this.onKeyPress}

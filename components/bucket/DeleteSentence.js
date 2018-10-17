@@ -27,8 +27,8 @@ class DeleteSentence extends Component {
                 <p>Are you sure you want to delete this sentence?</p>
             </Modal.Content>
             <Modal.Actions>
-                <Button negative onClick={this.props.closeDeleteSentenceModal}>No</Button>
-                <Button positive icon='checkmark' labelPosition='right' content='Yes'
+                <Button basic color='red' onClick={this.props.closeDeleteSentenceModal}>No</Button>
+                <Button basic color='blue'  content='Yes'
                         onClick={this.onDeleteSentence}/>
             </Modal.Actions>
         </Modal>

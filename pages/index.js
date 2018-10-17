@@ -5,7 +5,7 @@ import Layout from '../components/Layout';
 import Search from '../components/search/Search';
 import DeleteBucket from '../components/bucket/DeleteBucket'
 import {fetchBuckets, saveBucket, openBucketModal, openDeleteBucketModal} from "../actions/bucketAction"
-import MyCards from "../components/bucket/MyCards";
+import MyNotes from "../components/bucket/notes/MyNotes";
 import Welcome from "../components/bucket/Welcome";
 import {map} from "lodash"
 import Cookies from 'js-cookie'
@@ -58,7 +58,7 @@ class Index extends Component {
     render() {
 
 
-        const {buckets, userId, userName, bucketOwnerName} = this.props
+        const {buckets, userId, userName, urlUserName, bucketOwnerName} = this.props
 
         return (
             <Layout>
@@ -76,11 +76,12 @@ class Index extends Component {
                 <div className={"mt-16"}>
                     {this.props.urlUserName || userName || buckets.length > 0 ?
 
-                        <MyCards
+                        <MyNotes
                             bucketOwnerName={bucketOwnerName}
                             buckets={buckets}
                             userId={userId}
                             userName={userName}
+                            urlUserName={urlUserName}
                             openBucketModal={this.props.openBucketModal}
                             openDeleteBucketModal={this.props.openDeleteBucketModal}
                         />

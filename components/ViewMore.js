@@ -21,9 +21,9 @@ class ViewMore extends Component {
             </div>
             <div id={"toggle"}>
                 {height !== 'auto' ?
-                    <a href={"javascript:void(0)"} onClick={() => this.setState({height: 'auto'})}>view more</a>
+                    <a href={"javascript:void(0)"} onClick={() => this.setState({height: 'auto'})}>Ver mas (+)</a>
                     :
-                    <a href={"javascript:void(0)"} onClick={() => this.setState({height: initialHeight})}>hide</a>
+                    <a href={"javascript:void(0)"} onClick={() => this.setState({height: initialHeight})}>Ocultar</a>
                 }
 
             </div>

@@ -15,10 +15,9 @@ class AddBucket extends Component {
     }
 
     onSubmit = () => {
-        console.log(this.props.wordIdForNewBucket)
         this.props.saveBucket({
             name: this.state.name,
-            wordsIds: [this.props.wordIdForNewBucket]
+            wordsIds: this.props.wordIdForNewBucket ? [this.props.wordIdForNewBucket] : []
         })
     }
 
@@ -26,19 +25,24 @@ class AddBucket extends Component {
 
         const {name} = this.state
 
-        return <Modal size={'tiny'} open={this.props.openBucketModal} style={{zIndex: '9999999'}} onClose={this.props.closeBucketModal}>
-            <Modal.Header>Add new bucket</Modal.Header>
+        return <Modal size={'tiny'} open={this.props.openBucketModal} style={{zIndex: '9999999'}}
+                      onClose={this.props.closeBucketModal}>
+            <Modal.Header>Nueva Nota</Modal.Header>
             <Modal.Content image>
                 <Modal.Description>
                     <Form onSubmit={this.onSubmit}>
                         <Form.Input
-                            label={"Bucket name"}
-                            placeholder='Bucket name'
+                            label={"Nombre nota"}
+                            placeholder='Nombre nota'
                             name='name'
                             value={name}
                             onChange={this.handleChange}
                         />
-                        <Button type='submit'>Create</Button>
+                        <div className={"row"}>
+                            <div className={"col-md-12 text-right"}>
+                                <Button basic color='blue' type='submit'>Create</Button>
+                            </div>
+                        </div>
                     </Form>
                 </Modal.Description>
             </Modal.Content>
