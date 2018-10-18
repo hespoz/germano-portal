@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
-import { Header, Menu } from 'semantic-ui-react'
+import { Header, Menu, Image } from 'semantic-ui-react'
 import Link from 'next/link';
 import AuthModal from './auth/AuthModal'
 import NewWordModal from "./add_word/WordModal";
@@ -40,7 +40,7 @@ class Layout extends Component {
                             <Menu.Menu position='left'>
 
                                 <Menu.Item>
-                                    <Header as='h3'>Germano</Header>
+                                    <Image src='/static/images/logo.png' size='small' />
                                 </Menu.Item>
 
                             </Menu.Menu>

@@ -1,4 +1,6 @@
 import {
+    FETCH_LAST_BUCKETS_SUCCESS,
+    FETCH_LAST_BUCKETS_ERROR,
     FETCH_BUCKETS_LOADING,
     FETCH_BUCKETS_ERROR,
     FETCH_BUCKETS_SUCCESS,
@@ -23,10 +25,12 @@ import {
     FETCH_BUCKETS_DETAILS_SUCCESS,
     FETCH_BUCKETS_DETAILS_ERROR
 } from "../constants";
-import {map, cloneDeep, find, findIndex} from "lodash"
+import {map, cloneDeep, find, findIndex, sortBy} from "lodash"
 
 export default function reducer(state = {
     buckets: [],
+    lastBuckets:[],
+    lastBucketsError:null,
     bucketOwnerName:null,
     fetchBucketsError: null,
     saveBucketsError: null,
@@ -251,6 +255,26 @@ export default function reducer(state = {
             }
             break;
 
+        case FETCH_LAST_BUCKETS_SUCCESS:
+
+            return {
+                ...state,
+                lastBuckets: action.payload,
+            }
+
+            break;
+
+        case FETCH_LAST_BUCKETS_ERROR:
+
+            return {
+                ...state,
+                lastBuckets: [],
+                lastBucketsError: action.payload
+            }
+
+            break;
+
+
     }
 
     return state
@@ -272,6 +296,7 @@ const saveBucket = (state, payload) => {
     } else {
         bucketsCopy.push(payload)
     }
+
 
     return bucketsCopy
 }

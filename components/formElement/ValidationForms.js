@@ -3,10 +3,10 @@ import validator from "validator";
 export const validateLogin = values => {
     const errors = {}
     if (!values.email || !validator.isEmail(values.email) ) {
-        errors.email = 'Required email'
+        errors.email = 'El email es obligatorio'
     }
     if (!values.password) {
-        errors.password = 'Required password'
+        errors.password = 'El password es obligatorio'
     }
 
     return errors
@@ -16,14 +16,19 @@ export const validateLogin = values => {
 export const validateRegister = values => {
     const errors = {}
     if (!values.email || !validator.isEmail(values.email)) {
-        errors.email = 'Required email'
+        errors.email = 'El email es obligatorio'
     }
+
+    if (!values.username) {
+        errors.username = 'El nombre de usuario es obligatorio'
+    }
+
     if (!values.password) {
-        errors.password = 'Required password'
+        errors.password = 'El password de usuario es obligatorio'
     }
 
     if (!values.repeatPassword) {
-        errors.repeatPassword = 'Repeat you password'
+        errors.repeatPassword = 'Repite tu password'
     }
 
 

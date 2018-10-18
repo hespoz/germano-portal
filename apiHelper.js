@@ -53,6 +53,9 @@ const apiHelper = {
     deleteComment: (data) => {
         return axios.delete(`http://localhost:7000/api/v1/comment/${data.sentenceId}/${data.commentId}`, secureHeader())
     },
+    fetchLastBuckets: (data) => {
+        return axios.get(`http://localhost:7000/api/v1/bucket/last/${data}`)
+    }
 }
 
 export default apiHelper

@@ -4,7 +4,13 @@ import {bindActionCreators} from 'redux';
 import Layout from '../components/Layout';
 import Search from '../components/search/Search';
 import DeleteBucket from '../components/bucket/DeleteBucket'
-import {fetchBuckets, saveBucket, openBucketModal, openDeleteBucketModal} from "../actions/bucketAction"
+import {
+    fetchBuckets,
+    saveBucket,
+    openBucketModal,
+    openDeleteBucketModal,
+    fetchLastBuckets
+} from "../actions/bucketAction"
 import MyNotes from "../components/bucket/notes/MyNotes";
 import Welcome from "../components/bucket/Welcome";
 import {map} from "lodash"
@@ -20,6 +26,11 @@ class Index extends Component {
 
     static async getInitialProps({store, isServer, query}) {
 
+        await store.execSagaTasks(isServer, dispatch => {
+            dispatch(fetchLastBuckets(10));
+        })
+
+
         if (query.username) {
             await store.execSagaTasks(isServer, dispatch => {
                 dispatch(fetchBuckets(query.username));
@@ -27,13 +38,15 @@ class Index extends Component {
 
             return {
                 buckets: store.getState().buckets.buckets || [],
-                urlUserName: query.username
+                urlUserName: query.username,
+                lastBuckets: store.getState().buckets.lastBuckets
             }
 
         } else {
             return {
                 buckets: [],
-                urlUserName: null
+                urlUserName: null,
+                lastBuckets: store.getState().buckets.lastBuckets
             }
         }
 
@@ -58,7 +71,7 @@ class Index extends Component {
     render() {
 
 
-        const {buckets, userId, userName, urlUserName, bucketOwnerName} = this.props
+        const {buckets, userId, userName, urlUserName, bucketOwnerName, lastBuckets} = this.props
 
         return (
             <Layout>
@@ -88,7 +101,7 @@ class Index extends Component {
 
                         :
 
-                        <Welcome/>
+                        <Welcome lastBuckets={lastBuckets}/>
 
                     }
                 </div>
@@ -102,7 +115,8 @@ class Index extends Component {
 
 const mapStateToProps = (state) => ({
     buckets: state.buckets.buckets,
-    bucketOwnerName:state.buckets.bucketOwnerName,
+    lastBuckets: state.buckets.lastBuckets,
+    bucketOwnerName: state.buckets.bucketOwnerName,
     fetchBucketsError: state.buckets.fetchBucketsError,
     hasToken: state.auth.hasToken,
     userId: state.auth.userId,

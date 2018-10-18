@@ -18,6 +18,7 @@ class Register extends Component {
         this.props.register({
             email: values.email,
             password: values.password,
+            username: values.username,
             type: 'user'
         })
     }
@@ -41,6 +42,10 @@ class Register extends Component {
                        label={'Email'}
                        placeholder='Email'/>
 
+                <Field name='username' component={InputField}
+                       label={'Nombre de usuario'}
+                       placeholder='Username'/>
+
                 <Field name='password' component={InputField}
                        type='password'
                        label={'Password'}
@@ -48,7 +53,7 @@ class Register extends Component {
 
                 <Field name='repeatPassword' component={InputField}
                        type='password'
-                       label={'Repeat password'}
+                       label={'Repite tu password'}
                        placeholder='Repeat password'/>
 
 

@@ -77,7 +77,7 @@ class MyNotes extends Component {
                                                           onClick={() => this.props.openDeleteBucketModal(bucket._id)}/> : null}
 
                                                 <Link as={`/bucket/${bucket._id}`} href={`/bucket/${bucket._id}`}>
-                                                    <Icon size='large' name='share alternate'/>
+                                                    <Icon size='large' name='share square'/>
                                                 </Link>
 
                                             </a>

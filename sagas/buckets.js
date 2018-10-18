@@ -7,7 +7,8 @@ import {
     EDIT_COMMENT,
     DELETE_COMMENT,
     OPEN_SEND_TO_BUCKET_MODAL,
-    FETCH_BUCKETS_DETAILS
+    FETCH_BUCKETS_DETAILS,
+    FETCH_LAST_BUCKETS
 } from "../constants";
 import apiHelper from '../apiHelper'
 import {fetchBucketsError,
@@ -26,7 +27,9 @@ import {fetchBucketsError,
     openSendToBucketModalSuccess,
     openSendToBucketModalError,
     fetchBucketDetailsSuccess,
-    fetchBucketDetailsError} from "../actions/bucketAction";
+    fetchBucketDetailsError,
+    fetchLastBucketsSuccess,
+    fetchLastBucketsError} from "../actions/bucketAction";
 import Cookies from "js-cookie";
 
 
@@ -103,6 +106,19 @@ function* fetchBucketDetails(action) {
     }
 }
 
+
+function* fetchLastBuckets(action) {
+    try {
+        console.log("llego")
+        const res = yield call(apiHelper.fetchLastBuckets, action.payload)
+        console.log("res.data", res.data)
+        yield put(fetchLastBucketsSuccess(res.data))
+    } catch (error) {
+        yield put(fetchLastBucketsError(error))
+    }
+}
+
+
 export default function* bucketsSaga() {
     yield all([
         takeEvery(FETCH_BUCKETS, fetchBuckets),
@@ -112,6 +128,7 @@ export default function* bucketsSaga() {
         takeEvery(EDIT_COMMENT, editComment),
         takeEvery(DELETE_COMMENT, deleteComment),
         takeEvery(OPEN_SEND_TO_BUCKET_MODAL, openSendBucketModal),
-        takeEvery(FETCH_BUCKETS_DETAILS, fetchBucketDetails)
+        takeEvery(FETCH_BUCKETS_DETAILS, fetchBucketDetails),
+        takeEvery(FETCH_LAST_BUCKETS, fetchLastBuckets),
     ])
 }

@@ -31,7 +31,7 @@ class Bucket extends Component {
 
     renderSentences = (bucket) => {
         if (!bucket.sentences || bucket.sentences.length === 0){
-            return <Message color='yellow'>Aun no tienes oraciones añadidas</Message>
+            return <Message>Aun no tienes oraciones añadidas</Message>
         }
 
         return <div>
@@ -89,7 +89,7 @@ class Bucket extends Component {
                 {bucket.ownerId === userId ?
                     <BucketName bucket={bucket}/>
                     :
-                    null
+                    <Header as='h3'>{bucket.name}</Header>
                 }
 
                 <Divider/>
@@ -101,7 +101,7 @@ class Bucket extends Component {
             </div>
             <div className={"col-md-4"}>
                 {bucket.words && bucket.words.length > 0 ? <div><Header as='h4'>Palabras de referencia</Header> {this.renderWordsAdded(bucket.words, bucket)} </div> :
-                    <Message color='yellow'>Busca palabras en el buscador y añadelos a esta tarjeta</Message>}
+                    <Message>Busca palabras en el buscador y añadelos a esta tarjeta</Message>}
             </div>
 
 
