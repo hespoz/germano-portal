@@ -1,13 +1,10 @@
 {
   "name": "create-next-example-app",
-  "engines": {
-    "node": "8.9.4"
-  },
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "start": "next build && node server.js -p process.env.PORT",
-    "heroku-postbuild": "heroku-nextjs-build"
+    "start": "node server.js -p $PORT",
+    "heroku-postbuild": "next build"
   },
   "dependencies": {
     "axios": "^0.18.0",
