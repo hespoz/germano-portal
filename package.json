@@ -3,7 +3,8 @@
   "scripts": {
     "dev": "node server.js",
     "build": "next build",
-    "start": "next build && node server.js -p process.env.PORT"
+    "start": "next build && node server.js -p process.env.PORT",
+    "heroku-postbuild": "heroku-nextjs-build"
   },
   "dependencies": {
     "axios": "^0.18.0",
