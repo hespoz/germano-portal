@@ -41,7 +41,7 @@ class Layout extends Component {
                             <Menu.Menu position='left'>
 
                                 <Menu.Item>
-                                    <Image src='/static/images/logo.png' size='small' />
+                                    <Image className="img-fluid" src='/static/images/logo.png' size='small' />
                                 </Menu.Item>
 
                             </Menu.Menu>

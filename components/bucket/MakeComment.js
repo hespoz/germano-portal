@@ -69,7 +69,7 @@ class MakeComment extends Component {
                   #comment-actions {
                     position: absolute;
                     top: 8%;
-                    left: 94%;
+                    right: 0%;
                     z-index:100;
                   }
 

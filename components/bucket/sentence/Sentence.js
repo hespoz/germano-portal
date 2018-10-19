@@ -110,7 +110,7 @@ class Sentence extends Component {
                   #sentence-actions {
                     position: absolute;
                     top: 4%;
-                    left: 93%;
+                    right: 0%;
                     z-index:100;
                   }
 

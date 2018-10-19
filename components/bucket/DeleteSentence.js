@@ -22,13 +22,13 @@ class DeleteSentence extends Component {
     render() {
         return <Modal size={'tiny'} open={this.props.openDeleteSentenceModal} style={{zIndex: '9999999'}}
                       onClose={this.props.closeDeleteSentenceModal}>
-            <Modal.Header>Delete sentence</Modal.Header>
+            <Modal.Header>Borrar oracion</Modal.Header>
             <Modal.Content>
-                <p>Are you sure you want to delete this sentence?</p>
+                <p>Estas seguro que deseas borrar esta oracion?</p>
             </Modal.Content>
             <Modal.Actions>
                 <Button basic color='red' onClick={this.props.closeDeleteSentenceModal}>No</Button>
-                <Button basic color='blue'  content='Yes'
+                <Button basic color='blue'  content='Si'
                         onClick={this.onDeleteSentence}/>
             </Modal.Actions>
         </Modal>

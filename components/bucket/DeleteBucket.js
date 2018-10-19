@@ -10,7 +10,7 @@ class DeleteBucket extends Component {
 
 
         return <Modal size={'tiny'} open={this.props.openDeleteBucketModal} style={{zIndex: '9999999'}} onClose={this.props.closeDeleteBucketModal}>
-            <Modal.Header>Delete this bucket</Modal.Header>
+            <Modal.Header>Borrar nota</Modal.Header>
             <Modal.Content>
                 <p>Estas seguro que deseas borrar esta nota?</p>
             </Modal.Content>
