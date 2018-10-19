@@ -23,3 +23,48 @@
 .error {
     color: #9f3a38;
 }
+
+
+/* Mini Modal Width */
+
+@media (max-width: 575.98px) {
+    .ui.mini.modal {
+        width: 100%;
+        margin: 0em 0em 0em 0em;
+    }
+}
+
+@media only screen and (max-width: 767px) {
+    .ui.mini.modal {
+        width: 95%;
+        margin: 0em 0em 0em 0em;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .ui.mini.modal {
+        width: 78%;
+        margin: 0em 0em 0em 0em;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .ui.mini.modal {
+        width: 340px;
+        margin: 0em 0em 0em 0em;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .ui.mini.modal {
+        width: 360px;
+        margin: 0em 0em 0em 0em;
+    }
+}
+
+@media only screen and (min-width: 1920px) {
+    .ui.mini.modal {
+        width: 380px;
+        margin: 0em 0em 0em 0em;
+    }
+}

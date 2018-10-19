@@ -14,7 +14,7 @@ class Welcome extends Component {
 
         return <div
             className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center'}>
-            <div className={'col-md-6'}>
+            <div className={'col-12 col-sm-12 col-md-10 col-lg-8 col-xl-8'}>
                 <Segment>
 
                     <div className={"row"}>

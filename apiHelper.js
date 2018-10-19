@@ -1,7 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie'
 
-const host = "https://frozen-fortress-74429.herokuapp.com"
+const host = process.env.NODE_ENV === "production" ? "https://frozen-fortress-74429.herokuapp.com" : "http://localhost:7000"
 const secureHeader = () => {
     return {
         headers: {

@@ -65,7 +65,7 @@ class Search extends Component {
                 <div>
 
                     <div className={'row'}>
-                        <div className={'col-12 col-sm-12 col-md-5 col-lg-6 col-xl-12'}>
+                        <div className={'col-12 col-xs-12  col-sm-12 col-md-12 col-lg-12 col-xl-12'}>
                             <Form>
                                 <Form.Field>
                                     <label>Busca palabras en aleman y español y añadelos a tus posts</label>
@@ -84,7 +84,7 @@ class Search extends Component {
                     {open ?
 
                         <div id="container-results" className={'row'} onClick={this.onClose}>
-                            <div  className={'col-12 col-sm-12 col-md-6 col-lg-6 col-xl-12'}>
+                            <div  className={'col-12 col-sm-12 col-md-12 col-lg-6 col-xl-12'}>
                                 {searchResult.length === 0 && this.state.keyword.length > 0 ?
 
                                     <Message fluid>

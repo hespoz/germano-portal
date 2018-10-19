@@ -33,7 +33,7 @@ class AuthModal extends Component {
         const { showLogin, errorMessageRegister, hasToken, errorMessageLogin } = this.props
 
         return (
-            <Modal size={'mini'} open={this.props.open} style={{zIndex: '9999999'}} onClose={this.props.onClose}>
+            <Modal size={'mini'} className={"modal-size"} open={this.props.open} style={{zIndex: '9999999'}} onClose={this.props.onClose}>
                 <Modal.Content>
                     <Modal.Description>
                         {showLogin ?

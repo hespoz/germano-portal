@@ -10,6 +10,7 @@ import AddBucket from './bucket/AddBucket'
 import {openAuthModal, closeAuthModal, logOut, getToken} from "../actions/authAction";
 import {closeWordFormModal} from "../actions/dictionaryAction";
 
+
 class Layout extends Component {
 
     state = {
@@ -34,7 +35,7 @@ class Layout extends Component {
                 <NewWordModal open={wordFormModalOpen} onClose={this.closeDialog}/>
 
                 <div className={'row'}>
-                    <div className={'col-md-12 col-lg-12'}>
+                    <div className={'col-12 col-md-12 col-lg-12'}>
                         <Menu fluid pointing secondary>
 
                             <Menu.Menu position='left'>

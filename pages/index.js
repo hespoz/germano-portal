@@ -80,7 +80,7 @@ class Index extends Component {
 
                 <div
                     className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center'}>
-                    <div className={'col-md-6'}>
+                    <div className={'col-12 col-md-6'}> {/*col-12 col-sm-12 col-md-5 col-lg-6 col-xl-12*/}
                         <Search/>
                     </div>
                 </div>
