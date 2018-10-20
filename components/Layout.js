@@ -6,8 +6,7 @@ import Link from 'next/link';
 import AuthModal from './auth/AuthModal'
 import NewWordModal from "./add_word/WordModal";
 import AddBucket from './bucket/AddBucket'
-
-import {openAuthModal, closeAuthModal, logOut, getToken} from "../actions/authAction";
+import {openAuthModal, closeAuthModal, logOut, getToken, verificationStatus} from "../actions/authAction";
 import {closeWordFormModal} from "../actions/dictionaryAction";
 
 
@@ -19,6 +18,7 @@ class Layout extends Component {
 
     componentDidMount = () => {
         this.props.getToken()
+        this.props.verificationStatus()
     }
 
     closeDialog = () => this.props.closeWordFormModal()
@@ -129,7 +129,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    openAuthModal, closeAuthModal, logOut, closeWordFormModal, getToken
+    openAuthModal, closeAuthModal, logOut, closeWordFormModal, getToken, verificationStatus
 }, dispatch);
 
 

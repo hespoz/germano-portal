@@ -62,7 +62,11 @@ const apiHelper = {
     },
     fetchActivity: (data) => {
         return axios.get(`${host}/api/v1/activity/${data}`, secureHeader())
+    },
+    verificationStatus: () => {
+        return axios.get(`${host}/api/v1/auth/confirmation/status`, secureHeader())
     }
+
 }
 
 export default apiHelper

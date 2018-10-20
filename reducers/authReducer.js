@@ -10,7 +10,7 @@ import {
     LOGOUT_SUCCESS,
     GET_TOKEN,
     CONFIRM_USER_SUCCESS,
-    CONFIRM_USER_ERROR
+    CONFIRM_USER_ERROR, VERIFICATION_STATUS_SUCCESS, VERIFICATION_STATUS_ERROR
 } from "../constants";
 
 import Cookies from 'js-cookie'
@@ -107,8 +107,7 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 hasToken: Cookies.get('token') !== undefined && Cookies.get('token') !== null,
                 userId: Cookies.get('userId'),
-                userName: Cookies.get('userName'),
-                verified: Cookies.get('verified')
+                userName: Cookies.get('userName')
             }
 
             break;
@@ -123,6 +122,22 @@ export default function reducer(state = initialState, action) {
             break;
 
         case CONFIRM_USER_ERROR:
+            return {
+                ...state,
+                confirmUserError:action.payload
+            }
+            break;
+
+        case VERIFICATION_STATUS_SUCCESS:
+
+            return {
+                ...state,
+                verified:action.payload,
+                confirmUserError:null
+            }
+            break;
+
+        case VERIFICATION_STATUS_ERROR:
             return {
                 ...state,
                 confirmUserError:action.payload

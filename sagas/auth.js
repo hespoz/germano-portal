@@ -1,8 +1,8 @@
 import { put, call, takeEvery, all } from 'redux-saga/effects';
-import {REGISTER, LOGIN, LOGOUT, CONFIRM_USER, CONFIRM_USER_SUCCESS} from "../constants";
+import {REGISTER, LOGIN, LOGOUT, CONFIRM_USER, VERIFICATION_STATUS} from "../constants";
 
 import apiHelper from "../apiHelper";
-import {registerError, registerSuccess, loginSuccess, loginError, logOutSuccess, confirmUserSuccess, confirmUserError} from "../actions/authAction";
+import {registerError, registerSuccess, loginSuccess, loginError, logOutSuccess, confirmUserSuccess, confirmUserError, verificationStatusSuccess, verificationStatusError} from "../actions/authAction";
 
 import Cookies from 'js-cookie'
 import {fetchBucketsSuccess} from "../actions/bucketAction";
@@ -43,7 +43,6 @@ function* logOut() {
     Cookies.remove("token")
     Cookies.remove("userId")
     Cookies.remove("userName")
-    Cookies.remove("verified")
     localStorage.clear()
     yield put(logOutSuccess())
 }
@@ -51,10 +50,18 @@ function* logOut() {
 function* confirmUser(action) {
     try {
         const res = yield call(apiHelper.confirmUser, action.payload)
-        Cookies.set("verified", res.data)
         yield put(confirmUserSuccess(res.data))
     } catch (error) {
         yield put(confirmUserError({message:error.response.data.message}))
+    }
+}
+
+function* verificationStatus() {
+    try {
+        const res = yield call(apiHelper.verificationStatus)
+        yield put(verificationStatusSuccess(res.data))
+    } catch (error) {
+        yield put(verificationStatusError({message:error.response.data.message}))
     }
 }
 
@@ -63,6 +70,7 @@ export default function* authSaga() {
         takeEvery(REGISTER, register),
         takeEvery(LOGIN, login),
         takeEvery(LOGOUT, logOut),
-        takeEvery(CONFIRM_USER, confirmUser)
+        takeEvery(CONFIRM_USER, confirmUser),
+        takeEvery(VERIFICATION_STATUS, verificationStatus),
     ])
 }

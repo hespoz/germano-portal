@@ -14,7 +14,10 @@ import {
     GET_TOKEN,
     CONFIRM_USER,
     CONFIRM_USER_SUCCESS,
-    CONFIRM_USER_ERROR
+    CONFIRM_USER_ERROR,
+    VERIFICATION_STATUS,
+    VERIFICATION_STATUS_SUCCESS,
+    VERIFICATION_STATUS_ERROR
 } from '../constants'
 
 export const login = (data) => ({
@@ -91,3 +94,18 @@ export const confirmUserError = (data) => ({
     type: CONFIRM_USER_ERROR,
     payload: data
 })
+
+export const verificationStatus = () => ({
+    type: VERIFICATION_STATUS
+})
+
+export const verificationStatusSuccess = (data) => ({
+    type: VERIFICATION_STATUS_SUCCESS,
+    payload: data
+})
+
+export const verificationStatusError = (data) => ({
+    type: VERIFICATION_STATUS_ERROR,
+    payload: data
+})
+
