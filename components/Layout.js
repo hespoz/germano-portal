@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
-import { Header, Menu, Image } from 'semantic-ui-react'
+import {Menu, Image} from 'semantic-ui-react'
 import Link from 'next/link';
 import AuthModal from './auth/AuthModal'
 import NewWordModal from "./add_word/WordModal";
@@ -25,7 +25,7 @@ class Layout extends Component {
 
     render() {
 
-        const { openModal, hasToken, userName, wordFormModalOpen } = this.props;
+        const {openModal, hasToken, userName, wordFormModalOpen} = this.props;
 
         return (
             <div className={'container'}>
@@ -41,16 +41,29 @@ class Layout extends Component {
                             <Menu.Menu position='left'>
 
                                 <Menu.Item>
-                                    <Image className="img-fluid" src='/static/images/logo.png' size='small' />
+                                    <Image className="img-fluid" src='/static/images/logo.png' size='small'/>
                                 </Menu.Item>
 
                             </Menu.Menu>
 
                             <Menu.Menu position='right'>
 
-                                <Menu.Item onClick={() => window.location=`/${userName || ''}`}>
-                                    Inicio
-                                </Menu.Item>
+                                <Link as={`/`} href={`/`}>
+                                    <Menu.Item>
+                                        Inicio
+                                    </Menu.Item>
+                                </Link>
+
+
+                                {hasToken ?
+                                    <Link as={`/notes/${userName}`} href={`/notes/${userName}`}>
+                                        <Menu.Item>
+                                            Mis notas
+                                        </Menu.Item>
+                                    </Link>
+                                    :
+                                    null
+                                }
 
                                 {/*<Link as={`/${userName || ''}`} href={`/${userName || ''}`}>
                                     <Menu.Item>
@@ -59,13 +72,13 @@ class Layout extends Component {
                                 </Link>*/}
 
                                 {hasToken ?
-                                    <Menu.Item onClick={()=>{
+                                    <Menu.Item onClick={() => {
                                         this.props.logOut()
                                     }}>
                                         Log out
                                     </Menu.Item>
                                     :
-                                    <Menu.Item onClick={()=>{
+                                    <Menu.Item onClick={() => {
                                         this.props.openAuthModal(true)
                                     }}>
                                         Sign In
@@ -106,7 +119,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    openAuthModal, closeAuthModal, logOut, closeWordFormModal,getToken
+    openAuthModal, closeAuthModal, logOut, closeWordFormModal, getToken
 }, dispatch);
 
 

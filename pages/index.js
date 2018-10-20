@@ -5,17 +5,11 @@ import Layout from '../components/Layout';
 import Search from '../components/search/Search';
 import DeleteBucket from '../components/bucket/DeleteBucket'
 import {
-    fetchBuckets,
-    saveBucket,
-    openBucketModal,
-    openDeleteBucketModal,
     fetchLastBuckets
 } from "../actions/bucketAction"
-import MyNotes from "../components/bucket/notes/MyNotes";
-import Welcome from "../components/bucket/Welcome";
-import {map} from "lodash"
-import Cookies from 'js-cookie'
-
+import NotesCreated from "../components/activity/NotesCreated";
+import UserActivity from "../components/activity/UserActivity";
+import Auth from "../components/auth/Auth";
 
 class Index extends Component {
 
@@ -30,48 +24,22 @@ class Index extends Component {
             dispatch(fetchLastBuckets(10));
         })
 
-
-        if (query.username) {
-            await store.execSagaTasks(isServer, dispatch => {
-                dispatch(fetchBuckets(query.username));
-            })
-
-            return {
-                buckets: store.getState().buckets.buckets || [],
-                urlUserName: query.username,
-                lastBuckets: store.getState().buckets.lastBuckets
-            }
-
-        } else {
-            return {
-                buckets: [],
-                urlUserName: null,
-                lastBuckets: store.getState().buckets.lastBuckets
-            }
+        return {
+            lastBuckets: store.getState().buckets.lastBuckets
         }
-
 
     }
 
-    componentDidMount = () => {
+    /*componentDidMount = () => {
         if (!this.props.urlUserName && Cookies.get("userName")) {
             this.props.fetchBuckets(Cookies.get("userName"))
         }
-    }
-
-    handleClick = (index) => {
-        const {activeIndex} = this.state
-        const newIndex = activeIndex === index ? -1 : index
-
-        this.setState({activeIndex: newIndex})
-    }
-
-    onChangeNewSentence = (e, {value}) => this.setState({newSentence: value})
+    }*/
 
     render() {
 
 
-        const {buckets, userId, userName, urlUserName, bucketOwnerName, lastBuckets} = this.props
+        const {lastBuckets, hasToken} = this.props
 
         return (
             <Layout>
@@ -86,25 +54,25 @@ class Index extends Component {
                 </div>
 
 
-                <div className={"mt-16"}>
-                    {this.props.urlUserName || userName || buckets.length > 0 ?
+                <div className={"row mt-16"}>
 
-                        <MyNotes
-                            bucketOwnerName={bucketOwnerName}
-                            buckets={buckets}
-                            userId={userId}
-                            userName={userName}
-                            urlUserName={urlUserName}
-                            openBucketModal={this.props.openBucketModal}
-                            openDeleteBucketModal={this.props.openDeleteBucketModal}
-                        />
+                    <div className={"col-md-8"}>
+                        <NotesCreated lastBuckets={lastBuckets}/>
+                    </div>
 
-                        :
+                    <div className={"col-md-4"}>
 
-                        <Welcome lastBuckets={lastBuckets}/>
+                        {hasToken ?
+                            <UserActivity/>
+                            :
+                            <Auth/>
+                        }
 
-                    }
+                    </div>
+
+
                 </div>
+
 
             </Layout>
         )
@@ -114,18 +82,13 @@ class Index extends Component {
 
 
 const mapStateToProps = (state) => ({
-    buckets: state.buckets.buckets,
     lastBuckets: state.buckets.lastBuckets,
-    bucketOwnerName: state.buckets.bucketOwnerName,
-    fetchBucketsError: state.buckets.fetchBucketsError,
     hasToken: state.auth.hasToken,
     userId: state.auth.userId,
     userName: state.auth.userName
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({
-    saveBucket, openBucketModal, openDeleteBucketModal, fetchBuckets
-}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Index);

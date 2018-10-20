@@ -2,8 +2,7 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
 import {openAuthModal} from "../../actions/authAction"
-import {Header, Segment, Divider, List} from "semantic-ui-react";
-import moment from "moment"
+import NotesCreated from "../../components/activity/NotesCreated"
 
 class Welcome extends Component {
 
@@ -12,7 +11,22 @@ class Welcome extends Component {
 
         const {lastBuckets} = this.props
 
-        return <div
+        return <div className={"row"}>
+
+            <div className={"col-md-6"}>
+                <NotesCreated lastBuckets={lastBuckets}/>
+            </div>
+
+            <div className={"col-md-6"}>
+
+            </div>
+
+
+        </div>
+
+
+
+        /*<div
             className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center'}>
             <div className={'col-12 col-sm-12 col-md-10 col-lg-8 col-xl-8'}>
                 <Segment>
@@ -73,7 +87,7 @@ class Welcome extends Component {
 
                 `}</style>
 
-        </div>
+        </div>*/
     }
 }
 

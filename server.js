@@ -29,6 +29,11 @@ app.prepare()
             app.render(req, res, '/index', queryParams)
         })
 
+        server.get('/notes/:userName', (req, res) => {
+            const queryParams = { username: req.params.userName }
+            app.render(req, res, '/notes', queryParams)
+        })
+
         server.get('*', (req, res) => {
             return handle(req, res)
         })

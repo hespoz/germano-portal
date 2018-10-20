@@ -56,6 +56,9 @@ const apiHelper = {
     },
     fetchLastBuckets: (data) => {
         return axios.get(`${host}/api/v1/bucket/last/${data}`)
+    },
+    fetchActivity: (data) => {
+        return axios.get(`${host}/api/v1/activity/${data}`, secureHeader())
     }
 }
 

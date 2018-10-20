@@ -18,7 +18,7 @@ const initialState = {
     errorMessageLogin:null,
     errorMessageRegister:null,
     openModal:false,
-    showLogin:true
+    showLogin:false
 }
 export default function reducer(state = initialState, action) {
     switch (action.type) {
@@ -83,7 +83,7 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 openModal: false,
-                showLogin:true,
+                showLogin:false,
                 errorMessageRegister:null,
                 errorMessageLogin:null
             }
