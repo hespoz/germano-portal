@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
-import {Menu, Image} from 'semantic-ui-react'
+import {Menu, Image, Message} from 'semantic-ui-react'
 import Link from 'next/link';
 import AuthModal from './auth/AuthModal'
 import NewWordModal from "./add_word/WordModal";
@@ -25,7 +25,7 @@ class Layout extends Component {
 
     render() {
 
-        const {openModal, hasToken, userName, wordFormModalOpen} = this.props;
+        const {openModal, hasToken, userName, wordFormModalOpen, verified} = this.props;
 
         return (
             <div className={'container'}>
@@ -90,6 +90,15 @@ class Layout extends Component {
                     </div>
                 </div>
 
+                {!verified ?
+                    <Message error>
+                        <Message.Header>Tu cuenta aun no esta verificada</Message.Header>
+                    </Message>
+                    :
+                    null
+                }
+
+
                 <div className={'row '}>
                     <div className={'col-12 content-page'}>
                         {this.props.children}
@@ -115,6 +124,7 @@ const mapStateToProps = (state) => ({
     openModal: state.auth.openModal,
     hasToken: state.auth.hasToken,
     userName: state.auth.userName,
+    verified:state.auth.verified,
     wordFormModalOpen: state.dictionary.wordFormModalOpen
 });
 

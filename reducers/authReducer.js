@@ -6,7 +6,11 @@ import {
     REGISTER_CLEAR,
     OPEN_AUTH_MODAL,
     CLOSE_AUTH_MODAL,
-    TOGGLE_AUTH_FORMS, LOGOUT_SUCCESS,GET_TOKEN
+    TOGGLE_AUTH_FORMS,
+    LOGOUT_SUCCESS,
+    GET_TOKEN,
+    CONFIRM_USER_SUCCESS,
+    CONFIRM_USER_ERROR
 } from "../constants";
 
 import Cookies from 'js-cookie'
@@ -18,7 +22,9 @@ const initialState = {
     errorMessageLogin:null,
     errorMessageRegister:null,
     openModal:false,
-    showLogin:false
+    showLogin:false,
+    verified:true,
+    confirmUserError:null
 }
 export default function reducer(state = initialState, action) {
     switch (action.type) {
@@ -36,7 +42,8 @@ export default function reducer(state = initialState, action) {
                 errorMessageLogin:null,
                 hasToken:true,
                 userId: Cookies.get('userId'),
-                userName: Cookies.get('userName')
+                userName: Cookies.get('userName'),
+                verified: Cookies.get('verified')
             }
             break;
         case LOGIN_ERROR:
@@ -52,7 +59,8 @@ export default function reducer(state = initialState, action) {
                 errorMessageRegister:null,
                 hasToken:true,
                 userId: Cookies.get('userId'),
-                userName: Cookies.get('userName')
+                userName: Cookies.get('userName'),
+                verified: Cookies.get('verified')
             }
             break;
         case REGISTER_ERROR:
@@ -99,17 +107,28 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 hasToken: Cookies.get('token') !== undefined && Cookies.get('token') !== null,
                 userId: Cookies.get('userId'),
-                userName: Cookies.get('userName')
+                userName: Cookies.get('userName'),
+                verified: Cookies.get('verified')
             }
 
-            /*return {
-                ...state,
-                hasToken: localStorage.getItem('token') !== null,
-                userId: localStorage.getItem('userId'),
-                userName: localStorage.getItem('userName')
-            }*/
-
             break;
+
+        case CONFIRM_USER_SUCCESS:
+
+            return {
+                ...state,
+                verified:action.payload,
+                confirmUserError:null
+            }
+            break;
+
+        case CONFIRM_USER_ERROR:
+            return {
+                ...state,
+                confirmUserError:action.payload
+            }
+            break;
+
         default:
             break;
     }

@@ -27,6 +27,9 @@ const apiHelper = {
     register: (data) => {
         return axios.post(`${host}/api/v1/user`, data)
     },
+    confirmUser: (data) => {
+        return axios.put(`${host}/api/v1/user/confirm/${data}`, null, secureHeader())
+    },
     login: (data) => {
         return axios.post(`${host}/api/v1/auth`, data)
     },

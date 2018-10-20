@@ -9,8 +9,12 @@ import {
     REGISTER_ERROR,
     REGISTER_CLEAR,
     OPEN_AUTH_MODAL,
-    CLOSE_AUTH_MODAL, TOGGLE_AUTH_FORMS,
-    GET_TOKEN
+    CLOSE_AUTH_MODAL,
+    TOGGLE_AUTH_FORMS,
+    GET_TOKEN,
+    CONFIRM_USER,
+    CONFIRM_USER_SUCCESS,
+    CONFIRM_USER_ERROR
 } from '../constants'
 
 export const login = (data) => ({
@@ -71,4 +75,19 @@ export const toggleAuthForms = () => ({
 
 export const getToken = () => ({
     type: GET_TOKEN
+})
+
+export const confirmUser = (data) => ({
+    type: CONFIRM_USER,
+    payload: data
+})
+
+export const confirmUserSuccess = (data) => ({
+    type: CONFIRM_USER_SUCCESS,
+    payload: data
+})
+
+export const confirmUserError = (data) => ({
+    type: CONFIRM_USER_ERROR,
+    payload: data
 })

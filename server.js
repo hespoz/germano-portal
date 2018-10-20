@@ -34,6 +34,11 @@ app.prepare()
             app.render(req, res, '/notes', queryParams)
         })
 
+        server.get('/confirmation/:token', (req, res) => {
+            const queryParams = { token: req.params.token }
+            app.render(req, res, '/confirmation', queryParams)
+        })
+
         server.get('*', (req, res) => {
             return handle(req, res)
         })
