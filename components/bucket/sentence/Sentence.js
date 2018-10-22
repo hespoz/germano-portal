@@ -24,7 +24,7 @@ class Sentence extends Component {
     }
 
     renderSentence = (sentence) => {
-        const {writePermission} = this.props
+        const {writePermission, verified} = this.props
         return <Segment>
 
             {writePermission ?
@@ -84,16 +84,18 @@ class Sentence extends Component {
 
             <br/>
 
-            {writePermission ?
+            {verified ?
+
                 <div className={"row"}>
                     <div className={"col-md-12"}>
                         <MakeComment sentenceId={sentence._id}/>
                     </div>
                 </div>
+
                 :
+                
                 null
             }
-
 
 
             <style jsx>{`
@@ -183,7 +185,7 @@ class Sentence extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({buckets: state.buckets.buckets});
+const mapStateToProps = (state) => ({buckets: state.buckets.buckets, verified:state.auth.verified,});
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({saveBucket, openDeleteSentenceModal}, dispatch);
 

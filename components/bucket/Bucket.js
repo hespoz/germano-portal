@@ -39,7 +39,7 @@ class Bucket extends Component {
             <List>
                 {bucket.sentences.map((sentence, index) => {
                     return <List.Item>
-                        <Sentence index={index} bucket={bucket} sentence={sentence} editMode writePermission={bucket.ownerId === this.props.userId && this.props.verified}/>
+                        <Sentence index={index} bucket={bucket} sentence={sentence} editMode writePermission={bucket.ownerId === this.props.userId}/>
                     </List.Item>
                 })}
             </List>
@@ -81,12 +81,12 @@ class Bucket extends Component {
 
     render() {
 
-        const {bucket, userId, verified} = this.props
+        const {bucket, userId } = this.props
 
         return <div className={"row"}>
             <div className={"col-md-8"}>
 
-                {bucket.ownerId === userId && verified ?
+                {bucket.ownerId === userId ?
                     <BucketName bucket={bucket}/>
                     :
                     <Header as='h3'>{bucket.name}</Header>
@@ -94,7 +94,7 @@ class Bucket extends Component {
 
                 <Divider/>
 
-                <Sentence bucket={bucket} writePermission={bucket.ownerId === userId && verified}/>
+                <Sentence bucket={bucket} writePermission={bucket.ownerId === userId}/>
 
                 {this.renderSentences(bucket)}
 
@@ -114,8 +114,7 @@ class Bucket extends Component {
 
 const mapStateToProps = (state) => ({
     hasToken: state.auth.hasToken,
-    userId: state.auth.userId,
-    verified:state.auth.verified
+    userId: state.auth.userId
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);

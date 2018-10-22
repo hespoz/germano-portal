@@ -5,7 +5,7 @@ import Layout from "../components/Layout";
 import Search from "../components/search/Search";
 import MyNotes from "../components/bucket/notes/MyNotes";
 import {fetchBuckets, openBucketModal, openDeleteBucketModal, saveBucket} from "../actions/bucketAction";
-
+import {Message} from 'semantic-ui-react';
 
 class Notes extends Component {
 
@@ -52,7 +52,7 @@ class Notes extends Component {
                 </div>
 
                 <div className={"mt-16"}>
-                    {this.props.urlUserName || userName || buckets.length > 0 ?
+                    {userName || buckets.length > 0  ?
 
                         <MyNotes
                             bucketOwnerName={bucketOwnerName}
