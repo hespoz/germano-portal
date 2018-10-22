@@ -84,11 +84,16 @@ class Sentence extends Component {
 
             <br/>
 
-            <div className={"row"}>
-                <div className={"col-md-12"}>
-                    <MakeComment sentenceId={sentence._id}/>
+            {writePermission ?
+                <div className={"row"}>
+                    <div className={"col-md-12"}>
+                        <MakeComment sentenceId={sentence._id}/>
+                    </div>
                 </div>
-            </div>
+                :
+                null
+            }
+
 
 
             <style jsx>{`

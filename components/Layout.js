@@ -6,7 +6,7 @@ import Link from 'next/link';
 import AuthModal from './auth/AuthModal'
 import NewWordModal from "./add_word/WordModal";
 import AddBucket from './bucket/AddBucket'
-import {openAuthModal, closeAuthModal, logOut, getToken, verificationStatus} from "../actions/authAction";
+import {openAuthModal, closeAuthModal, logOut, getToken, verificationStatus, resendVerificationEmail} from "../actions/authAction";
 import {closeWordFormModal} from "../actions/dictionaryAction";
 
 
@@ -25,7 +25,7 @@ class Layout extends Component {
 
     render() {
 
-        const {openModal, hasToken, userName, wordFormModalOpen, verified} = this.props;
+        const {openModal, hasToken, userName, wordFormModalOpen, verified, resendedEmail} = this.props;
 
         return (
             <div className={'container'}>
@@ -65,12 +65,6 @@ class Layout extends Component {
                                     null
                                 }
 
-                                {/*<Link as={`/${userName || ''}`} href={`/${userName || ''}`}>
-                                    <Menu.Item>
-                                        Inicio
-                                    </Menu.Item>
-                                </Link>*/}
-
                                 {hasToken ?
                                     <Menu.Item onClick={() => {
                                         this.props.logOut()
@@ -90,9 +84,17 @@ class Layout extends Component {
                     </div>
                 </div>
 
+                {resendedEmail ?
+                    <Message positive>
+                        <Message.Header>Email enviado</Message.Header>
+                    </Message>
+                    :
+                    null
+                }
+
                 {!verified ?
                     <Message error>
-                        <Message.Header>Tu cuenta aun no esta verificada</Message.Header>
+                        <Message.Header>Tienes que verificar tu cuenta para poder usar la aplicacion, te enviamos un email con las instrucciones. <a href={"javascript:void(0)"} onClick={this.props.resendVerificationEmail}>Reenviar</a></Message.Header>
                     </Message>
                     :
                     null
@@ -125,11 +127,12 @@ const mapStateToProps = (state) => ({
     hasToken: state.auth.hasToken,
     userName: state.auth.userName,
     verified:state.auth.verified,
+    resendedEmail: state.auth.resendedEmail,
     wordFormModalOpen: state.dictionary.wordFormModalOpen
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    openAuthModal, closeAuthModal, logOut, closeWordFormModal, getToken, verificationStatus
+    openAuthModal, closeAuthModal, logOut, closeWordFormModal, getToken, verificationStatus, resendVerificationEmail
 }, dispatch);
 
 

@@ -21,7 +21,7 @@ class MyNotes extends Component {
     render() {
 
         const {activeIndex} = this.state
-        const {buckets, userName, urlUserName} = this.props
+        const {buckets, userName, urlUserName, verified} = this.props
 
         return <div
             className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center content-pos'}>
@@ -33,7 +33,7 @@ class MyNotes extends Component {
                         <h3>Notas de {userName}</h3>
                     </div>
 
-                    {this.props.userName === this.props.bucketOwnerName ?
+                    {this.props.userName === this.props.bucketOwnerName && verified ?
                         <div className={'col-md-2 text-right link'}>
                             <Icon size='large' name='add' onClick={() => this.props.openBucketModal(null)}/>
                             Nueva nota
@@ -72,7 +72,7 @@ class MyNotes extends Component {
                                                 textDecoration: 'none',
                                                 backgroundColor: 'none'
                                             }}>
-                                                {bucket.ownerId === this.props.userId ?
+                                                {bucket.ownerId === this.props.userId && verified ?
                                                     <Icon size='large' name='trash alternate'
                                                           onClick={() => this.props.openDeleteBucketModal(bucket._id)}/> : null}
 
@@ -87,7 +87,7 @@ class MyNotes extends Component {
 
                                 </Accordion.Title>
                                 <Accordion.Content active={activeIndex === index}>
-                                    <Bucket bucket={bucket}/>
+                                    <Bucket bucket={bucket} />
                                 </Accordion.Content>
                             </div>
                         })}

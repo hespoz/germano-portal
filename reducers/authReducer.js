@@ -10,7 +10,9 @@ import {
     LOGOUT_SUCCESS,
     GET_TOKEN,
     CONFIRM_USER_SUCCESS,
-    CONFIRM_USER_ERROR, VERIFICATION_STATUS_SUCCESS, VERIFICATION_STATUS_ERROR
+    CONFIRM_USER_ERROR, VERIFICATION_STATUS_SUCCESS, VERIFICATION_STATUS_ERROR,
+    RESEND_VERIFICATION_EMAIL_SUCCESS,
+    RESEND_VERIFICATION_EMAIL_ERROR
 } from "../constants";
 
 import Cookies from 'js-cookie'
@@ -24,7 +26,9 @@ const initialState = {
     openModal:false,
     showLogin:false,
     verified:true,
-    confirmUserError:null
+    confirmUserError:null,
+    resendedEmail:false,
+    resendVerificationError:null
 }
 export default function reducer(state = initialState, action) {
     switch (action.type) {
@@ -33,7 +37,10 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 hasToken: null,
                 userId: null,
-                userName: null
+                userName: null,
+                verified:true,
+                resendedEmail:false,
+                resendVerificationError:null
             }
             break;
         case LOGIN_SUCCESS:
@@ -43,7 +50,7 @@ export default function reducer(state = initialState, action) {
                 hasToken:true,
                 userId: Cookies.get('userId'),
                 userName: Cookies.get('userName'),
-                verified: Cookies.get('verified')
+                verified: action.payload.verified
             }
             break;
         case LOGIN_ERROR:
@@ -141,6 +148,22 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 confirmUserError:action.payload
+            }
+            break;
+
+        case RESEND_VERIFICATION_EMAIL_SUCCESS:
+
+            return {
+                ...state,
+                resendedEmail:action.payload,
+                resendVerificationError:null
+            }
+            break;
+
+        case RESEND_VERIFICATION_EMAIL_ERROR:
+            return {
+                ...state,
+                resendVerificationError:action.payload
             }
             break;
 

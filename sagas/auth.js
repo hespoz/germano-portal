@@ -1,8 +1,9 @@
 import { put, call, takeEvery, all } from 'redux-saga/effects';
-import {REGISTER, LOGIN, LOGOUT, CONFIRM_USER, VERIFICATION_STATUS} from "../constants";
+import {REGISTER, LOGIN, LOGOUT, CONFIRM_USER, VERIFICATION_STATUS, RESEND_VERIFICATION_EMAIL} from "../constants";
 
 import apiHelper from "../apiHelper";
-import {registerError, registerSuccess, loginSuccess, loginError, logOutSuccess, confirmUserSuccess, confirmUserError, verificationStatusSuccess, verificationStatusError} from "../actions/authAction";
+import {registerError, registerSuccess, loginSuccess, loginError, logOutSuccess, confirmUserSuccess, confirmUserError, verificationStatusSuccess, verificationStatusError,
+    resendVerificationEmailSuccess, resendVerificationEmailError} from "../actions/authAction";
 
 import Cookies from 'js-cookie'
 import {fetchBucketsSuccess} from "../actions/bucketAction";
@@ -65,6 +66,24 @@ function* verificationStatus() {
     }
 }
 
+function *sleep(time) {
+    yield new Promise(resolve => setTimeout(resolve, time));
+}
+
+function* resendVerificationEmail() {
+    try {
+        yield call(apiHelper.resendVerificationEmail)
+        yield put(resendVerificationEmailSuccess(true))
+
+        yield sleep(15000)
+
+        yield put(resendVerificationEmailSuccess(false))
+
+    } catch (error) {
+        yield put(resendVerificationEmailError({message:error.response.data.message}))
+    }
+}
+
 export default function* authSaga() {
     yield all([
         takeEvery(REGISTER, register),
@@ -72,5 +91,6 @@ export default function* authSaga() {
         takeEvery(LOGOUT, logOut),
         takeEvery(CONFIRM_USER, confirmUser),
         takeEvery(VERIFICATION_STATUS, verificationStatus),
+        takeEvery(RESEND_VERIFICATION_EMAIL, resendVerificationEmail),
     ])
 }

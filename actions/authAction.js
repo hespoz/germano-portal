@@ -17,7 +17,10 @@ import {
     CONFIRM_USER_ERROR,
     VERIFICATION_STATUS,
     VERIFICATION_STATUS_SUCCESS,
-    VERIFICATION_STATUS_ERROR
+    VERIFICATION_STATUS_ERROR,
+    RESEND_VERIFICATION_EMAIL,
+    RESEND_VERIFICATION_EMAIL_SUCCESS,
+    RESEND_VERIFICATION_EMAIL_ERROR
 } from '../constants'
 
 export const login = (data) => ({
@@ -109,3 +112,16 @@ export const verificationStatusError = (data) => ({
     payload: data
 })
 
+export const resendVerificationEmail = () => ({
+    type: RESEND_VERIFICATION_EMAIL
+})
+
+export const resendVerificationEmailSuccess = (data) => ({
+    type: RESEND_VERIFICATION_EMAIL_SUCCESS,
+    payload: data
+})
+
+export const resendVerificationEmailError = (data) => ({
+    type: RESEND_VERIFICATION_EMAIL_ERROR,
+    payload: data
+})

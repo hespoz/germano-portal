@@ -65,6 +65,9 @@ const apiHelper = {
     },
     verificationStatus: () => {
         return axios.get(`${host}/api/v1/auth/confirmation/status`, secureHeader())
+    },
+    resendVerificationEmail: () => {
+        return axios.put(`${host}/api/v1/auth/resend/verification`, null, secureHeader())
     }
 
 }

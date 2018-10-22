@@ -38,7 +38,7 @@ class Notes extends Component {
 
     render() {
 
-        const {buckets, userId, userName, urlUserName, bucketOwnerName} = this.props
+        const {buckets, userId, userName, urlUserName, bucketOwnerName, verified} = this.props
 
 
         return (
@@ -62,6 +62,7 @@ class Notes extends Component {
                             urlUserName={urlUserName}
                             openBucketModal={this.props.openBucketModal}
                             openDeleteBucketModal={this.props.openDeleteBucketModal}
+                            verified={verified}
                         />
 
                         :
@@ -85,7 +86,8 @@ const mapStateToProps = (state) => ({
     fetchBucketsError: state.buckets.fetchBucketsError,
     hasToken: state.auth.hasToken,
     userId: state.auth.userId,
-    userName: state.auth.userName
+    userName: state.auth.userName,
+    verified:state.auth.verified
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
