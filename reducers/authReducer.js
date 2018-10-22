@@ -67,7 +67,7 @@ export default function reducer(state = initialState, action) {
                 hasToken:true,
                 userId: Cookies.get('userId'),
                 userName: Cookies.get('userName'),
-                verified: Cookies.get('verified')
+                verified: false
             }
             break;
         case REGISTER_ERROR:
