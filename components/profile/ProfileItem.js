@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-
+import {Header} from 'semantic-ui-react'
 
 class ProfileItem extends Component {
 
@@ -14,7 +14,7 @@ class ProfileItem extends Component {
     render() {
 
         const {showForm} = this.state
-        const {title, children} = this.props
+        const {title, children, description} = this.props
 
         return (
 
@@ -24,7 +24,8 @@ class ProfileItem extends Component {
 
                     <div id={"profile-item"}>
                         <div id={"title"}>
-                            {title}
+                            <Header as='h4'>{title}</Header>
+                            {description}
                         </div>
 
                         <div id={"edit"}>

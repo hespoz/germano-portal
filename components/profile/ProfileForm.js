@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux'
 import {Form, Button, Message} from 'semantic-ui-react'
 import {Field, formValueSelector, reduxForm} from 'redux-form'
 import { InputField } from '../formElement/FormElements'
-import {validateResetPassword} from '../formElement/ValidationForms'
+import {validateProfile} from '../formElement/ValidationForms'
 import {resetPassword} from "../../actions/authAction"
 
 class ProfileForm extends Component {
@@ -35,15 +35,17 @@ class ProfileForm extends Component {
                     null
                 }
 
-                <Field name='password' component={InputField}
-                       type='password'
-                       label={'Password'}
-                       placeholder='Password'/>
+                <Field name='email' component={InputField}
+                       label={'Email'}
+                       placeholder='Email'/>
 
+                <Field name='username' component={InputField}
+                       label={'Nombre de usuario'}
+                       placeholder='Username'/>
 
 
                 <Button type={"submit"} primary fluid>
-                    Reset password
+                    Actualizar
                 </Button>
 
                 <style jsx>{`
@@ -73,6 +75,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({resetPassword}, dispatch)
 
 export default connect(mapStateToProps,mapDispatchToProps)(reduxForm({
-    form: 'resetPasswordForm',
-    validate: validateResetPassword
+    form: 'profileForm',
+    validate: validateProfile
 })(ProfileForm));

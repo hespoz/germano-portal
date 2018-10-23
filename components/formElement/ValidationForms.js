@@ -35,6 +35,20 @@ export const validateResetPassword = values => {
     return errors
 }
 
+export const validateProfile = values => {
+    const errors = {}
+    if (!values.email || !validator.isEmail(values.email)) {
+        errors.email = 'El email es obligatorio'
+    }
+
+    if (!values.username) {
+        errors.username = 'El nombre de usuario es obligatorio'
+    }
+
+    return errors
+}
+
+
 export const validateRegister = values => {
     const errors = {}
     if (!values.email || !validator.isEmail(values.email)) {
