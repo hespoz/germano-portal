@@ -12,6 +12,28 @@ export const validateLogin = values => {
     return errors
 }
 
+export const validateRecoverPassword = values => {
+    const errors = {}
+    if (!values.email || !validator.isEmail(values.email) ) {
+        errors.email = 'El email es obligatorio'
+    }
+
+    return errors
+}
+
+export const validateResetPassword = values => {
+    const errors = {}
+
+    if (!values.password) {
+        errors.password = 'El password es obligatorio'
+    }
+
+    if (!values.repeatPassword) {
+        errors.repeatPassword = 'Es obligatorio repetir el password'
+    }
+
+    return errors
+}
 
 export const validateRegister = values => {
     const errors = {}

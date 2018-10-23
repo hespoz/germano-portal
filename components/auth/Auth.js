@@ -1,25 +1,25 @@
 import React, {Component} from "react"
-import { Modal, Button } from 'semantic-ui-react'
-import Login from './Login'
+
 import {connect} from "react-redux"
 import {bindActionCreators} from 'redux'
+import {LOGIN_FORM, REGISTER_FORM, RECOVER_PASSWORD_FORM} from "../../constants"
 
 import {
-    toggleAuthForms,
+    setAuthForms,
     register,
     login,
-    closeAuthModal
+    closeAuthModal,
+    recoverPassword
 } from '../../actions/authAction'
 
+import Login from './Login'
 import Register from "./Register"
+import ForgotPassword from './ForgotPassword'
 
 
 
 class Auth extends Component {
 
-    toggleAuthForms = () => {
-        this.props.toggleAuthForms()
-    }
 
     onLogin = (data) => {
         this.props.login(data)
@@ -29,15 +29,31 @@ class Auth extends Component {
         this.props.register(data)
     }
 
+    onRecoverPassword = (data) => {
+        this.props.recoverPassword(data.email)
+    }
+
     render() {
 
-        const { showLogin, errorMessageRegister, hasToken, errorMessageLogin } = this.props
+        const { errorMessageRegister, hasToken, errorMessageLogin, recoverPasswordSuccess, errorMessageRecoveryPassword, authForm } = this.props
 
-        if (showLogin) {
-            return <Login onLogin={this.onLogin} errorMessageLogin={errorMessageLogin}  hasToken={hasToken} closeModal={this.props.closeAuthModal} toggleAuthForms={this.toggleAuthForms}/>
-        } else {
-            return <Register register={this.onRegister} errorMessageRegister={errorMessageRegister} hasToken={hasToken} closeModal={this.props.closeAuthModal} toggleAuthForms={this.toggleAuthForms}/>
+        const LoginComponent = <Login onLogin={this.onLogin} errorMessageLogin={errorMessageLogin}  hasToken={hasToken} closeModal={this.props.closeAuthModal} setAuthForms={this.props.setAuthForms}/>
+        switch(authForm) {
+            case  LOGIN_FORM:
+                return LoginComponent
+            case REGISTER_FORM:
+                return <Register register={this.onRegister} errorMessageRegister={errorMessageRegister} hasToken={hasToken} closeModal={this.props.closeAuthModal} setAuthForms={this.props.setAuthForms}/>
+            case RECOVER_PASSWORD_FORM:
+                return <ForgotPassword
+                    onRecoverPassword={this.onRecoverPassword}
+                    recoverPasswordSuccess={recoverPasswordSuccess}
+                    errorMessageRecoveryPassword={errorMessageRecoveryPassword}
+                    hasToken={hasToken}
+                    closeModal={this.props.closeAuthModal} setAuthForms={this.props.setAuthForms}/>
+            default:
+                return LoginComponent
         }
+
 
     }
 
@@ -45,16 +61,19 @@ class Auth extends Component {
 
 
 const mapStateToProps = (state) => ({
-    showLogin: state.auth.showLogin,
+    authForm: state.auth.authForm,
     errorMessageRegister: state.auth.errorMessageRegister,
     hasToken: state.auth.hasToken,
-    errorMessageLogin: state.auth.errorMessageLogin
+    errorMessageLogin: state.auth.errorMessageLogin,
+    recoverPasswordSuccess: state.auth.recoverPasswordSuccess,
+    errorMessageRecoveryPassword: state.auth.errorMessageRecoveryPassword
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    toggleAuthForms,
+    setAuthForms,
     register,
     login,
+    recoverPassword,
     closeAuthModal
 }, dispatch);
 

@@ -4,6 +4,7 @@ import {Form, Button, Divider, Message} from 'semantic-ui-react'
 import {Field, reduxForm, formValueSelector} from 'redux-form'
 import {InputField} from '../formElement/FormElements'
 import {validateRegister} from '../formElement/ValidationForms'
+import {LOGIN_FORM} from "../../constants";
 
 
 class Register extends Component {
@@ -72,7 +73,7 @@ class Register extends Component {
                 <Divider horizontal>Or</Divider>
 
                 <Button secondary fluid onClick={() => {
-                    this.props.toggleAuthForms()
+                    this.props.setAuthForms(LOGIN_FORM)
                 }}>
                     Back to login
                 </Button>

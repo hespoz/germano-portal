@@ -3,10 +3,9 @@ import {Form, Button, Divider, Message} from 'semantic-ui-react'
 import { Field, reduxForm } from 'redux-form'
 import { InputField } from '../formElement/FormElements'
 import { validateLogin } from '../formElement/ValidationForms'
-import {REGISTER_FORM, RECOVER_PASSWORD_FORM} from "../../constants";
+import {LOGIN_FORM} from "../../constants"
 
-
-class Login extends Component {
+class ForgotPassword extends Component {
 
     componentWillReceiveProps = (props) => {
         if(props.hasToken) {
@@ -16,20 +15,28 @@ class Login extends Component {
 
 
     submit = values => {
-        this.props.onLogin(values)
+        this.props.onRecoverPassword(values)
     }
 
     render() {
 
-        const { errorMessageLogin, handleSubmit, submitting } = this.props
+        const { recoverPasswordSuccess, errorMessageRecoveryPassword, handleSubmit, submitting } = this.props
 
 
         return (
             <Form onSubmit={handleSubmit(this.submit)}>
 
-                {errorMessageLogin ?
+                {recoverPasswordSuccess ?
+                    <Message fluid positive>
+                        <p>Email enviado</p>
+                    </Message>
+                    :
+                    null
+                }
+
+                {errorMessageRecoveryPassword ?
                     <Message fluid negative>
-                        <p>{errorMessageLogin}</p>
+                        <p>{errorMessageRecoveryPassword}</p>
                     </Message>
                     :
                     null
@@ -39,44 +46,22 @@ class Login extends Component {
                        label={'Email'}
                        placeholder='Email'/>
 
-                <Field name='password' component={InputField}
-                       type='password'
-                       label={'Password'}
-                       placeholder='Password'/>
-
-                <div className="link-below">
-                    <a href={"javascript:void(0)"} onClick={()  => {
-                        this.props.setAuthForms(RECOVER_PASSWORD_FORM)
-                    }}>Forgot password?</a>
-                </div>
-
-
-                <br/>
                 <Button type={"submit"} primary fluid disabled={submitting}>
-                    Login
+                    Recuperar password
                 </Button>
 
                 <Divider horizontal>Or</Divider>
 
                 <Button secondary fluid onClick={() => {
-                    this.props.setAuthForms(REGISTER_FORM)
+                    this.props.setAuthForms(LOGIN_FORM)
                 }}>
-                    Register Now
+                    Ir a login
                 </Button>
                 <style jsx>{`
 
                   .field_error {
                     color: red;
                     margin-top: -10px !important;
-                  }
-
-                  .link-below {
-                    display:flex;
-                    margin-top:-14px;
-                  }
-
-                  .link-below a {
-                    margin-left: auto;
                   }
 
                 `}</style>
@@ -88,6 +73,6 @@ class Login extends Component {
 }
 
 export default reduxForm({
-    form: 'loginForm',
+    form: 'forgotPasswordForm',
     validate: validateLogin
-})(Login);
+})(ForgotPassword);

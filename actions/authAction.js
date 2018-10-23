@@ -10,7 +10,7 @@ import {
     REGISTER_CLEAR,
     OPEN_AUTH_MODAL,
     CLOSE_AUTH_MODAL,
-    TOGGLE_AUTH_FORMS,
+    SET_AUTH_FORM,
     GET_TOKEN,
     CONFIRM_USER,
     CONFIRM_USER_SUCCESS,
@@ -20,7 +20,13 @@ import {
     VERIFICATION_STATUS_ERROR,
     RESEND_VERIFICATION_EMAIL,
     RESEND_VERIFICATION_EMAIL_SUCCESS,
-    RESEND_VERIFICATION_EMAIL_ERROR
+    RESEND_VERIFICATION_EMAIL_ERROR,
+    RECOVER_PASSWORD,
+    RECOVER_PASSWORD_SUCCESS,
+    RECOVER_PASSWORD_ERROR,
+    RESET_PASSWORD,
+    RESET_PASSWORD_SUCCESS,
+    RESET_PASSWORD_ERROR
 } from '../constants'
 
 export const login = (data) => ({
@@ -75,8 +81,9 @@ export const closeAuthModal = () => ({
 })
 
 
-export const toggleAuthForms = () => ({
-    type: TOGGLE_AUTH_FORMS
+export const setAuthForms = (data) => ({
+    type: SET_AUTH_FORM,
+    payload: data
 })
 
 export const getToken = () => ({
@@ -123,5 +130,36 @@ export const resendVerificationEmailSuccess = (data) => ({
 
 export const resendVerificationEmailError = (data) => ({
     type: RESEND_VERIFICATION_EMAIL_ERROR,
+    payload: data
+})
+
+
+export const recoverPassword = (data) => ({
+    type: RECOVER_PASSWORD,
+    payload: data
+})
+
+export const recoverPasswordSuccess = (data) => ({
+    type: RECOVER_PASSWORD_SUCCESS,
+    payload: data
+})
+
+export const recoverPasswordError = (data) => ({
+    type: RECOVER_PASSWORD_ERROR,
+    payload: data
+})
+
+export const resetPassword = (data) => ({
+    type: RESET_PASSWORD,
+    payload: data
+})
+
+export const resetPasswordSuccess = (data) => ({
+    type: RESET_PASSWORD_SUCCESS,
+    payload: data
+})
+
+export const resetPasswordError = (data) => ({
+    type: RESET_PASSWORD_ERROR,
     payload: data
 })

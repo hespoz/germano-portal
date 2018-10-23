@@ -6,13 +6,18 @@ import {
     REGISTER_CLEAR,
     OPEN_AUTH_MODAL,
     CLOSE_AUTH_MODAL,
-    TOGGLE_AUTH_FORMS,
     LOGOUT_SUCCESS,
     GET_TOKEN,
     CONFIRM_USER_SUCCESS,
     CONFIRM_USER_ERROR, VERIFICATION_STATUS_SUCCESS, VERIFICATION_STATUS_ERROR,
     RESEND_VERIFICATION_EMAIL_SUCCESS,
-    RESEND_VERIFICATION_EMAIL_ERROR
+    RESEND_VERIFICATION_EMAIL_ERROR,
+    LOGIN_FORM,
+    SET_AUTH_FORM,
+    RESET_PASSWORD_SUCCESS,
+    RESET_PASSWORD_ERROR,
+    RECOVER_PASSWORD_SUCCESS,
+    RECOVER_PASSWORD_ERROR
 } from "../constants";
 
 import Cookies from 'js-cookie'
@@ -23,12 +28,17 @@ const initialState = {
     userName: null,
     errorMessageLogin:null,
     errorMessageRegister:null,
+    errorMessageRecoveryPassword:null,
+    errorMessageResetPassword:null,
+    resetPasswordSuccess:null,
     openModal:false,
-    showLogin:false,
     verified:true,
     confirmUserError:null,
     resendedEmail:false,
-    resendVerificationError:null
+    resendVerificationError:null,
+    authForm: LOGIN_FORM,
+    recoverPasswordSuccess:null,
+    recoverPasswordError:null
 }
 export default function reducer(state = initialState, action) {
     switch (action.type) {
@@ -82,14 +92,14 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 errorMessageRegister:null,
                 openModal:false,
-                showLogin:true
+                authForm: LOGIN_FORM
             }
             break;
         case OPEN_AUTH_MODAL:
             return {
                 ...state,
                 openModal: true,
-                showLogin:action.payload,
+                authForm:action.payload,
                 errorMessageRegister:null,
                 errorMessageLogin:null
             }
@@ -98,15 +108,15 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 openModal: false,
-                showLogin:false,
+                authForm: LOGIN_FORM,
                 errorMessageRegister:null,
                 errorMessageLogin:null
             }
             break;
-        case TOGGLE_AUTH_FORMS:
+        case SET_AUTH_FORM:
             return {
                 ...state,
-                showLogin:!state.showLogin
+                authForm:action.payload
             }
             break;
         case GET_TOKEN:
@@ -166,6 +176,40 @@ export default function reducer(state = initialState, action) {
                 resendVerificationError:action.payload
             }
             break;
+
+        case RESET_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                resetPasswordSuccess: true,
+                errorMessageResetPassword: null
+            }
+            break;
+
+        case RESET_PASSWORD_ERROR:
+            return {
+                ...state,
+                resetPasswordSuccess: null,
+                errorMessageResetPassword: action.payload.message
+            }
+            break;
+
+
+        case RECOVER_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                recoverPasswordSuccess: action.payload,
+                recoverPasswordError: null
+            }
+            break;
+
+        case RECOVER_PASSWORD_ERROR:
+            return {
+                ...state,
+                recoverPasswordSuccess: null,
+                recoverPasswordError: action.payload.message
+            }
+            break;
+
 
         default:
             break;

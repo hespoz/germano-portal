@@ -68,6 +68,12 @@ const apiHelper = {
     },
     resendVerificationEmail: () => {
         return axios.put(`${host}/api/v1/auth/resend/verification`, null, secureHeader())
+    },
+    recoveryPassword: (email) => {
+        return axios.put(`${host}/api/v1/auth/recover/password/${email}`, null)
+    },
+    resetPassword: (data) => {
+        return axios.put(`${host}/api/v1/auth/reset/password`, data)
     }
 
 }

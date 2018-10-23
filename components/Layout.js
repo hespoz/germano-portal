@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
-import {Menu, Image, Message} from 'semantic-ui-react'
+import {Menu, Image, Message, Dropdown} from 'semantic-ui-react'
 import Link from 'next/link';
 import AuthModal from './auth/AuthModal'
 import NewWordModal from "./add_word/WordModal";
@@ -66,11 +66,19 @@ class Layout extends Component {
                                 }
 
                                 {hasToken ?
-                                    <Menu.Item onClick={() => {
-                                        this.props.logOut()
-                                    }}>
-                                        Log out
-                                    </Menu.Item>
+
+
+                                    <Dropdown item text={`Bienvenido, ${userName}`}>
+                                        <Dropdown.Menu>
+                                            <Link as={`/profile`} href={`/profile`}>
+                                            <Dropdown.Item>Profile</Dropdown.Item>
+                                            </Link>
+                                            <Dropdown.Item onClick={() => {
+                                                this.props.logOut()
+                                            }}>Log out</Dropdown.Item>
+                                        </Dropdown.Menu>
+                                    </Dropdown>
+
                                     :
                                     <Menu.Item onClick={() => {
                                         this.props.openAuthModal(true)

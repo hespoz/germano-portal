@@ -93,7 +93,7 @@ class Sentence extends Component {
                 </div>
 
                 :
-                
+
                 null
             }
 

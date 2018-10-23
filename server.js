@@ -24,7 +24,7 @@ app.prepare()
             app.render(req, res, '/bucketDetail', queryParams)
         })
 
-        server.get('/:userName', (req, res) => {
+        server.get('/', (req, res) => {
             const queryParams = { username: req.params.userName }
             app.render(req, res, '/index', queryParams)
         })
@@ -37,6 +37,11 @@ app.prepare()
         server.get('/confirmation/:token', (req, res) => {
             const queryParams = { token: req.params.token }
             app.render(req, res, '/confirmation', queryParams)
+        })
+
+        server.get('/reset/password/:token', (req, res) => {
+            const queryParams = { token: req.params.token }
+            app.render(req, res, '/resetPassword', queryParams)
         })
 
         server.get('*', (req, res) => {

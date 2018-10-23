@@ -1,9 +1,12 @@
 import { put, call, takeEvery, all } from 'redux-saga/effects';
-import {REGISTER, LOGIN, LOGOUT, CONFIRM_USER, VERIFICATION_STATUS, RESEND_VERIFICATION_EMAIL} from "../constants";
+import {
+    REGISTER, LOGIN, LOGOUT, CONFIRM_USER, VERIFICATION_STATUS, RESEND_VERIFICATION_EMAIL, RECOVER_PASSWORD,
+    RESET_PASSWORD
+} from "../constants";
 
 import apiHelper from "../apiHelper";
 import {registerError, registerSuccess, loginSuccess, loginError, logOutSuccess, confirmUserSuccess, confirmUserError, verificationStatusSuccess, verificationStatusError,
-    resendVerificationEmailSuccess, resendVerificationEmailError} from "../actions/authAction";
+    resendVerificationEmailSuccess, resendVerificationEmailError,recoverPasswordSuccess, recoverPasswordError, resetPasswordSuccess, resetPasswordError} from "../actions/authAction";
 
 import Cookies from 'js-cookie'
 import {fetchBucketsSuccess} from "../actions/bucketAction";
@@ -84,6 +87,31 @@ function* resendVerificationEmail() {
     }
 }
 
+function* recoverPassword(action) {
+    try {
+        yield call(apiHelper.recoveryPassword, action.payload)
+
+        yield put(recoverPasswordSuccess(true))
+
+        yield sleep(15000)
+
+        yield put(recoverPasswordSuccess(false))
+
+    } catch (error) {
+        yield put(recoverPasswordError({message:error.response.data.message}))
+    }
+}
+
+function* resetPassword(action) {
+    try {
+        yield call(apiHelper.resetPassword, action.payload)
+        yield put(resetPasswordSuccess(true))
+    } catch (error) {
+        yield put(resetPasswordError({message:error.response.data.message}))
+    }
+}
+
+
 export default function* authSaga() {
     yield all([
         takeEvery(REGISTER, register),
@@ -92,5 +120,7 @@ export default function* authSaga() {
         takeEvery(CONFIRM_USER, confirmUser),
         takeEvery(VERIFICATION_STATUS, verificationStatus),
         takeEvery(RESEND_VERIFICATION_EMAIL, resendVerificationEmail),
+        takeEvery(RECOVER_PASSWORD, recoverPassword),
+        takeEvery(RESET_PASSWORD, resetPassword)
     ])
 }
