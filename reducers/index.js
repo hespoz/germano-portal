@@ -5,11 +5,13 @@ import dictionary from "./dictionaryReducer"
 import auth from "./authReducer"
 import buckets from "./bucketsReducer"
 import activity from "./activityReducer"
+import user from "./userReducer"
 
 export default combineReducers({
     dictionary,
     auth,
     buckets,
     activity,
+    user,
     form: formReducer
 })

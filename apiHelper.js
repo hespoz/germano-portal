@@ -6,7 +6,7 @@ const secureHeader = () => {
     return {
         headers: {
             'Content-Type': 'application/json',
-            'Authorization':`Bearer ${Cookies.get("token")}`
+            'Authorization': `Bearer ${Cookies.get("token")}`
         }
     }
 }
@@ -74,7 +74,14 @@ const apiHelper = {
     },
     resetPassword: (data) => {
         return axios.put(`${host}/api/v1/auth/reset/password`, data)
+    },
+    fetchUserInfo: () => {
+        return axios.get(`${host}/api/v1/user/info`, secureHeader())
+    },
+    saveUserInfo: (data) => {
+        return axios.put(`${host}/api/v1/user/info`, data, secureHeader())
     }
+
 
 }
 

@@ -53,7 +53,7 @@ class ResetPasswordForm extends Component {
                     null
                 }
 
-                <Button type={"submit"} primary fluid>
+                <Button type={"submit"} color={"blue"} primary fluid>
                     Reset password
                 </Button>
 

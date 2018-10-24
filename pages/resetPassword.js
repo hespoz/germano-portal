@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
 import {Form, Button, Divider, Message} from 'semantic-ui-react'
 import Layout from '../components/Layout';
-import ResetPasswordForm from "../components/profile/ResetPasswordForm"
+import ResetPasswordForm from "../components/auth/ResetPasswordForm"
 
 class ResetPassword extends Component {
     static async getInitialProps({query}) {

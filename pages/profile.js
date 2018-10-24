@@ -1,23 +1,35 @@
 import React, {Component} from "react";
+import {connect} from "react-redux";
+import {bindActionCreators} from 'redux';
 import Layout from '../components/Layout';
-import ProfileItem from "../components/profile/ProfileItem";
-import {List} from "semantic-ui-react"
-import ResetPasswordForm from "../components/profile/ResetPasswordForm"
-import ProfileForm from "../components/profile/ProfileForm"
-
-
-const FormEmail = ({toggle}) => (<div><h1>asdf</h1><a href={"javascript:void(0)"} onClick={toggle}>Cerrar</a></div>)
+import { Accordion, Icon } from 'semantic-ui-react'
+import UserInfoForm from "../components/profile/UserInfoForm"
+import {fetchUserInfo} from  "../actions/userAction"
+import {get} from "lodash"
 
 class Profile extends Component {
-    static async getInitialProps({query}) {
 
-        console.log("It is executed anytime the page is loaded or redirected", query)
+    state = { activeIndex: 0 }
 
+    componentDidMount = () => {
+        this.props.fetchUserInfo()
+    }
 
-        return query;
+    handleClick = (e, titleProps) => {
+        const { index } = titleProps
+        const { activeIndex } = this.state
+        const newIndex = activeIndex === index ? -1 : index
+
+        this.setState({ activeIndex: newIndex })
     }
 
     render() {
+
+        const { activeIndex } = this.state
+        const { userInfo } = this.props
+
+        console.log(userInfo)
+
         return (
             <div>
                 <Layout>
@@ -27,23 +39,83 @@ class Profile extends Component {
                         <div className={'col-12 col-md-5'}>
 
 
-                            <List>
-                                <List.Item>
-                                    <ProfileItem title={"Email y nombre de usuario"}
-                                                 description={"Description"}><ProfileForm/></ProfileItem>
-                                </List.Item>
-                                <List.Item>
-                                    <ProfileItem title={"Password"}><ResetPasswordForm/></ProfileItem>
-                                </List.Item>
-                                <List.Item>
-                                    <ProfileItem title={"Tarjeta de credito"}
-                                                 description={"Description"}><FormEmail/></ProfileItem>
-                                </List.Item>
-                                <List.Item>
-                                    <ProfileItem title={"Cerrar cuenta"}><FormEmail/></ProfileItem>
-                                </List.Item>
-                            </List>
+                            <Accordion styled>
+                                <Accordion.Title active={activeIndex === 0} index={0} onClick={this.handleClick}>
+                                    <Icon name='dropdown' />
+                                    Email y nombre de usuario
+                                </Accordion.Title>
+                                <Accordion.Content active={activeIndex === 0}>
+                                    {get(userInfo, 'user') ?
+                                        <UserInfoForm email={userInfo.user.email} username={userInfo.user.username} notifications={userInfo.user.notifications}/>
+                                        :
+                                        null
+                                    }
+                                </Accordion.Content>
 
+                                <Accordion.Title active={activeIndex === 1} index={1} onClick={this.handleClick}>
+                                    <Icon name='dropdown' />
+                                    Password
+                                </Accordion.Title>
+                                <Accordion.Content active={activeIndex === 1}>
+                                    <p>
+                                        There are many breeds of dogs. Each breed varies in size and temperament. Owners often
+                                        select a breed of dog that they find to be compatible with their own lifestyle and
+                                        desires from a companion.
+                                    </p>
+                                </Accordion.Content>
+
+                                <Accordion.Title active={activeIndex === 2} index={2} onClick={this.handleClick}>
+                                    <Icon name='dropdown' />
+                                    Suscripcion
+                                </Accordion.Title>
+                                <Accordion.Content active={activeIndex === 2}>
+                                    <p>
+                                        Three common ways for a prospective owner to acquire a dog is from pet shops, private
+                                        owners, or shelters.
+                                    </p>
+                                    <p>
+                                        A pet shop may be the most convenient way to buy a dog. Buying a dog from a private
+                                        owner allows you to assess the pedigree and upbringing of your dog before choosing to
+                                        take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog
+                                        who may not find one so readily.
+                                    </p>
+                                </Accordion.Content>
+
+                                <Accordion.Title active={activeIndex === 3} index={3} onClick={this.handleClick}>
+                                    <Icon name='dropdown' />
+                                    Tarjeta de credito
+                                </Accordion.Title>
+                                <Accordion.Content active={activeIndex === 3}>
+                                    <p>
+                                        Three common ways for a prospective owner to acquire a dog is from pet shops, private
+                                        owners, or shelters.
+                                    </p>
+                                    <p>
+                                        A pet shop may be the most convenient way to buy a dog. Buying a dog from a private
+                                        owner allows you to assess the pedigree and upbringing of your dog before choosing to
+                                        take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog
+                                        who may not find one so readily.
+                                    </p>
+                                </Accordion.Content>
+
+                                <Accordion.Title active={activeIndex === 4} index={4} onClick={this.handleClick}>
+                                    <Icon name='dropdown' />
+                                    Cerrar cuenta
+                                </Accordion.Title>
+                                <Accordion.Content active={activeIndex === 4}>
+                                    <p>
+                                        Three common ways for a prospective owner to acquire a dog is from pet shops, private
+                                        owners, or shelters.
+                                    </p>
+                                    <p>
+                                        A pet shop may be the most convenient way to buy a dog. Buying a dog from a private
+                                        owner allows you to assess the pedigree and upbringing of your dog before choosing to
+                                        take it home. Lastly, finding your dog from a shelter, helps give a good home to a dog
+                                        who may not find one so readily.
+                                    </p>
+                                </Accordion.Content>
+
+                            </Accordion>
 
                         </div>
                     </div>
@@ -56,4 +128,11 @@ class Profile extends Component {
 }
 
 
-export default Profile;
+const mapStateToProps = (state) => ({
+    userInfo: state.user.userInfo
+});
+
+const mapDispatchToProps = (dispatch) => bindActionCreators({fetchUserInfo}, dispatch);
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
