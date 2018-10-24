@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {Form, Button, Message, Checkbox} from 'semantic-ui-react'
 import {Field, reduxForm} from 'redux-form'
-import {saveUserInfo} from "../../actions/userAction";
+import {toggleConfirmationModal} from "../../actions/userAction";
 import {validateProfile} from "../formElement/ValidationForms";
 import {InputField, Toggle} from "../formElement/FormElements";
 
@@ -11,15 +11,15 @@ class UserInfoForm extends Component {
 
     submit = values => {
         console.log(values)
-        this.props.saveUserInfo({email: values.email, username:values.username})
+        //this.props.saveUserInfo({email: values.email, username:values.username})
+        this.props.onSaveUserInfo()
+
     }
 
 
     render() {
 
         const {updateUserInfoSuccess, updateUserInfoError, handleSubmit} = this.props
-
-        console.log("updateUserInfoSuccess", updateUserInfoSuccess)
 
 
         return (
@@ -79,7 +79,7 @@ const mapStateToProps = (state, ownProps) => {
     }
 };
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({saveUserInfo}, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch)
 
 export default connect(mapStateToProps, mapDispatchToProps)(reduxForm({
     form: 'userInfoForm',

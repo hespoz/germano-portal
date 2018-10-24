@@ -4,12 +4,16 @@ import {bindActionCreators} from 'redux';
 import Layout from '../components/Layout';
 import { Accordion, Icon } from 'semantic-ui-react'
 import UserInfoForm from "../components/profile/UserInfoForm"
-import {fetchUserInfo} from  "../actions/userAction"
+import ConfirmationLoginModal from "../components/auth/ConfirmationLogin"
+import {fetchUserInfo, saveUserInfo, toggleConfirmationModal} from  "../actions/userAction"
 import {get} from "lodash"
 
 class Profile extends Component {
 
-    state = { activeIndex: 0 }
+    state = {
+        activeIndex: 0,
+        paramsFunc:{}
+    }
 
     componentDidMount = () => {
         this.props.fetchUserInfo()
@@ -23,16 +27,28 @@ class Profile extends Component {
         this.setState({ activeIndex: newIndex })
     }
 
+    onSaveUserInfo = (values) => {
+        this.props.toggleConfirmationModal(true)
+        this.setState({
+            paramsFunc:values
+        })
+    }
+
     render() {
 
         const { activeIndex } = this.state
-        const { userInfo } = this.props
+        const { userInfo, confirmationModal } = this.props
 
-        console.log(userInfo)
 
         return (
             <div>
                 <Layout>
+
+                    <ConfirmationLoginModal
+                        open={confirmationModal}
+                        confirmFunc={this.props.saveUserInfo}
+                        paramsFunc={this.state.paramsFunc}
+                        onClose={() => this.props.toggleConfirmationModal(false)}/>
 
                     <div
                         className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center'}>
@@ -46,7 +62,7 @@ class Profile extends Component {
                                 </Accordion.Title>
                                 <Accordion.Content active={activeIndex === 0}>
                                     {get(userInfo, 'user') ?
-                                        <UserInfoForm email={userInfo.user.email} username={userInfo.user.username} notifications={userInfo.user.notifications}/>
+                                        <UserInfoForm email={userInfo.user.email} username={userInfo.user.username} notifications={userInfo.user.notifications} onSaveUserInfo={this.onSaveUserInfo}/>
                                         :
                                         null
                                     }
@@ -129,10 +145,11 @@ class Profile extends Component {
 
 
 const mapStateToProps = (state) => ({
-    userInfo: state.user.userInfo
+    userInfo: state.user.userInfo,
+    confirmationModal: state.user.confirmationModal
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({fetchUserInfo}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({fetchUserInfo, saveUserInfo, toggleConfirmationModal}, dispatch);
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);

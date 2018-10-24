@@ -1,4 +1,4 @@
-import {FETCH_USER_INFO, FETCH_USER_INFO_SUCCESS, FETCH_USER_INFO_ERROR, SAVE_USER_INFO ,SAVE_USER_INFO_SUCCESS, SAVE_USER_INFO_ERROR} from "../constants";
+import {FETCH_USER_INFO, FETCH_USER_INFO_SUCCESS, FETCH_USER_INFO_ERROR, SAVE_USER_INFO ,SAVE_USER_INFO_SUCCESS, SAVE_USER_INFO_ERROR, TOGGLE_CONFIRMATION_MODAL} from "../constants";
 
 export const fetchUserInfo = () => ({
     type: FETCH_USER_INFO
@@ -28,3 +28,10 @@ export const saveUserInfoError = (data) => ({
     type: SAVE_USER_INFO_ERROR,
     payload: data
 })
+
+export const toggleConfirmationModal = (data) => ({
+    type: TOGGLE_CONFIRMATION_MODAL,
+    payload: data
+})
+
+
