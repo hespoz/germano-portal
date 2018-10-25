@@ -18,6 +18,7 @@ function* register(action) {
         Cookies.set("userId", res.data.userId)
         Cookies.set("userName", res.data.userName)
         Cookies.set("verified", res.data.verified)
+        Cookies.set("email", res.data.email)
         yield put(registerSuccess(res.data))
         const resBuckets = yield call(apiHelper.fetchBuckets, res.data.userName)
         yield put(fetchBucketsSuccess(resBuckets.data))
@@ -34,6 +35,7 @@ function* login(action) {
         Cookies.set("userId", res.data.userId)
         Cookies.set("userName", res.data.userName)
         Cookies.set("verified", res.data.verified)
+        Cookies.set("email", res.data.email)
         yield put(loginSuccess(res.data))
         const resBuckets = yield call(apiHelper.fetchBuckets, res.data.userName)
         yield put(fetchBucketsSuccess(resBuckets.data))
@@ -47,6 +49,7 @@ function* logOut() {
     Cookies.remove("token")
     Cookies.remove("userId")
     Cookies.remove("userName")
+    Cookies.remove("email")
     localStorage.clear()
     yield put(logOutSuccess())
 }

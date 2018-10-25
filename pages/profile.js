@@ -28,10 +28,14 @@ class Profile extends Component {
     }
 
     onSaveUserInfo = (values) => {
-        this.props.toggleConfirmationModal(true)
-        this.setState({
-            paramsFunc:values
-        })
+        if (this.props.operationAllowed) {
+            this.props.saveUserInfo(values)
+        } else {
+            this.props.toggleConfirmationModal(true)
+            this.setState({
+                paramsFunc:values
+            })
+        }
     }
 
     render() {
@@ -145,6 +149,7 @@ class Profile extends Component {
 
 
 const mapStateToProps = (state) => ({
+    operationAllowed: state.user.operationAllowed,
     userInfo: state.user.userInfo,
     confirmationModal: state.user.confirmationModal
 });

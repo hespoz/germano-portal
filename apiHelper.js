@@ -80,6 +80,9 @@ const apiHelper = {
     },
     saveUserInfo: (data) => {
         return axios.put(`${host}/api/v1/user/info`, data, secureHeader())
+    },
+    saveUserInfoConfirm: (data) => {
+        return axios.put(`${host}/api/v1/user/info/confirm/${data}`, null, secureHeader())
     }
 
 

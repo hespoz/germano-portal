@@ -5,7 +5,8 @@ import {
     SAVE_USER_INFO_ERROR,
     TOGGLE_CONFIRMATION_MODAL,
     ALLOW_PROFILE_INFO_OPERATION_SUCCESS,
-    ALLOW_PROFILE_INFO_OPERATION_ERROR
+    ALLOW_PROFILE_INFO_OPERATION_ERROR, SAVE_USER_INFO_CONFIRM_SUCCESS,
+    SAVE_USER_INFO_CONFIRM_ERROR
 } from "../constants";
 
 export default function reducer(state = {
@@ -15,7 +16,9 @@ export default function reducer(state = {
     updateUserInfoError:null,
     confirmLoginError:null,
     operationAllowed:false,
-    confirmationModal:false
+    confirmationModal:false,
+    updateUserInfoConfirm: null,
+    updateUserInfoConfirmError: null
 }, action) {
     switch (action.type) {
         case FETCH_USER_INFO_SUCCESS:
@@ -61,10 +64,28 @@ export default function reducer(state = {
         case ALLOW_PROFILE_INFO_OPERATION_ERROR:
             return {
                 ...state,
-                operationAllowed:action.payload,
-                confirmLoginError:null
+                operationAllowed:false,
+                confirmLoginError:action.payload.message
             }
             break;
+
+
+        case SAVE_USER_INFO_CONFIRM_SUCCESS:
+            return {
+                ...state,
+                updateUserInfoConfirm:action.payload,
+                updateUserInfoConfirmError:null
+            }
+            break;
+
+        case SAVE_USER_INFO_CONFIRM_ERROR:
+            return {
+                ...state,
+                updateUserInfoConfirm:null,
+                updateUserInfoConfirmError:action.payload.message
+            }
+            break;
+
     }
 
     return state

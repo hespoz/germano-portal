@@ -26,7 +26,8 @@ import {
     RECOVER_PASSWORD_ERROR,
     RESET_PASSWORD,
     RESET_PASSWORD_SUCCESS,
-    RESET_PASSWORD_ERROR
+    RESET_PASSWORD_ERROR,
+    UPDATE_LOCAL_PROFILE_INFO
 } from '../constants'
 
 export const login = (data) => ({
@@ -161,5 +162,10 @@ export const resetPasswordSuccess = (data) => ({
 
 export const resetPasswordError = (data) => ({
     type: RESET_PASSWORD_ERROR,
+    payload: data
+})
+
+export const updateLocalProfileInfo = (data) => ({
+    type: UPDATE_LOCAL_PROFILE_INFO,
     payload: data
 })

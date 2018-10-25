@@ -3,17 +3,13 @@ import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {Form, Button, Message, Checkbox} from 'semantic-ui-react'
 import {Field, reduxForm} from 'redux-form'
-import {toggleConfirmationModal} from "../../actions/userAction";
 import {validateProfile} from "../formElement/ValidationForms";
 import {InputField, Toggle} from "../formElement/FormElements";
 
 class UserInfoForm extends Component {
 
     submit = values => {
-        console.log(values)
-        //this.props.saveUserInfo({email: values.email, username:values.username})
-        this.props.onSaveUserInfo()
-
+        this.props.onSaveUserInfo(values)
     }
 
 
@@ -27,7 +23,7 @@ class UserInfoForm extends Component {
 
                 {updateUserInfoSuccess ?
                     <Message fluid positive>
-                        <p>Informacion actualizada</p>
+                        <p>{updateUserInfoSuccess}</p>
                     </Message>
                     :
                     null

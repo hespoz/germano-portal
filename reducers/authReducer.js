@@ -26,6 +26,7 @@ const initialState = {
     hasToken:false,
     userId: null,
     userName: null,
+    email: null,
     errorMessageLogin:null,
     errorMessageRegister:null,
     errorMessageRecoveryPassword:null,
@@ -60,6 +61,7 @@ export default function reducer(state = initialState, action) {
                 hasToken:true,
                 userId: Cookies.get('userId'),
                 userName: Cookies.get('userName'),
+                email:action.payload.email,
                 verified: action.payload.verified
             }
             break;
@@ -124,7 +126,8 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 hasToken: Cookies.get('token') !== undefined && Cookies.get('token') !== null,
                 userId: Cookies.get('userId'),
-                userName: Cookies.get('userName')
+                userName: Cookies.get('userName'),
+                email:Cookies.get('email'),
             }
 
             break;

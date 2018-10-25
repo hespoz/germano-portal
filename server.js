@@ -39,6 +39,12 @@ app.prepare()
             app.render(req, res, '/confirmation', queryParams)
         })
 
+        server.get('/info/update/confirm/:token', (req, res) => {
+            const queryParams = { token: req.params.token }
+            app.render(req, res, '/infoUpdate', queryParams)
+        })
+
+
         server.get('/reset/password/:token', (req, res) => {
             const queryParams = { token: req.params.token }
             app.render(req, res, '/resetPassword', queryParams)
