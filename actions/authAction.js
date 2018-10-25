@@ -27,7 +27,8 @@ import {
     RESET_PASSWORD,
     RESET_PASSWORD_SUCCESS,
     RESET_PASSWORD_ERROR,
-    UPDATE_LOCAL_PROFILE_INFO
+    UPDATE_LOCAL_EMAIL,
+    UPDATE_LOCAL_USERNAME
 } from '../constants'
 
 export const login = (data) => ({
@@ -165,7 +166,12 @@ export const resetPasswordError = (data) => ({
     payload: data
 })
 
-export const updateLocalProfileInfo = (data) => ({
-    type: UPDATE_LOCAL_PROFILE_INFO,
+export const updateLocalEmail = (data) => ({
+    type: UPDATE_LOCAL_EMAIL,
+    payload: data
+})
+
+export const updateLocalUsername = (data) => ({
+    type: UPDATE_LOCAL_USERNAME,
     payload: data
 })

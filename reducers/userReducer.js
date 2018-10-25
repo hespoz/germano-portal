@@ -6,7 +6,7 @@ import {
     TOGGLE_CONFIRMATION_MODAL,
     ALLOW_PROFILE_INFO_OPERATION_SUCCESS,
     ALLOW_PROFILE_INFO_OPERATION_ERROR, SAVE_USER_INFO_CONFIRM_SUCCESS,
-    SAVE_USER_INFO_CONFIRM_ERROR
+    SAVE_USER_INFO_CONFIRM_ERROR, UPDATE_LOCAL_PROFILE_INFO
 } from "../constants";
 
 export default function reducer(state = {
@@ -85,6 +85,7 @@ export default function reducer(state = {
                 updateUserInfoConfirmError:action.payload.message
             }
             break;
+
 
     }
 

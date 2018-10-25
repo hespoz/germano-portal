@@ -17,7 +17,9 @@ import {
     RESET_PASSWORD_SUCCESS,
     RESET_PASSWORD_ERROR,
     RECOVER_PASSWORD_SUCCESS,
-    RECOVER_PASSWORD_ERROR
+    RECOVER_PASSWORD_ERROR,
+    UPDATE_LOCAL_EMAIL,
+    UPDATE_LOCAL_USERNAME
 } from "../constants";
 
 import Cookies from 'js-cookie'
@@ -210,6 +212,21 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 recoverPasswordSuccess: null,
                 recoverPasswordError: action.payload.message
+            }
+            break;
+
+        case UPDATE_LOCAL_EMAIL:
+            console.log("Llego", action.payload)
+            return {
+                ...state,
+                email:action.payload
+            }
+            break;
+
+        case UPDATE_LOCAL_USERNAME:
+            return {
+                ...state,
+                userName:action.payload
             }
             break;
 

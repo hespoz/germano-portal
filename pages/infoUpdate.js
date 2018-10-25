@@ -3,6 +3,7 @@ import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
 import Layout from '../components/Layout';
 import {Message} from 'semantic-ui-react';
+import Cookies from 'js-cookie'
 
 import {
     saveUserInfoConfirm
@@ -22,6 +23,10 @@ class InfoUpdate extends Component {
             updateUserInfoConfirmError:store.getState().user.updateUserInfoConfirmError
         }
 
+    }
+
+    componentWillReceiveProps = () => {
+        Cookies.set("email", this.props.email)
     }
 
     render() {
@@ -58,6 +63,7 @@ class InfoUpdate extends Component {
 
 
 const mapStateToProps = (state) => ({
+    email:state.auth.email,
     updateUserInfoConfirm:state.user.updateUserInfoConfirm,
     updateUserInfoConfirmError:state.user.updateUserInfoConfirmError
 });
