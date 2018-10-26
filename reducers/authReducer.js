@@ -19,7 +19,10 @@ import {
     RECOVER_PASSWORD_SUCCESS,
     RECOVER_PASSWORD_ERROR,
     UPDATE_LOCAL_EMAIL,
-    UPDATE_LOCAL_USERNAME
+    UPDATE_LOCAL_USERNAME,
+    UPDATE_LOCAL_INFO,
+    CHANGE_PASSWORD_SUCCESS,
+    CHANGE_PASSWORD_ERROR
 } from "../constants";
 
 import Cookies from 'js-cookie'
@@ -41,7 +44,9 @@ const initialState = {
     resendVerificationError:null,
     authForm: LOGIN_FORM,
     recoverPasswordSuccess:null,
-    recoverPasswordError:null
+    recoverPasswordError:null,
+    changePasswordSuccess:null,
+    changePasswordError:null
 }
 export default function reducer(state = initialState, action) {
     switch (action.type) {
@@ -61,8 +66,8 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 errorMessageLogin:null,
                 hasToken:true,
-                userId: Cookies.get('userId'),
-                userName: Cookies.get('userName'),
+                userId: action.payload._id,
+                userName: action.payload.userName,
                 email:action.payload.email,
                 verified: action.payload.verified
             }
@@ -79,8 +84,8 @@ export default function reducer(state = initialState, action) {
                 ...state,
                 errorMessageRegister:null,
                 hasToken:true,
-                userId: Cookies.get('userId'),
-                userName: Cookies.get('userName'),
+                userId: action.payload._id,
+                userName: action.payload.username,
                 verified: false
             }
             break;
@@ -123,13 +128,15 @@ export default function reducer(state = initialState, action) {
                 authForm:action.payload
             }
             break;
-        case GET_TOKEN:
+
+        case UPDATE_LOCAL_INFO:
             return {
                 ...state,
                 hasToken: Cookies.get('token') !== undefined && Cookies.get('token') !== null,
-                userId: Cookies.get('userId'),
-                userName: Cookies.get('userName'),
-                email:Cookies.get('email'),
+                userName: action.payload.username,
+                email:action.payload.email,
+                verified: action.payload.verified,
+                userId: action.payload._id
             }
 
             break;
@@ -227,6 +234,23 @@ export default function reducer(state = initialState, action) {
             return {
                 ...state,
                 userName:action.payload
+            }
+            break;
+
+
+        case CHANGE_PASSWORD_SUCCESS:
+            return {
+                ...state,
+                changePasswordSuccess:true,
+                changePasswordError:null
+            }
+            break;
+
+        case CHANGE_PASSWORD_ERROR:
+            return {
+                ...state,
+                changePasswordSuccess: null,
+                changePasswordError: action.payload.message
             }
             break;
 

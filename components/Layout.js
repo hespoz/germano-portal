@@ -6,8 +6,10 @@ import Link from 'next/link';
 import AuthModal from './auth/AuthModal'
 import NewWordModal from "./add_word/WordModal";
 import AddBucket from './bucket/AddBucket'
-import {openAuthModal, closeAuthModal, logOut, getToken, verificationStatus, resendVerificationEmail} from "../actions/authAction";
+import {openAuthModal, closeAuthModal, logOut, verificationStatus, resendVerificationEmail} from "../actions/authAction";
 import {closeWordFormModal} from "../actions/dictionaryAction";
+import {fetchUserInfo} from "../actions/userAction";
+import Cookies from "js-cookie"
 
 
 class Layout extends Component {
@@ -17,7 +19,11 @@ class Layout extends Component {
     }
 
     componentDidMount = () => {
-        this.props.getToken()
+
+        if (Cookies.get("token")) {
+            this.props.fetchUserInfo()
+        }
+
         this.props.verificationStatus()
     }
 
@@ -140,7 +146,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    openAuthModal, closeAuthModal, logOut, closeWordFormModal, getToken, verificationStatus, resendVerificationEmail
+    openAuthModal, closeAuthModal, logOut, closeWordFormModal, verificationStatus, resendVerificationEmail, fetchUserInfo
 }, dispatch);
 
 

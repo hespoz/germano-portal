@@ -10,7 +10,13 @@ import {resetPassword} from "../../actions/authAction"
 class ResetPasswordForm extends Component {
 
     submit = values => {
-        this.props.resetPassword({recoveryToken: this.props.recoveryToken, password:values.password})
+
+        if(this.props.recoveryToken) {
+            this.props.resetPassword({recoveryToken: this.props.recoveryToken, password:values.password})
+        } else {
+            this.props.onPasswordChange(values)
+        }
+
     }
 
     render() {

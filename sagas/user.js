@@ -6,7 +6,7 @@ import {
     SAVE_USER_INFO_CONFIRM
 } from "../constants";
 import {fetchUserInfoSuccess, fetchUserInfoError, saveUserInfoSuccess, saveUserInfoError, confirmLoginSuccess, confirmLoginError, saveUserInfoConfirmSuccess, saveUserInfoConfirmError} from '../actions/userAction'
-import {updateLocalEmail, updateLocalUsername} from '../actions/authAction'
+import {updateLocalEmail, updateLocalUsername, updateLocalInfo} from '../actions/authAction'
 
 import apiHelper from "../apiHelper";
 
@@ -19,6 +19,7 @@ function* fetchUserInfo() {
         const res = yield call(apiHelper.fetchUserInfo)
 
         yield put(fetchUserInfoSuccess(res.data))
+        yield put(updateLocalInfo(res.data.user))
 
     } catch (error) {
         yield put(fetchUserInfoError({message:error.response.data.message}))
@@ -33,16 +34,13 @@ function* saveUserInfo(action) {
         yield put(saveUserInfoSuccess(res.data.message))
         yield put(updateLocalUsername(res.data.username))
 
-        Cookies.set("userName", res.data.username)
-
-
         yield sleep(15000)
 
         yield put(saveUserInfoSuccess(null))
 
 
     } catch (error) {
-        yield put(saveUserInfoError({message:error.response.data.message}))
+        yield put(saveUserInfoError({message:get(error,"response.data.message")}))
     }
 }
 

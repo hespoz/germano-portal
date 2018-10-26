@@ -1,12 +1,12 @@
 import { put, call, takeEvery, all } from 'redux-saga/effects';
 import {
     REGISTER, LOGIN, LOGOUT, CONFIRM_USER, VERIFICATION_STATUS, RESEND_VERIFICATION_EMAIL, RECOVER_PASSWORD,
-    RESET_PASSWORD
+    RESET_PASSWORD, CHANGE_PASSWORD
 } from "../constants";
 
 import apiHelper from "../apiHelper";
 import {registerError, registerSuccess, loginSuccess, loginError, logOutSuccess, confirmUserSuccess, confirmUserError, verificationStatusSuccess, verificationStatusError,
-    resendVerificationEmailSuccess, resendVerificationEmailError,recoverPasswordSuccess, recoverPasswordError, resetPasswordSuccess, resetPasswordError} from "../actions/authAction";
+    resendVerificationEmailSuccess, resendVerificationEmailError,recoverPasswordSuccess, recoverPasswordError, resetPasswordSuccess, resetPasswordError, changePasswordSuccess, changePasswordError} from "../actions/authAction";
 
 import Cookies from 'js-cookie'
 import {fetchBucketsSuccess} from "../actions/bucketAction";
@@ -15,10 +15,6 @@ function* register(action) {
     try {
         const res = yield call(apiHelper.register, action.payload)
         Cookies.set("token", res.data.token)
-        Cookies.set("userId", res.data.userId)
-        Cookies.set("userName", res.data.userName)
-        Cookies.set("verified", res.data.verified)
-        Cookies.set("email", res.data.email)
         yield put(registerSuccess(res.data))
         const resBuckets = yield call(apiHelper.fetchBuckets, res.data.userName)
         yield put(fetchBucketsSuccess(resBuckets.data))
@@ -32,10 +28,6 @@ function* login(action) {
     try {
         const res = yield call(apiHelper.login, action.payload)
         Cookies.set("token", res.data.token)
-        Cookies.set("userId", res.data.userId)
-        Cookies.set("userName", res.data.userName)
-        Cookies.set("verified", res.data.verified)
-        Cookies.set("email", res.data.email)
         yield put(loginSuccess(res.data))
         const resBuckets = yield call(apiHelper.fetchBuckets, res.data.userName)
         yield put(fetchBucketsSuccess(resBuckets.data))
@@ -47,11 +39,8 @@ function* login(action) {
 
 function* logOut() {
     Cookies.remove("token")
-    Cookies.remove("userId")
-    Cookies.remove("userName")
-    Cookies.remove("email")
-    localStorage.clear()
     yield put(logOutSuccess())
+    window.location = "/"
 }
 
 function* confirmUser(action) {
@@ -115,6 +104,16 @@ function* resetPassword(action) {
 }
 
 
+function* changePassword(action) {
+    try {
+        yield call(apiHelper.changePassword, action.payload)
+        yield put(resetPasswordSuccess(true))
+    } catch (error) {
+        yield put(resetPasswordError({message:error.response.data.message}))
+    }
+}
+
+
 export default function* authSaga() {
     yield all([
         takeEvery(REGISTER, register),
@@ -124,6 +123,7 @@ export default function* authSaga() {
         takeEvery(VERIFICATION_STATUS, verificationStatus),
         takeEvery(RESEND_VERIFICATION_EMAIL, resendVerificationEmail),
         takeEvery(RECOVER_PASSWORD, recoverPassword),
-        takeEvery(RESET_PASSWORD, resetPassword)
+        takeEvery(RESET_PASSWORD, resetPassword),
+        takeEvery(CHANGE_PASSWORD, changePassword)
     ])
 }

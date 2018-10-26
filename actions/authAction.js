@@ -28,7 +28,11 @@ import {
     RESET_PASSWORD_SUCCESS,
     RESET_PASSWORD_ERROR,
     UPDATE_LOCAL_EMAIL,
-    UPDATE_LOCAL_USERNAME
+    UPDATE_LOCAL_USERNAME,
+    UPDATE_LOCAL_INFO,
+    CHANGE_PASSWORD,
+    CHANGE_PASSWORD_SUCCESS,
+    CHANGE_PASSWORD_ERROR
 } from '../constants'
 
 export const login = (data) => ({
@@ -88,8 +92,9 @@ export const setAuthForms = (data) => ({
     payload: data
 })
 
-export const getToken = () => ({
-    type: GET_TOKEN
+export const updateLocalInfo = (data) => ({
+    type: UPDATE_LOCAL_INFO,
+    payload: data
 })
 
 export const confirmUser = (data) => ({
@@ -173,5 +178,20 @@ export const updateLocalEmail = (data) => ({
 
 export const updateLocalUsername = (data) => ({
     type: UPDATE_LOCAL_USERNAME,
+    payload: data
+})
+
+export const changePassword = (data) => ({
+    type: CHANGE_PASSWORD,
+    payload: data
+})
+
+export const changePasswordSuccess = (data) => ({
+    type: CHANGE_PASSWORD_SUCCESS,
+    payload: data
+})
+
+export const changePasswordError = (data) => ({
+    type: CHANGE_PASSWORD_ERROR,
     payload: data
 })

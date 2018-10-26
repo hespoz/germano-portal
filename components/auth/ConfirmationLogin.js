@@ -14,10 +14,18 @@ class ConfirmationLoginModal extends Component {
     componentWillReceiveProps = (props) => {
         if (this.state.triggered && props.operationAllowed) {
 
+            let params = this.props.paramsFunc
+
+            if (this.props.passwordAsParameter) {
+                params.currentPassword = this.state.password
+            }
+
             this.setState({
                 password:'',
                 triggered:false
-            }, () => {this.props.confirmFunc(this.props.paramsFunc)})
+            }, () => {
+                this.props.confirmFunc(params)
+            })
             this.props.onClose()
         }
     }

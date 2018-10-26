@@ -5,18 +5,25 @@ import Layout from '../components/Layout';
 import { Accordion, Icon } from 'semantic-ui-react'
 import UserInfoForm from "../components/profile/UserInfoForm"
 import ConfirmationLoginModal from "../components/auth/ConfirmationLogin"
+import ResetPasswordForm from "../components/auth/ResetPasswordForm"
 import {fetchUserInfo, saveUserInfo, toggleConfirmationModal} from  "../actions/userAction"
+import {changePassword} from  "../actions/authAction"
 import {get} from "lodash"
+import Cookies from "js-cookie"
 
 class Profile extends Component {
 
     state = {
         activeIndex: 0,
-        paramsFunc:{}
+        paramsFunc:{},
+        confirmFunc:null,
+        passwordAsParameter:false
     }
 
     componentDidMount = () => {
-        this.props.fetchUserInfo()
+        if (!Cookies.get("token")) {
+            window.location = "/"
+        }
     }
 
     handleClick = (e, titleProps) => {
@@ -31,11 +38,21 @@ class Profile extends Component {
         if (this.props.operationAllowed) {
             this.props.saveUserInfo(values)
         } else {
-            this.props.toggleConfirmationModal(true)
-            this.setState({
-                paramsFunc:values
-            })
+            this.openConfirmDialog(this.props.saveUserInfo, values, false)
         }
+    }
+
+    onPasswordChange = (values) => {
+        this.openConfirmDialog(this.props.changePassword, values, true)
+    }
+
+    openConfirmDialog = (func, values, passwordAsParameter) => {
+        this.props.toggleConfirmationModal(true)
+        this.setState({
+            paramsFunc:values,
+            confirmFunc: func,
+            passwordAsParameter
+        })
     }
 
     render() {
@@ -50,8 +67,9 @@ class Profile extends Component {
 
                     <ConfirmationLoginModal
                         open={confirmationModal}
-                        confirmFunc={this.props.saveUserInfo}
+                        confirmFunc={this.state.confirmFunc}
                         paramsFunc={this.state.paramsFunc}
+                        passwordAsParameter={this.state.passwordAsParameter}
                         onClose={() => this.props.toggleConfirmationModal(false)}/>
 
                     <div
@@ -77,11 +95,11 @@ class Profile extends Component {
                                     Password
                                 </Accordion.Title>
                                 <Accordion.Content active={activeIndex === 1}>
-                                    <p>
-                                        There are many breeds of dogs. Each breed varies in size and temperament. Owners often
-                                        select a breed of dog that they find to be compatible with their own lifestyle and
-                                        desires from a companion.
-                                    </p>
+                                    {get(userInfo, 'user') ?
+                                        <ResetPasswordForm onPasswordChange={this.onPasswordChange}/>
+                                        :
+                                        null
+                                    }
                                 </Accordion.Content>
 
                                 <Accordion.Title active={activeIndex === 2} index={2} onClick={this.handleClick}>
@@ -154,7 +172,7 @@ const mapStateToProps = (state) => ({
     confirmationModal: state.user.confirmationModal
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({fetchUserInfo, saveUserInfo, toggleConfirmationModal}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({fetchUserInfo, saveUserInfo, toggleConfirmationModal, changePassword}, dispatch);
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
