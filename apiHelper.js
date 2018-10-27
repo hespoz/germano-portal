@@ -76,7 +76,7 @@ const apiHelper = {
         return axios.put(`${host}/api/v1/auth/reset/password`, data)
     },
     changePassword: (data) => {
-        return axios.put(`${host}/api/v1/auth/change/password`, data)
+        return axios.put(`${host}/api/v1/auth/change/password`, data, secureHeader())
     },
     fetchUserInfo: () => {
         return axios.get(`${host}/api/v1/user/info`, secureHeader())

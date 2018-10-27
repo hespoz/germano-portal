@@ -2,13 +2,11 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {bindActionCreators} from 'redux'
 import {Message} from 'semantic-ui-react'
-import {formValueSelector, reduxForm} from 'redux-form'
-import {validateResetPassword} from '../formElement/ValidationForms'
-import {resetPassword, changePassword} from "../../actions/authAction"
-import ConfirmationLoginModal from "./ConfirmationLogin";
-import PasswordForm from "./PasswordForm";
+import {changePassword} from "../../actions/authAction"
+import ConfirmationLoginModal from "../../components/auth/ConfirmationLogin";
+import PasswordForm from "../auth/PasswordForm";
 
-class ResetPasswordForm extends Component {
+class ChangePasswordForm extends Component {
 
     state = {
         params: {},
@@ -16,8 +14,21 @@ class ResetPasswordForm extends Component {
     }
 
     onSubmit = params => {
-            this.props.resetPassword({recoveryToken: this.props.recoveryToken, password:params.password})
+        console.log("buda", params)
+        if (this.props.operationAllowed) {
+            this.setState({params}, ()=> this.action())
+        } else {
+            this.setState({params, openConfirmationModal:true})
+        }
+    }
 
+    onClose = () => this.setState({openConfirmationModal:false})
+
+    action = (currentPassword) => {
+        this.props.changePassword({
+            currentPassword,
+            password:this.state.params.password
+        })
     }
 
     render() {
@@ -25,18 +36,21 @@ class ResetPasswordForm extends Component {
         const {openConfirmationModal} = this.state
         const {resetPasswordSuccess, errorMessageResetPassword} = this.props
 
-        if(resetPasswordSuccess){
-            return <Message fluid positive>
-                <p>Tu password fue reseteado por favor logeate</p>
-            </Message>
-        }
-
         return (<div>
 
                 <ConfirmationLoginModal
                     open={openConfirmationModal}
                     action={this.action}
                     onClose={this.onClose}/>
+
+                {resetPasswordSuccess ?
+                    <Message fluid positive>
+                        <p>El password fue actualizado</p>
+                    </Message>
+                    :
+                    null
+                }
+
 
                 {errorMessageResetPassword ?
                     <Message fluid negative>
@@ -56,16 +70,11 @@ class ResetPasswordForm extends Component {
 
 
 const mapStateToProps = (state) => ({
-    password: formValueSelector("resetPasswordForm")(state, 'password'),
-    repeatPassword: formValueSelector("resetPasswordForm")(state, 'repeatPassword'),
     resetPasswordSuccess: state.auth.resetPasswordSuccess,
     errorMessageResetPassword: state.auth.errorMessageResetPassword,
     operationAllowed: state.user.operationAllowed
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({resetPassword, changePassword}, dispatch)
+const mapDispatchToProps = (dispatch) => bindActionCreators({changePassword}, dispatch)
 
-export default connect(mapStateToProps,mapDispatchToProps)(reduxForm({
-    form: 'resetPasswordForm',
-    validate: validateResetPassword
-})(ResetPasswordForm));
+export default connect(mapStateToProps,mapDispatchToProps)(ChangePasswordForm);

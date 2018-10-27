@@ -4,10 +4,8 @@ import {bindActionCreators} from 'redux';
 import Layout from '../components/Layout';
 import { Accordion, Icon } from 'semantic-ui-react'
 import UserInfoForm from "../components/profile/UserInfoForm"
-import ConfirmationLoginModal from "../components/auth/ConfirmationLogin"
-import ResetPasswordForm from "../components/auth/ResetPasswordForm"
+import ChangePasswordForm from "../components/profile/ChangePasswordForm"
 import {fetchUserInfo, saveUserInfo, toggleConfirmationModal} from  "../actions/userAction"
-import {changePassword} from  "../actions/authAction"
 import {get} from "lodash"
 import Cookies from "js-cookie"
 
@@ -65,13 +63,6 @@ class Profile extends Component {
             <div>
                 <Layout>
 
-                    <ConfirmationLoginModal
-                        open={confirmationModal}
-                        confirmFunc={this.state.confirmFunc}
-                        paramsFunc={this.state.paramsFunc}
-                        passwordAsParameter={this.state.passwordAsParameter}
-                        onClose={() => this.props.toggleConfirmationModal(false)}/>
-
                     <div
                         className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center'}>
                         <div className={'col-12 col-md-5'}>
@@ -96,7 +87,7 @@ class Profile extends Component {
                                 </Accordion.Title>
                                 <Accordion.Content active={activeIndex === 1}>
                                     {get(userInfo, 'user') ?
-                                        <ResetPasswordForm onPasswordChange={this.onPasswordChange}/>
+                                        <ChangePasswordForm/>
                                         :
                                         null
                                     }
@@ -172,7 +163,7 @@ const mapStateToProps = (state) => ({
     confirmationModal: state.user.confirmationModal
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({fetchUserInfo, saveUserInfo, toggleConfirmationModal, changePassword}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({fetchUserInfo, saveUserInfo, toggleConfirmationModal}, dispatch);
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Profile);
