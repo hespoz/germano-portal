@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux';
 import WordDescription from '../WordDescription';
 import SendToBucket from './SendToBucket'
 import {Form, List, Input, Message } from 'semantic-ui-react'
+import {translate} from "react-i18next";
 
 import {
     searchByKeyword,
@@ -49,7 +50,7 @@ class Search extends Component {
 
     render() {
 
-        const {searchResult, open } = this.props
+        const {searchResult, open, t } = this.props
 
         return (
             <div>
@@ -68,10 +69,10 @@ class Search extends Component {
                         <div className={'col-12 col-xs-12  col-sm-12 col-md-12 col-lg-12 col-xl-12'}>
                             <Form>
                                 <Form.Field>
-                                    <label>Busca palabras en aleman y español y añadelos a tus posts</label>
+                                    <label>{t("search.title")}</label>
                                     <Input icon='search'
                                            size='small'
-                                           placeholder='Buscar...' fluid
+                                           placeholder={t("search.title.placeholder")} fluid
                                            onChange={this.onSearchInputChange}
                                            onFocus={this.onSearchInputFocus}
                                            value={this.state.keyword}/>
@@ -164,4 +165,4 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
 }, dispatch);
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Search);
+export default connect(mapStateToProps, mapDispatchToProps)(translate("translations")(Search));

@@ -4,6 +4,7 @@ import { Field, reduxForm } from 'redux-form'
 import { InputField } from '../formElement/FormElements'
 import { validateLogin } from '../formElement/ValidationForms'
 import {LOGIN_FORM} from "../../constants"
+import {translate} from "react-i18next"
 
 class ForgotPassword extends Component {
 
@@ -20,7 +21,7 @@ class ForgotPassword extends Component {
 
     render() {
 
-        const { recoverPasswordSuccess, errorMessageRecoveryPassword, handleSubmit, submitting } = this.props
+        const { recoverPasswordSuccess, errorMessageRecoveryPassword, handleSubmit, submitting, t } = this.props
 
 
         return (
@@ -28,7 +29,7 @@ class ForgotPassword extends Component {
 
                 {recoverPasswordSuccess ?
                     <Message fluid positive>
-                        <p>Email enviado</p>
+                        <p>{t("email.sent.recover.password")}</p>
                     </Message>
                     :
                     null
@@ -43,11 +44,11 @@ class ForgotPassword extends Component {
                 }
 
                 <Field name='email' component={InputField}
-                       label={'Email'}
-                       placeholder='Email'/>
+                       label={t("email")}
+                       placeholder={t("email")}/>
 
                 <Button type={"submit"} primary fluid disabled={submitting}>
-                    Recuperar password
+                    {t("recover.password")}
                 </Button>
 
                 <Divider horizontal>Or</Divider>
@@ -55,16 +56,9 @@ class ForgotPassword extends Component {
                 <Button secondary fluid onClick={() => {
                     this.props.setAuthForms(LOGIN_FORM)
                 }}>
-                    Ir a login
+                    {t("go.to.login")}
                 </Button>
-                <style jsx>{`
 
-                  .field_error {
-                    color: red;
-                    margin-top: -10px !important;
-                  }
-
-                `}</style>
             </Form>
 
         )
@@ -75,4 +69,4 @@ class ForgotPassword extends Component {
 export default reduxForm({
     form: 'forgotPasswordForm',
     validate: validateLogin
-})(ForgotPassword);
+})(translate("translations")(ForgotPassword));

@@ -4,7 +4,8 @@ import {Form, Button, Divider, Message} from 'semantic-ui-react'
 import {Field, reduxForm, formValueSelector} from 'redux-form'
 import {InputField} from '../formElement/FormElements'
 import {validateRegister} from '../formElement/ValidationForms'
-import {LOGIN_FORM} from "../../constants";
+import {LOGIN_FORM} from "../../constants"
+import {translate} from "react-i18next"
 
 
 class Register extends Component {
@@ -26,7 +27,7 @@ class Register extends Component {
 
     render() {
 
-        const {errorMessageRegister, handleSubmit, password, repeatPassword} = this.props
+        const {errorMessageRegister, handleSubmit, password, repeatPassword, t} = this.props
 
         return (
             <Form onSubmit={handleSubmit(this.submit)}>
@@ -40,34 +41,34 @@ class Register extends Component {
                 }
 
                 <Field name='email' component={InputField}
-                       label={'Email'}
-                       placeholder='Email'/>
+                       label={t("email")}
+                       placeholder={t("email")}/>
 
                 <Field name='username' component={InputField}
-                       label={'Nombre de usuario'}
-                       placeholder='Username'/>
+                       label={t("username")}
+                       placeholder={t("username")}/>
 
                 <Field name='password' component={InputField}
                        type='password'
-                       label={'Password'}
-                       placeholder='Password'/>
+                       label={t("password")}
+                       placeholder={t("password")}/>
 
                 <Field name='repeatPassword' component={InputField}
                        type='password'
-                       label={'Repite tu password'}
-                       placeholder='Repeat password'/>
+                       label={t("repeat.password")}
+                       placeholder={t("repeat.password")}/>
 
 
                 {password !== repeatPassword ?
-                    <p className={"field_error"}>
-                        Passwords should be the same
+                    <p className={"error"}>
+                        {t("repeat.password.error")}
                     </p>
                     :
                     null
                 }
 
                 <Button primary fluid type={"submit"}>
-                    Register
+                    {t("register")}
                 </Button>
 
                 <Divider horizontal>Or</Divider>
@@ -75,17 +76,9 @@ class Register extends Component {
                 <Button secondary fluid onClick={() => {
                     this.props.setAuthForms(LOGIN_FORM)
                 }}>
-                    Back to login
+                    {t("go.to.login")}
                 </Button>
 
-                <style jsx>{`
-
-                  .field_error {
-                    color: red;
-                    margin-top: -10px !important;
-                  }
-
-                `}</style>
             </Form>
 
         )
@@ -102,6 +95,6 @@ export default connect(
 )(reduxForm({
     form: 'registerForm',
     validate: validateRegister
-})(Register));
+})(translate("translations")(Register)));
 
 

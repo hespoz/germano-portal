@@ -1,34 +1,38 @@
 import {Message} from "semantic-ui-react";
 import React from "react";
+import {translate} from "react-i18next";
 
-const OwnerMessage = (userName, openBucketModal) => (
+const OwnerMessage = (userName, openBucketModal, t) => (
     <Message>
         <Message.Header>Bienvenido a tus notas, {userName}!</Message.Header>
         <p>
-            Aca puedes crear, editar y eliminar tus notas en aleman. Aun no tienes creada ninguna nota, pero puedes hacerlo haciendo click en el siguiente link
-            <a href="javascript:void(0)" onClick={() => openBucketModal(null)}> crear nota</a> o usando el el boton de arriba que dice "Nueva nota"
+            {t("empty.notes.owner.message.first")}
+            <a href="javascript:void(0)"
+               onClick={() => openBucketModal(null)}> {t("create.note")} </a> {t("empty.notes.owner.message.second")}
         </p>
     </Message>
 )
 
-const VisitorMessage = (urlUserName) => (
+const VisitorMessage = (urlUserName, t) => (
     <Message>
-        <Message.Header>Bienvenido a las notas de {urlUserName}!</Message.Header>
+        <Message.Header>{t("welcome.to.other.notes")} {urlUserName}!</Message.Header>
         <p>
-            {urlUserName} Aun no tiene creado ninguna nota
+            {urlUserName} {t("empty.notes.other.message")}
         </p>
     </Message>
 )
 
-
-const EmptyNotes = (props) => ( <div className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center content-pos'}>
-    <div className={'col-md-7'}>
-        {props.canWrite ?
-            OwnerMessage(props.userName, props.openBucketModal)
-            :
-            VisitorMessage(props.urlUserName)
-        }
+const EmptyNotes = translate("translations")((props) => {
+    return <div
+        className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center content-pos'}>
+        <div className={'col-md-7'}>
+            {props.canWrite ?
+                OwnerMessage(props.userName, props.openBucketModal, props.t)
+                :
+                VisitorMessage(props.urlUserName, props.t)
+            }
+        </div>
     </div>
-</div>)
+})
 
 export default EmptyNotes

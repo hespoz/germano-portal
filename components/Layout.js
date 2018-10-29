@@ -1,15 +1,16 @@
-import React, {Component} from "react";
-import {connect} from "react-redux";
-import {bindActionCreators} from 'redux';
-import {Menu, Image, Message, Dropdown} from 'semantic-ui-react'
-import Link from 'next/link';
+import React, {Component} from "react"
+import {connect} from "react-redux"
+import {bindActionCreators} from 'redux'
+import {Menu, Image, Message, Dropdown, Flag} from 'semantic-ui-react'
+import Link from 'next/link'
 import AuthModal from './auth/AuthModal'
-import NewWordModal from "./add_word/WordModal";
+import NewWordModal from "./add_word/WordModal"
 import AddBucket from './bucket/AddBucket'
-import {openAuthModal, closeAuthModal, logOut, verificationStatus, resendVerificationEmail} from "../actions/authAction";
-import {closeWordFormModal} from "../actions/dictionaryAction";
-import {fetchUserInfo} from "../actions/userAction";
+import {openAuthModal, closeAuthModal, logOut, verificationStatus, resendVerificationEmail} from "../actions/authAction"
+import {closeWordFormModal} from "../actions/dictionaryAction"
+import {fetchUserInfo} from "../actions/userAction"
 import Cookies from "js-cookie"
+import {translate} from "react-i18next"
 
 
 class Layout extends Component {
@@ -29,9 +30,15 @@ class Layout extends Component {
 
     closeDialog = () => this.props.closeWordFormModal()
 
+    changeLanguage = lng => {
+        const { i18n } = this.props;
+        i18n.changeLanguage(lng);
+    }
+
+
     render() {
 
-        const {openModal, hasToken, userName, wordFormModalOpen, verified, resendedEmail} = this.props;
+        const {openModal, hasToken, userName, wordFormModalOpen, verified, resendedEmail, t, i18n } = this.props;
 
         return (
             <div className={'container'}>
@@ -39,6 +46,7 @@ class Layout extends Component {
                 <AddBucket/>
                 <AuthModal open={openModal} onClose={() => this.props.closeAuthModal()}/>
                 <NewWordModal open={wordFormModalOpen} onClose={this.closeDialog}/>
+
 
                 <div className={'row'}>
                     <div className={'col-12 col-md-12 col-lg-12'}>
@@ -54,9 +62,17 @@ class Layout extends Component {
 
                             <Menu.Menu position='right'>
 
+
+                                <Menu.Item>
+                                    <Flag className={"link"}
+                                        name={'gb'} onClick={() => this.changeLanguage('en')}/>
+                                    <Flag className={"link"}
+                                        name={'es'} onClick={() => this.changeLanguage('es')}/>
+                                </Menu.Item>
+
                                 <Link as={`/`} href={`/`}>
                                     <Menu.Item>
-                                        Inicio
+                                        {t("home")}
                                     </Menu.Item>
                                 </Link>
 
@@ -64,7 +80,7 @@ class Layout extends Component {
                                 {hasToken ?
                                     <Link as={`/notes/${userName}`} href={`/notes/${userName}`}>
                                         <Menu.Item>
-                                            Mis notas
+                                            {t("mynotes")}
                                         </Menu.Item>
                                     </Link>
                                     :
@@ -74,14 +90,14 @@ class Layout extends Component {
                                 {hasToken ?
 
 
-                                    <Dropdown item text={`Bienvenido, ${userName}`}>
+                                    <Dropdown item text={`${t("welcome")}, ${userName}`}>
                                         <Dropdown.Menu>
                                             <Link as={`/profile`} href={`/profile`}>
-                                            <Dropdown.Item>Profile</Dropdown.Item>
+                                                <Dropdown.Item>{t("profile")}</Dropdown.Item>
                                             </Link>
                                             <Dropdown.Item onClick={() => {
                                                 this.props.logOut()
-                                            }}>Log out</Dropdown.Item>
+                                            }}>{t("logout")}</Dropdown.Item>
                                         </Dropdown.Menu>
                                     </Dropdown>
 
@@ -89,18 +105,20 @@ class Layout extends Component {
                                     <Menu.Item onClick={() => {
                                         this.props.openAuthModal(true)
                                     }}>
-                                        Sign In
+                                        {t("login")}
                                     </Menu.Item>
                                 }
 
                             </Menu.Menu>
                         </Menu>
+
+
                     </div>
                 </div>
 
                 {resendedEmail ?
                     <Message positive>
-                        <Message.Header>Email enviado</Message.Header>
+                        <Message.Header>{t("email.resend")}</Message.Header>
                     </Message>
                     :
                     null
@@ -108,7 +126,8 @@ class Layout extends Component {
 
                 {!verified ?
                     <Message error>
-                        <Message.Header>Tienes que verificar tu cuenta para poder usar la aplicacion, te enviamos un email con las instrucciones. <a href={"javascript:void(0)"} onClick={this.props.resendVerificationEmail}>Reenviar</a></Message.Header>
+                        <Message.Header>{t("verification.alert")}<a href={"javascript:void(0)"}
+                                                            onClick={this.props.resendVerificationEmail}>{t("resend")}</a></Message.Header>
                     </Message>
                     :
                     null
@@ -140,14 +159,20 @@ const mapStateToProps = (state) => ({
     openModal: state.auth.openModal,
     hasToken: state.auth.hasToken,
     userName: state.auth.userName,
-    verified:state.auth.verified,
+    verified: state.auth.verified,
     resendedEmail: state.auth.resendedEmail,
     wordFormModalOpen: state.dictionary.wordFormModalOpen
 });
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({
-    openAuthModal, closeAuthModal, logOut, closeWordFormModal, verificationStatus, resendVerificationEmail, fetchUserInfo
+    openAuthModal,
+    closeAuthModal,
+    logOut,
+    closeWordFormModal,
+    verificationStatus,
+    resendVerificationEmail,
+    fetchUserInfo
 }, dispatch);
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Layout);
+export default connect(mapStateToProps, mapDispatchToProps)(translate("translations")(Layout));

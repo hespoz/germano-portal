@@ -4,6 +4,7 @@ import { Field, reduxForm } from 'redux-form'
 import { InputField } from '../formElement/FormElements'
 import { validateLogin } from '../formElement/ValidationForms'
 import {REGISTER_FORM, RECOVER_PASSWORD_FORM} from "../../constants";
+import {translate} from "react-i18next";
 
 
 class Login extends Component {
@@ -21,7 +22,7 @@ class Login extends Component {
 
     render() {
 
-        const { errorMessageLogin, handleSubmit, submitting } = this.props
+        const { errorMessageLogin, handleSubmit, submitting, t } = this.props
 
 
         return (
@@ -36,24 +37,24 @@ class Login extends Component {
                 }
 
                 <Field name='email' component={InputField}
-                       label={'Email'}
-                       placeholder='Email'/>
+                       label={t("email")}
+                       placeholder={t("email")}/>
 
                 <Field name='password' component={InputField}
                        type='password'
-                       label={'Password'}
-                       placeholder='Password'/>
+                       label={t("password")}
+                       placeholder={t("password")}/>
 
                 <div className="link-below">
                     <a href={"javascript:void(0)"} onClick={()  => {
                         this.props.setAuthForms(RECOVER_PASSWORD_FORM)
-                    }}>Forgot password?</a>
+                    }}>{t("forgot.password")}</a>
                 </div>
 
 
                 <br/>
                 <Button type={"submit"} primary fluid disabled={submitting}>
-                    Login
+                    {t("login")}
                 </Button>
 
                 <Divider horizontal>Or</Divider>
@@ -61,14 +62,9 @@ class Login extends Component {
                 <Button secondary fluid onClick={() => {
                     this.props.setAuthForms(REGISTER_FORM)
                 }}>
-                    Register Now
+                    {t("register")}
                 </Button>
                 <style jsx>{`
-
-                  .field_error {
-                    color: red;
-                    margin-top: -10px !important;
-                  }
 
                   .link-below {
                     display:flex;
@@ -90,4 +86,4 @@ class Login extends Component {
 export default reduxForm({
     form: 'loginForm',
     validate: validateLogin
-})(Login);
+})(translate("translations")(Login));

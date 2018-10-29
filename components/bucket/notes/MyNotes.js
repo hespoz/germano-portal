@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
-import {Accordion, Icon, Segment, Message} from "semantic-ui-react";
+import {Accordion, Icon, Message} from "semantic-ui-react";
 import {get} from "lodash";
 import Link from "next/link";
 import Bucket from "../Bucket";
 import EmptyNotes from "./EmptyNotes";
+import {translate} from "react-i18next";
 
 class MyNotes extends Component {
 
@@ -95,7 +96,7 @@ class MyNotes extends Component {
 
     render() {
 
-        const {userName, verified} = this.props
+        const {userName, verified, t} = this.props
 
         return <div
             className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center content-pos'}>
@@ -104,13 +105,13 @@ class MyNotes extends Component {
                 <div className={'row mb-16'}>
 
                     <div className={'col-md-10'}>
-                        <h3>Notas de {userName}</h3>
+                        <h3>{t("notes.title")} {userName}</h3>
                     </div>
 
                     {this.props.userName === this.props.bucketOwnerName && verified ?
                         <div className={'col-md-2 text-right link'}>
                             <Icon size='large' name='add' onClick={() => this.props.openBucketModal(null)}/>
-                            Nueva nota
+                            {t("new.note")}
                         </div>
                         :
                         null
@@ -127,4 +128,4 @@ class MyNotes extends Component {
 
 }
 
-export default MyNotes
+export default translate("translations")(MyNotes)
