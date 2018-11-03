@@ -27,6 +27,7 @@ i18n.use(LanguageDetector).init({
                 "email.sent.recover.password":"Recovery password magic link was sent to your email",
                 "search.title":"Search words in german to add to your notes",
                 "search.title.placeholder":"Search...",
+                "search.noresults":"This word does not exist, we keep adding new words",
                 "new.note": "New note",
                 "notes.title":"Notes of ",
                 "empty.notes.owner.message.first":"Here you can create, edit and remove your notes in german. Yo don't have any note yet, you can do it clicking the following link",
@@ -38,7 +39,18 @@ i18n.use(LanguageDetector).init({
                 "remove.note.title":"Delete note",
                 "delete.note.message":"Are you sure you want a delete this note?",
                 "no":"No",
-                "yes.delete":"Yes, delete!"
+                "yes.delete":"Yes, delete!",
+                "pronoun":"Pronoun",
+                "conjugation":"Conjugation",
+                "language":"Language",
+                "translation":"Translation",
+                "add.note.name":"Note name",
+                "create":"Create",
+                "validate.account":"You need to validate your account for add new notes and comments.",
+                "remove.sentence":"Remove sentence",
+                "remove.sentence.confirm":"Are you sure you want to delete this sentence?",
+                "comment.placeholder":"Write your comment",
+                
             }
         },
         es: {
@@ -64,6 +76,7 @@ i18n.use(LanguageDetector).init({
                 "email.sent.recover.password":"Link magico para recuperar tu password fue enviado a tu email",
                 "search.title":"Buscar palabras en aleman para añadir a tus notas",
                 "search.title.placeholder":"Buscar...",
+                "search.noresults":"Esta palabra no existe, la tomaremos en cuenta, estamos añadiendo nuevas palabras constantemente!",
                 "new.note": "Nueva nota",
                 "notes.title":"Notas de ",
                 "empty.notes.owner.message.first":"Aca puedes crear, editar y eliminar tus notas en aleman. Aun no tienes creada ninguna nota, pero puedes hacerlo haciendo click en el siguiente link",
@@ -75,7 +88,17 @@ i18n.use(LanguageDetector).init({
                 "remove.note.title":"Borrar nota",
                 "delete.note.message":"Esta seguro que desea borrar esta nota?",
                 "no":"No",
-                "yes.delete":"Si, borrar!"
+                "yes.delete":"Si, borrar!",
+                "pronoun":"Pronombre",
+                "conjugation":"Conjugación",
+                "language":"Languaje",
+                "translation":"Traducción",
+                "add.note.name":"Nombre nota",
+                "create":"Crear",
+                "validate.account":"Necesitas validar tu cuenta para añadir notas y hacer comentarios.",
+                "remove.sentence":"Borrar oración",
+                "remove.sentence.confirm":"Estas seguro que deseas borrar esta oracion?",
+                "comment.placeholder":"Escribe tu comentario"
             }
         }
     },

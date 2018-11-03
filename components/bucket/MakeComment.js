@@ -4,6 +4,7 @@ import {bindActionCreators} from 'redux'
 import {Button, Form, Icon, Card, Header, Segment} from 'semantic-ui-react'
 import {addComment, editComment, deleteComment} from '../../actions/bucketAction'
 import {openAuthModal} from '../../actions/authAction'
+import {translate} from "react-i18next";
 
 class MakeComment extends Component {
 
@@ -45,7 +46,6 @@ class MakeComment extends Component {
         const {hasToken, userId, sentenceId} = this.props
         const {comment, commentId} = this.state
 
-        console.log(this.props.comment)
         return <Segment>
 
             {hasToken && userId === this.props.comment.authorId ?
@@ -81,7 +81,7 @@ class MakeComment extends Component {
 
     render() {
 
-        const {hasToken, index} = this.props
+        const {hasToken, index, t} = this.props
         const {comment, commentId, showForm} = this.state
 
         if (!showForm) {
@@ -98,7 +98,7 @@ class MakeComment extends Component {
                         <div className={"row"}>
                             <div className={"col-md-12"}>
                                 <Form.TextArea
-                                    placeholder='Comment'
+                                    placeholder={t("comment.placeholder")}
                                     name='comment'
                                     value={comment}
                                     onChange={this.handleChange}
@@ -151,5 +151,5 @@ const mapDispatchToProps = (dispatch) => bindActionCreators({
     openAuthModal
 }, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(MakeComment);
+export default connect(mapStateToProps, mapDispatchToProps)(translate("translations")(MakeComment));
 

@@ -8,6 +8,7 @@ import {get} from 'lodash';
 import {openSendToBucketModal} from '../actions/bucketAction'
 
 import ViewMore from "./ViewMore";
+import {translate} from "react-i18next";
 
 class WordDescription extends Component {
 
@@ -62,6 +63,8 @@ class WordDescription extends Component {
 
     renderConjugation = (conjugations) => {
 
+        const {t} = this.props
+
         if (conjugations === undefined || conjugations === null || conjugations.length === 0) {
             return null
         }
@@ -70,8 +73,8 @@ class WordDescription extends Component {
 
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell textAlign={'center'}>Pronombre</Table.HeaderCell>
-                    <Table.HeaderCell textAlign={'center'}>Conjugación</Table.HeaderCell>
+                    <Table.HeaderCell textAlign={'center'}>{t("pronoun")}</Table.HeaderCell>
+                    <Table.HeaderCell textAlign={'center'}>{t("conjugation")}</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
 
@@ -89,6 +92,8 @@ class WordDescription extends Component {
 
     renderTranslations = (wordItem) => {
 
+        const {t} = this.props
+
         const translations = get(wordItem, 'translations')
         if (translations === undefined) {
             return null
@@ -98,8 +103,8 @@ class WordDescription extends Component {
 
             <Table.Header>
                 <Table.Row>
-                    <Table.HeaderCell textAlign={'center'}>Lenguaje</Table.HeaderCell>
-                    <Table.HeaderCell textAlign={'center'}>Traducción</Table.HeaderCell>
+                    <Table.HeaderCell textAlign={'center'}>{t("language")}</Table.HeaderCell>
+                    <Table.HeaderCell textAlign={'center'}>{t("translation")}</Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
 
@@ -180,4 +185,4 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({openSendToBucketModal}, dispatch);
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(WordDescription);
+export default connect(mapStateToProps, mapDispatchToProps)(translate("translations")(WordDescription));

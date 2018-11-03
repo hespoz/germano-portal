@@ -90,7 +90,7 @@ class Search extends Component {
 
                                     <Message fluid>
                                         <Message.Header>Opss!</Message.Header>
-                                        <p>Esta palabra no existe, la tomaremos en cuenta, estamos añadiendo nuevas palabras constantemente!</p>
+                                        <p>{t("search.noresults")}</p>
                                     </Message>
 
                                     :

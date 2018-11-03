@@ -3,6 +3,7 @@ import {connect} from "react-redux"
 import {bindActionCreators} from 'redux'
 import {Modal, Button, Form} from 'semantic-ui-react'
 import {saveBucket, closeBucketModal} from '../../actions/bucketAction'
+import {translate} from "react-i18next";
 
 class AddBucket extends Component {
 
@@ -23,24 +24,25 @@ class AddBucket extends Component {
 
     render() {
 
+        const {t} = this.props
         const {name} = this.state
 
         return <Modal size={'tiny'} open={this.props.openBucketModal} style={{zIndex: '9999999'}}
                       onClose={this.props.closeBucketModal}>
-            <Modal.Header>Nueva Nota</Modal.Header>
+            <Modal.Header>{t("new.note")}</Modal.Header>
             <Modal.Content image>
                 <Modal.Description>
                     <Form onSubmit={this.onSubmit}>
                         <Form.Input
-                            label={"Nombre nota"}
-                            placeholder='Nombre nota'
+                            label={t("add.note.name")}
+                            placeholder={t("add.note.name")}
                             name='name'
                             value={name}
                             onChange={this.handleChange}
                         />
                         <div className={"row"}>
                             <div className={"col-md-12 text-right"}>
-                                <Button basic color='blue' type='submit'>Create</Button>
+                                <Button basic color='blue' type='submit'>{t("create")}</Button>
                             </div>
                         </div>
                     </Form>
@@ -57,4 +59,4 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => bindActionCreators({saveBucket, closeBucketModal}, dispatch);
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddBucket);
+export default connect(mapStateToProps, mapDispatchToProps)(translate("translations")(AddBucket));

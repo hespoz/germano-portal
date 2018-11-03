@@ -29,17 +29,18 @@ class MyNotes extends Component {
     }
 
     renderWarning = () => {
+        const {t} = this.props
         return <div
             className={'row justify-content-md-center justify-content-lg-center justify-content-sm-center content-pos'}>
             <div className={'col-md-12'}>
-                <Message warning>Necesitas validar tu cuenta para añadir elemento</Message>
+                <Message warning>{t("validate.account")}</Message>
             </div>
         </div>
     }
 
     renderNotesEditor = () => {
         const {activeIndex} = this.state
-        const {buckets, userName, urlUserName, verified} = this.props
+        const {buckets, userName, urlUserName, verified, t } = this.props
 
 
         if(buckets.length === 0 ) {

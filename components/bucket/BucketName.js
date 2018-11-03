@@ -3,6 +3,7 @@ import {connect} from "react-redux"
 import {bindActionCreators} from 'redux'
 import {Form} from 'semantic-ui-react'
 import {saveBucket} from '../../actions/bucketAction'
+import {translate} from "react-i18next"
 
 class BucketName extends Component {
 
@@ -27,12 +28,13 @@ class BucketName extends Component {
 
     render() {
 
+        const {t} = this.props
         const {bucketName} = this.state
 
         return <Form>
             <Form.Input
-                label={"Nombre nota"}
-                placeholder='Nombre nota'
+                label={t("add.note.name")}
+                placeholder={t("add.note.name")}
                 name='bucketName' value={bucketName}
                 onChange={this.handleChange}
                 onKeyPress={this.onKeyPress}
@@ -49,4 +51,4 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({saveBucket}, dispatch);
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(BucketName);
+export default connect(mapStateToProps, mapDispatchToProps)(translate("translations")(BucketName));
