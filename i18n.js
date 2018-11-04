@@ -69,9 +69,8 @@ i18n.use(LanguageDetector).init({
                 "created.at":"Created at ",
                 "created.by":"by",
                 "your.activity":"Your activity",
-                "comment.was.made":" made a comment ",
-                "you.commented":"You comment the note ",
-                "of":" or "
+                "comment.was.made":"A comment was made to ",
+                "you.commented":"You comment the note "
             }
         },
         es: {
@@ -139,9 +138,8 @@ i18n.use(LanguageDetector).init({
                 "created.at":"Creado en ",
                 "created.by":"por",
                 "your.activity":"Tu actividad",
-                "comment.was.made":" hizo un comentario en ",
-                "you.commented":"Comentaste la nota ",
-                "of":" de "
+                "comment.was.made":"Se hizo un comentario en ",
+                "you.commented":"Comentaste la nota "
             }
         }
     },

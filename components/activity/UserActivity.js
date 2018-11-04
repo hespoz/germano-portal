@@ -49,7 +49,7 @@ class UserActivity extends Component {
 
             <div className={"row"}>
                 <div className={"col-md-12"}>
-                    {t("comment.was.made")}{this.renderBucketLink(activity)} {t("of")} <b>{get(activity, "toUser.username")}</b>
+                    {t("comment.was.made")}{this.renderBucketLink(activity)} {t("created.by")} <b>{get(activity, "toUser.username")}</b>
                 </div>
             </div>
 
