@@ -10,6 +10,8 @@ dotenv.config();
 
 const port = process.env.PORT || 3000;
 
+console.log("process.env.HOST", process.env.HOST)
+
 app.prepare()
     .then(() => {
         const server = express()
