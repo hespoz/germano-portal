@@ -1,7 +1,7 @@
 import React, {Component} from "react"
 import {connect} from "react-redux"
 import {bindActionCreators} from 'redux'
-import {Button, Form, Icon, Card, Header, Segment} from 'semantic-ui-react'
+import {Button, Form, Icon, Header, Segment} from 'semantic-ui-react'
 import {addComment, editComment, deleteComment} from '../../actions/bucketAction'
 import {openAuthModal} from '../../actions/authAction'
 import {translate} from "react-i18next";
@@ -110,11 +110,11 @@ class MakeComment extends Component {
                         <div className={"row mt-8"}>
                             <div className={"col-md-12 text-right"}>
 
-                                {hasToken ? <Button basic color='blue' type='submit'>Comentar</Button> :
-                                    <a href={"javascript:void(0)"} onClick={this.props.openAuthModal}>Login or registrarse</a>}
+                                {hasToken ? <Button basic color='blue' type='submit'>{t("comment")}</Button> :
+                                    <a href={"javascript:void(0)"} onClick={this.props.openAuthModal}>{t("login.or.register")}</a>}
 
                                 {commentId ?
-                                    <Button basic color='red' type='button' onClick={() => this.setState({showForm: false})}>Cancelar</Button>
+                                    <Button basic color='red' type='button' onClick={() => this.setState({showForm: false})}>{t("cancel")}</Button>
                                     :
                                     null
                                 }

@@ -4,9 +4,8 @@ import {Form} from "semantic-ui-react";
 import {connect} from "react-redux"
 import {bindActionCreators} from 'redux'
 import {saveBucket} from "../../../actions/bucketAction";
+import {translate} from "react-i18next";
 
-const TitleAdd = "Añadir nueva oración"
-const TitleUpdate = "Actualizar oración"
 
 class SentenceForm extends Component {
 
@@ -58,17 +57,17 @@ class SentenceForm extends Component {
     render() {
 
         const {germanSentenceValue, spanishSentenceValue} = this.state
-        const {edit, index} = this.props
+        const {edit, index, t} = this.props
 
 
         return <Card key={index} fluid>
             <Card.Content>
-                <Card.Header>{edit ? TitleUpdate : TitleAdd}</Card.Header>
+                <Card.Header>{edit ? t("update.new.sentence") : t("add.new.sentence")}</Card.Header>
                 <br/>
                 <Form>
-                    <Form.TextArea label="Oración en aleman" placeholder='Oración en aleman' name='germanSentenceValue' value={germanSentenceValue}
+                    <Form.TextArea label={t("sentence.german")} placeholder={t("sentence.german")} name='germanSentenceValue' value={germanSentenceValue}
                                    onChange={this.handleChange}/>
-                    <Form.TextArea label="Oración en español" placeholder='Oración en español' name='spanishSentenceValue'
+                    <Form.TextArea label={t("sentence.other.language")}  placeholder={t("sentence.other.language")} name='spanishSentenceValue'
                                    value={spanishSentenceValue}
                                    onChange={this.handleChange}/>
                 </Form>
@@ -76,10 +75,10 @@ class SentenceForm extends Component {
             <Card.Content extra>
                 <div className='ui two buttons'>
                     <Button basic color='blue' onClick={edit ? this.onSentenceUpdate : this.onSentenceAdd}>
-                        {edit ? "Actualizar" : "Añadir"}
+                        {edit ? t("update") : t("add")}
                     </Button>
                     <Button basic color='red' onClick={this.props.toggleForm}>
-                        Cancelar
+                        {t("cancel")}
                     </Button>
                 </div>
             </Card.Content>
@@ -93,4 +92,4 @@ const mapStateToProps = (state) => ({buckets: state.buckets.buckets});
 const mapDispatchToProps = (dispatch) => bindActionCreators({saveBucket}, dispatch);
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(SentenceForm);
+export default connect(mapStateToProps, mapDispatchToProps)(translate("translations")(SentenceForm));

@@ -1,9 +1,10 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {bindActionCreators} from 'redux';
-import {Segment, Feed, Header} from "semantic-ui-react";
+import {Segment, Header} from "semantic-ui-react";
 import {get} from "lodash"
 import Link from 'next/link';
+import {translate} from "react-i18next";
 
 import {
     fetchActivity
@@ -21,11 +22,14 @@ class UserActivity extends Component {
     }
 
     renderReply = (index, activity) => {
+
+        const {t} = this.props
+
         return <Segment key={index}>
 
             <div className={"row"}>
                 <div className={"col-md-12"}>
-                    <b>{get(activity, "fromUser.username")}</b> hizo un comentario en {this.renderBucketLink(activity)}
+                    <b>{get(activity, "fromUser.username")}</b>{t("comment.was.made")}{this.renderBucketLink(activity)}
                 </div>
             </div>
 
@@ -39,11 +43,13 @@ class UserActivity extends Component {
     }
 
     renderOwnActivity = (index, activity) => {
+        const {t} = this.props
+
         return <Segment key={index}>
 
             <div className={"row"}>
                 <div className={"col-md-12"}>
-                    Comentaste la nota {this.renderBucketLink(activity)} de  <b>{get(activity, "toUser.username")}</b>
+                    {t("comment.was.made")}{this.renderBucketLink(activity)} {t("of")} <b>{get(activity, "toUser.username")}</b>
                 </div>
             </div>
 
@@ -70,13 +76,13 @@ class UserActivity extends Component {
 
     render() {
 
-        const {activities} = this.props
+        const {activities, t} = this.props
 
         return <Segment>
 
             <div className={"row"}>
                 <div className={"col-md-12 text-center"}>
-                    <Header as='h2'>Tu actividad</Header>
+                    <Header as='h2'>{t("your.activity")}</Header>
                 </div>
             </div>
 
@@ -110,4 +116,4 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({fetchActivity}, dispatch);
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserActivity);
+export default connect(mapStateToProps, mapDispatchToProps)(translate("translations")(UserActivity));

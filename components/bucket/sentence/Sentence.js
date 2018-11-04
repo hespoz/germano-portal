@@ -6,6 +6,7 @@ import MakeComment from '../MakeComment'
 import SentenceForm from './SentenceForm'
 import {Header, Icon, Segment, Divider} from 'semantic-ui-react'
 import {saveBucket, openDeleteSentenceModal} from '../../../actions/bucketAction'
+import {translate} from "react-i18next";
 
 class Sentence extends Component {
 
@@ -24,7 +25,7 @@ class Sentence extends Component {
     }
 
     renderSentence = (sentence) => {
-        const {writePermission, verified} = this.props
+        const {writePermission, verified, t} = this.props
         return <Segment>
 
             {writePermission ?
@@ -50,12 +51,12 @@ class Sentence extends Component {
                     <div id={"sentence-container"}>
 
                         <div className={"sentence"}>
-                            <Header as='h5'>En aleman</Header>
+                            <Header as='h5'>{t("sentence.german")}</Header>
                             {sentence.germanSentence}
                         </div>
 
                         <div className={"sentence"}>
-                            <Header as='h5'>En español</Header>
+                            <Header as='h5'>{t("sentence.other.language")}</Header>
                             {sentence.spanishSentence}
                         </div>
 
@@ -70,7 +71,7 @@ class Sentence extends Component {
             <Divider/>
 
 
-            <Header as='h5'>Comentarios</Header>
+            <Header as='h5'>{t("comments.title")}</Header>
 
             <br/>
 
@@ -129,6 +130,8 @@ class Sentence extends Component {
 
     renderAddMode = () => {
 
+        const {t} = this.props
+
         if (!this.props.writePermission) return null
 
         const {showAddSentence} = this.state
@@ -141,7 +144,7 @@ class Sentence extends Component {
                         <Icon.Group size='large'>
                             <Icon name='add'/>
                         </Icon.Group>
-                        Nueva oración
+                        {t("new.sentence")}
                     </div>
                 </div>
             </Header>
@@ -190,4 +193,4 @@ const mapStateToProps = (state) => ({buckets: state.buckets.buckets, verified:st
 const mapDispatchToProps = (dispatch) => bindActionCreators({saveBucket, openDeleteSentenceModal}, dispatch);
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Sentence);
+export default connect(mapStateToProps, mapDispatchToProps)(translate("translations")(Sentence));

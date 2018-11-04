@@ -7,6 +7,7 @@ import BucketName from '../bucket/BucketName'
 import WordDescription from '../WordDescription'
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import {translate} from "react-i18next";
 
 class Bucket extends Component {
 
@@ -30,12 +31,15 @@ class Bucket extends Component {
     }
 
     renderSentences = (bucket) => {
+
+        const {t} = this.props
+
         if (!bucket.sentences || bucket.sentences.length === 0){
-            return <Message>Aun no tienes oraciones añadidas</Message>
+            return <Message>{t("empty.sentences")}</Message>
         }
 
         return <div>
-            <Header as='h3'>Oraciones</Header>
+            <Header as='h3'>{t("sentences")}</Header>
             <List>
                 {bucket.sentences.map((sentence, index) => {
                     return <List.Item>
@@ -81,7 +85,7 @@ class Bucket extends Component {
 
     render() {
 
-        const {bucket, userId } = this.props
+        const {bucket, userId, t} = this.props
 
         return <div className={"row"}>
             <div className={"col-md-8"}>
@@ -100,8 +104,8 @@ class Bucket extends Component {
 
             </div>
             <div className={"col-md-4"}>
-                {bucket.words && bucket.words.length > 0 ? <div><Header as='h4'>Palabras de referencia</Header> {this.renderWordsAdded(bucket.words, bucket)} </div> :
-                    <Message>Busca palabras en el buscador y añadelos a esta tarjeta</Message>}
+                {bucket.words && bucket.words.length > 0 ? <div><Header as='h4'>{t("note.reference.words")}</Header> {this.renderWordsAdded(bucket.words, bucket)} </div> :
+                    <Message>{t("note.reference.words.empty")}</Message>}
             </div>
 
 
@@ -120,4 +124,4 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(Bucket);
+export default connect(mapStateToProps, mapDispatchToProps)(translate("translations")(Bucket));
