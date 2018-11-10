@@ -5,6 +5,8 @@ import Cookies from 'js-cookie'
 
 const host = process.env.HOST
 
+console.log("process.env.HOST", process.env.HOST)
+
 const secureHeader = () => {
     return {
         headers: {
